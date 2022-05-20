@@ -1,0 +1,87 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.6.RELEASE")
+    }
+}
+
+plugins {
+    id 'java'
+    id 'eclipse'
+    id 'idea'
+    id 'application'
+    id 'jacoco'
+}
+application{
+    mainClass = 'TripMaster.TourGuide.TourGuideApplication'
+}
+
+group 'TripMaster.TourGuide'
+version '1.0'
+sourceCompatibility = 11
+targetCompatibility = 11
+repositories {
+    mavenCentral()
+    flatDir {
+        dirs '../libs'
+    }
+}
+
+sourceCompatibility = 11
+targetCompatibility = 11
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.6.7'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator:2.6.7'
+    implementation 'org.springframework.boot:spring-boot-starter-test:2.6.7'
+    implementation 'org.junit.jupiter:junit-jupiter:5.8.2'
+    implementation 'org.javamoney:moneta:1.4.2'
+    implementation 'com.jsoniter:jsoniter:0.9.23'
+
+    implementation name:'gpsUtil', ext:'jar'
+    implementation name:'RewardCentral', ext:'jar'
+    implementation name:'TripPricer', ext:'jar'
+    implementation 'org.jetbrains:annotations:23.0.0'
+
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '3.1.2'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
+
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.6.7'
+    testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '4.4.0'
+
+
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jacoco {
+    toolVersion = "0.8.8"
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = true
+        csv.required = false
+        html.destination file('${buildDir}/jacocoHtml')
+    }
+}
+
+test.finalizedBy jacocoTestReport
+check.dependsOn jacocoTestCoverageVerification
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                counter = 'LINE'
+                value = 'COVEREDRATIO'
+                minimum = 0.5
+            }
+        }
+    }
+}
