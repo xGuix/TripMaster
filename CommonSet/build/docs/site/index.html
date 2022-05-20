@@ -1,0 +1,339 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Gradle project information</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        color: #02303A;
+        padding-top: 20px;
+        padding-bottom: 40px;
+      }
+
+      .container-narrow {
+        margin: 0 auto;
+        max-width: 800px;
+      }
+      .container-narrow > hr {
+        margin: 30px 0;
+      }
+
+      .jumbotron {
+        margin: 20px 0;
+        text-align: center;
+      }
+      
+      h2, h3 {
+        font-size: 24px;
+        color: #1DA2BD;
+      }
+    </style>
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <div class="container-narrow">
+
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+                    <li><img src="img/elephant-corner.png" height="35" width="35"></li>
+        </ul>
+        <h1>CommonSet</h1>
+      </div>
+
+      <hr>
+
+      <div class="jumbotron">
+        <p class="lead">
+        
+        </p>
+      </div>
+
+      <hr>
+      
+      <div>
+          <h2>Project information</h2>
+          <table class="table table-striped">
+              <tr>
+                  <th>Property</th>
+                  <th>Value</th>
+              </tr>
+              <tr>
+                  <td>Group</td>
+                  <td>TripMaster</td>
+              </tr>
+              <tr>
+                  <td>Version</td>
+                  <td>unspecified</td>
+              </tr>
+              <tr>
+                  <td>Java source compatibility</td>
+                  <td id="java-source-compatibility">11</td>
+              </tr>
+              <tr>
+                  <td>Java target compatibility</td>
+                  <td id="java-target-compatibility">11</td>
+              </tr>
+              <tr>
+                  <td>Gradle version</td>
+                  <td>7.1.1</td>
+              </tr>
+          </table>
+      </div>
+
+      <hr>
+
+      <div>
+          <h2>Plugins</h2>
+          <table class="table table-striped">
+              <tr>
+                  <th>Implementation Class</th>
+              </tr>
+              <tr>
+                  <td>org.gradle.api.plugins.HelpTasksPlugin</td>
+              </tr>
+              <tr>
+                  <td>org.gradle.buildinit.plugins.BuildInitPlugin</td>
+              </tr>
+              <tr>
+                  <td>org.gradle.buildinit.plugins.WrapperPlugin</td>
+              </tr>
+              <tr>
+                  <td>org.gradle.plugins.site.SitePlugin</td>
+              </tr>
+              <tr>
+                  <td>org.gradle.language.base.plugins.LifecycleBasePlugin</td>
+              </tr>
+              <tr>
+                  <td>org.gradle.api.plugins.BasePlugin</td>
+              </tr>
+              <tr>
+                  <td>org.gradle.api.plugins.JvmEcosystemPlugin</td>
+              </tr>
+              <tr>
+                  <td>org.gradle.api.plugins.ReportingBasePlugin</td>
+              </tr>
+              <tr>
+                  <td>org.gradle.api.plugins.JavaBasePlugin$Inject</td>
+              </tr>
+              <tr>
+                  <td>org.gradle.api.plugins.JavaPlugin</td>
+              </tr>
+              <tr>
+                  <td>org.gradle.api.distribution.plugins.DistributionPlugin</td>
+              </tr>
+              <tr>
+                  <td>org.gradle.api.plugins.ApplicationPlugin</td>
+              </tr>
+              <tr>
+                  <td>org.springframework.boot.gradle.plugin.SpringBootPlugin</td>
+              </tr>
+              <tr>
+                  <td>io.spring.gradle.dependencymanagement.DependencyManagementPlugin</td>
+              </tr>
+              <tr>
+                  <td>org.gradle.plugins.ide.eclipse.EclipsePlugin</td>
+              </tr>
+              <tr>
+                  <td>org.gradle.plugins.ide.idea.IdeaPlugin</td>
+              </tr>
+              <tr>
+                  <td>org.gradle.testing.jacoco.plugins.JacocoPlugin</td>
+              </tr>
+          </table>
+      </div>
+
+      <hr>
+
+      <div>
+          <h2>Tasks</h2>
+          <table class="table table-striped">
+              <tr>
+                  <th>Name</th>
+                  <th>Description</th>
+              </tr>
+              <tr>
+                  <td>assemble</td>
+                  <td>Assembles the outputs of this project.</td>
+              </tr>
+              <tr>
+                  <td>assembleBootDist</td>
+                  <td>Assembles the boot distributions</td>
+              </tr>
+              <tr>
+                  <td>assembleDist</td>
+                  <td>Assembles the main distributions</td>
+              </tr>
+              <tr>
+                  <td>bootBuildImage</td>
+                  <td>Builds an OCI image of the application using the output of the bootJar task</td>
+              </tr>
+              <tr>
+                  <td>bootDistTar</td>
+                  <td>Bundles the project as a distribution.</td>
+              </tr>
+              <tr>
+                  <td>bootDistZip</td>
+                  <td>Bundles the project as a distribution.</td>
+              </tr>
+              <tr>
+                  <td>bootJar</td>
+                  <td>Assembles an executable jar archive containing the main classes and their dependencies.</td>
+              </tr>
+              <tr>
+                  <td>bootJarMainClassName</td>
+                  <td>Resolves the name of the application's main class for the bootJar task.</td>
+              </tr>
+              <tr>
+                  <td>bootRun</td>
+                  <td>Runs this project as a Spring Boot application.</td>
+              </tr>
+              <tr>
+                  <td>bootRunMainClassName</td>
+                  <td>Resolves the name of the application's main class for the bootRun task.</td>
+              </tr>
+              <tr>
+                  <td>build</td>
+                  <td>Assembles and tests this project.</td>
+              </tr>
+              <tr>
+                  <td>buildDependents</td>
+                  <td>Assembles and tests this project and all projects that depend on it.</td>
+              </tr>
+              <tr>
+                  <td>buildEnvironment</td>
+                  <td>Displays all buildscript dependencies declared in project ':CommonSet'.</td>
+              </tr>
+              <tr>
+                  <td>buildNeeded</td>
+                  <td>Assembles and tests this project and all projects it depends on.</td>
+              </tr>
+              <tr>
+                  <td>check</td>
+                  <td>Runs all checks.</td>
+              </tr>
+              <tr>
+                  <td>classes</td>
+                  <td>Assembles main classes.</td>
+              </tr>
+              <tr>
+                  <td>clean</td>
+                  <td>Deletes the build directory.</td>
+              </tr>
+              <tr>
+                  <td>cleanEclipse</td>
+                  <td>Cleans all Eclipse files.</td>
+              </tr>
+              <tr>
+                  <td>cleanIdea</td>
+                  <td>Cleans IDEA project files (IML, IPR)</td>
+              </tr>
+              <tr>
+                  <td>dependencies</td>
+                  <td>Displays all dependencies declared in project ':CommonSet'.</td>
+              </tr>
+              <tr>
+                  <td>dependencyInsight</td>
+                  <td>Displays the insight into a specific dependency in project ':CommonSet'.</td>
+              </tr>
+              <tr>
+                  <td>dependencyManagement</td>
+                  <td>Displays the dependency management declared in project ':CommonSet'.</td>
+              </tr>
+              <tr>
+                  <td>distTar</td>
+                  <td>Bundles the project as a distribution.</td>
+              </tr>
+              <tr>
+                  <td>distZip</td>
+                  <td>Bundles the project as a distribution.</td>
+              </tr>
+              <tr>
+                  <td>eclipse</td>
+                  <td>Generates all Eclipse files.</td>
+              </tr>
+              <tr>
+                  <td>generateSiteHtml</td>
+                  <td>Generates a web page containing information about the project.</td>
+              </tr>
+              <tr>
+                  <td>help</td>
+                  <td>Displays a help message.</td>
+              </tr>
+              <tr>
+                  <td>idea</td>
+                  <td>Generates IDEA project files (IML, IPR, IWS)</td>
+              </tr>
+              <tr>
+                  <td>installBootDist</td>
+                  <td>Installs the project as a distribution as-is.</td>
+              </tr>
+              <tr>
+                  <td>installDist</td>
+                  <td>Installs the project as a distribution as-is.</td>
+              </tr>
+              <tr>
+                  <td>jacocoTestCoverageVerification</td>
+                  <td>Verifies code coverage metrics based on specified rules for the test task.</td>
+              </tr>
+              <tr>
+                  <td>jacocoTestReport</td>
+                  <td>Generates code coverage report for the test task.</td>
+              </tr>
+              <tr>
+                  <td>jar</td>
+                  <td>Assembles a jar archive containing the main classes.</td>
+              </tr>
+              <tr>
+                  <td>javaToolchains</td>
+                  <td>Displays the detected java toolchains.</td>
+              </tr>
+              <tr>
+                  <td>javadoc</td>
+                  <td>Generates Javadoc API documentation for the main source code.</td>
+              </tr>
+              <tr>
+                  <td>outgoingVariants</td>
+                  <td>Displays the outgoing variants of project ':CommonSet'.</td>
+              </tr>
+              <tr>
+                  <td>projects</td>
+                  <td>Displays the sub-projects of project ':CommonSet'.</td>
+              </tr>
+              <tr>
+                  <td>properties</td>
+                  <td>Displays the properties of project ':CommonSet'.</td>
+              </tr>
+              <tr>
+                  <td>run</td>
+                  <td>Runs this project as a JVM application</td>
+              </tr>
+              <tr>
+                  <td>tasks</td>
+                  <td>Displays the tasks runnable from project ':CommonSet'.</td>
+              </tr>
+              <tr>
+                  <td>test</td>
+                  <td>Runs the unit tests.</td>
+              </tr>
+              <tr>
+                  <td>testClasses</td>
+                  <td>Assembles test classes.</td>
+              </tr>
+          </table>
+      </div>
+      
+      <hr>
+
+      <div class="footer">
+        <div class="pull-right">Generated: 2022-05-17 17:22:39</div>
+      </div>
+    </div>
+
+  </body>
+</html>

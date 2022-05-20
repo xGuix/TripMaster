@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TourGuideController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">TourGuide</a> &gt; <a href="index.source.html" class="el_package">tourGuide.controller</a> &gt; <span class="el_source">TourGuideController.java</span></div><h1>TourGuideController.java</h1><pre class="source lang-java linenums">package tourGuide.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import gpsUtil.location.Location;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import gpsUtil.location.VisitedLocation;
+import tourGuide.dto.NearbyAttractionsDto;
+import tourGuide.service.TourGuideService;
+import tourGuide.dto.UserDto;
+import tourGuide.dto.UserRewardDto;
+import tripPricer.Provider;
+
+/**
+ *  Tour Guide rest controller
+ */
+@RestController
+<span class="fc" id="L27">public class TourGuideController {</span>
+
+<span class="fc" id="L29">    private static final Logger logger = LogManager.getLogger(&quot;TourGuideControllerLog&quot;);</span>
+
+    /**
+     *  Load TourGuideService
+     */
+	@Autowired
+	TourGuideService tourGuideService;
+
+    /**
+     * Get All user:
+     * Call to get All user with username
+     *
+     * @return userList List of all users
+     */
+    @RequestMapping(&quot;/allUsers&quot;)
+    private List&lt;UserDto&gt; getAllUsers() {
+<span class="nc" id="L45">        logger.info(&quot;Search list of all users&quot;);</span>
+<span class="nc" id="L46">        return tourGuideService.getAllUsers();</span>
+    }
+
+    /**
+     * Get user:
+     * Call to get user with username
+     *
+     * @param userName String userName
+     * @return userName User userName
+     */
+    @RequestMapping(&quot;/getUser&quot;)
+    private UserDto getUser(String userName) {
+<span class="fc" id="L58">        logger.info(&quot;Search user with username: {}&quot;, userName);</span>
+<span class="fc" id="L59">        return tourGuideService.getUser(userName);</span>
+    }
+
+    /**
+     *  Get Index Controller
+     *
+     * @return String Greetings from TourGuide!
+     */
+    @RequestMapping(&quot;/&quot;)
+    public String index() {
+<span class="fc" id="L69">        logger.info(&quot;Get index&quot;);</span>
+<span class="fc" id="L70">        return &quot;Greetings from TourGuide!&quot;;</span>
+    }
+
+    /**
+     *  Get user location
+     *  Call get location with username
+     *
+     * @param userName String user name
+     * @return visitedLocation The visited location
+     */
+    @RequestMapping(&quot;/getLocation&quot;) 
+    public VisitedLocation getLocation(@RequestParam String userName) {
+<span class="fc" id="L82">    	VisitedLocation visitedLocation = tourGuideService.getUserLocation(getUser(userName));</span>
+<span class="fc" id="L83">        logger.info(&quot;Get visited locations with username: {}&quot;, userName);</span>
+<span class="fc" id="L84">		return visitedLocation;</span>
+    }
+
+    /**
+     * Get the closest attractions with distance from user :
+     * Call to get attractions  with username
+     *
+     * @param userName String user name
+     * @return userAttractionList List of the closest attraction
+     */
+    @RequestMapping(&quot;/getNearbyAttractions&quot;)
+    public List&lt;NearbyAttractionsDto&gt; getNearbyAttractions(@RequestParam String userName) {
+<span class="fc" id="L96">    	VisitedLocation visitedLocation = tourGuideService.getUserLocation(getUser(userName));</span>
+<span class="fc" id="L97">        List&lt;NearbyAttractionsDto&gt; userAttractionList = tourGuideService.getNearByAttractions(visitedLocation);</span>
+<span class="fc" id="L98">        logger.info(&quot;Get nearby attractions with username: {}&quot;, userName);</span>
+<span class="fc" id="L99">    	return userAttractionList;</span>
+    }
+
+    /**
+     * Get user rewards:
+     * Call to get user rewards with username
+     *
+     * @param userName String userName
+     * @return providers List of providers
+     */
+    @RequestMapping(&quot;/getRewards&quot;) 
+    public List&lt;UserRewardDto&gt; getRewards(@RequestParam String userName) {
+<span class="fc" id="L111">        List&lt;UserRewardDto&gt; userRewardDtoList = tourGuideService.getUserRewards(getUser(userName));</span>
+<span class="fc" id="L112">        logger.info(&quot;Get user reward with username: {}&quot;, userName);</span>
+<span class="fc" id="L113">    	return userRewardDtoList;</span>
+    }
+
+    /**
+     * Get all current locations:
+     * Call to get all current locations with username
+     *
+     * @return allUsers List of all users locations
+     */
+    @RequestMapping(&quot;/getAllCurrentLocations&quot;)
+    public Map&lt;UUID, Location&gt; getAllCurrentLocations() {
+<span class="fc" id="L124">        Map&lt;UUID, Location&gt; userLocationMap = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L125">        List&lt;UserDto&gt; usersList = tourGuideService.getAllUsers();</span>
+<span class="pc bpc" id="L126" title="1 of 2 branches missed.">        for (UserDto users: usersList){</span>
+<span class="nc" id="L127">            VisitedLocation userVisitedLocation = getLocation(users.getUserName());</span>
+<span class="nc" id="L128">            userLocationMap.put(userVisitedLocation.userId, userVisitedLocation.location);</span>
+<span class="nc" id="L129">        }</span>
+<span class="fc" id="L130">        logger.info(&quot;Get all users current Location&quot;);</span>
+<span class="fc" id="L131">    	return userLocationMap;</span>
+    }
+
+    /**
+     * Get List of providers:
+     * Call to get trip deals with username
+     *
+     * @param userName String userName
+     * @return providers List of providers
+     */
+    @RequestMapping(&quot;/getTripDeals&quot;)
+    public List&lt;Provider&gt; getTripDeals(@RequestParam String userName) {
+<span class="fc" id="L143">    	List&lt;Provider&gt; providers = tourGuideService.getTripDeals(getUser(userName));</span>
+<span class="fc" id="L144">        logger.info(&quot;Get user trip deal with username: {}&quot;, userName);</span>
+<span class="fc" id="L145">    	return providers;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

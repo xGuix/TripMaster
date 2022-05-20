@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="tourGuide.integration.IntegrationTourGuideTestIT" tests="5" skipped="0" failures="0" errors="0" timestamp="2022-05-16T14:49:36" hostname="iMacdeGuillaume" time="12.147">
+  <properties/>
+  <testcase name="getUserLocation()" classname="tourGuide.integration.IntegrationTourGuideTestIT" time="0.098"/>
+  <testcase name="addUser()" classname="tourGuide.integration.IntegrationTourGuideTestIT" time="0.002"/>
+  <testcase name="getAllUsers()" classname="tourGuide.integration.IntegrationTourGuideTestIT" time="0.002"/>
+  <testcase name="trackUser()" classname="tourGuide.integration.IntegrationTourGuideTestIT" time="0.112"/>
+  <testcase name="getNearbyAttractions()" classname="tourGuide.integration.IntegrationTourGuideTestIT" time="11.93"/>
+  <system-out><![CDATA[2022-05-16 16:49:36.119  INFO 11322 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Neither @ContextConfiguration nor @ContextHierarchy found for test class [tourGuide.integration.IntegrationTourGuideTestIT], using SpringBootContextLoader
+2022-05-16 16:49:36.119  INFO 11322 --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [tourGuide.integration.IntegrationTourGuideTestIT]: no resource found for suffixes {-context.xml, Context.groovy}.
+2022-05-16 16:49:36.119  INFO 11322 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [tourGuide.integration.IntegrationTourGuideTestIT]: IntegrationTourGuideTestIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2022-05-16 16:49:36.120  INFO 11322 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration tourGuide.TourGuideApplication for test class tourGuide.integration.IntegrationTourGuideTestIT
+2022-05-16 16:49:36.121  INFO 11322 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+2022-05-16 16:49:36.122  INFO 11322 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@5394a884, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@469058ce, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@511e4126, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@677df9d2, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@115bad31, org.springframework.test.context.support.DirtiesContextTestExecutionListener@55c9c1fc, org.springframework.test.context.event.EventPublishingTestExecutionListener@767dad12, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@7e466966, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@323871ba, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@29e59020, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@32ebbd33, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@7fabef51, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@eeff4bf]
+2022-05-16 16:49:36.124  INFO 11322 --- [    Test worker] TourGuideServiceLog                      : TestMode enabled
+2022-05-16 16:49:36.124  INFO 11322 --- [    Test worker] tourGuide.helper.InternalTestDataSet     : Created 1 internal test users.
+2022-05-16 16:49:36.124 DEBUG 11322 --- [ool-21-thread-1] tourGuide.service.TrackerService         : Begin Tracker. Tracking 1 users.
+2022-05-16 16:49:36.223  INFO 11322 --- [    Test worker] TourGuideServiceLog                      : TestMode enabled
+2022-05-16 16:49:36.223  INFO 11322 --- [    Test worker] tourGuide.helper.InternalTestDataSet     : Created 1 internal test users.
+2022-05-16 16:49:36.224 DEBUG 11322 --- [ool-24-thread-1] tourGuide.service.TrackerService         : Begin Tracker. Tracking 3 users.
+2022-05-16 16:49:36.226  INFO 11322 --- [    Test worker] TourGuideServiceLog                      : TestMode enabled
+2022-05-16 16:49:36.226  INFO 11322 --- [    Test worker] tourGuide.helper.InternalTestDataSet     : Created 1 internal test users.
+2022-05-16 16:49:36.226 DEBUG 11322 --- [ool-27-thread-1] tourGuide.service.TrackerService         : Begin Tracker. Tracking 1 users.
+2022-05-16 16:49:36.228  INFO 11322 --- [    Test worker] TourGuideServiceLog                      : TestMode enabled
+2022-05-16 16:49:36.228  INFO 11322 --- [    Test worker] tourGuide.helper.InternalTestDataSet     : Created 1 internal test users.
+2022-05-16 16:49:36.229 DEBUG 11322 --- [ool-21-thread-1] tourGuide.service.TrackerService         : Tracker  Time Elapsed: 0 seconds.
+2022-05-16 16:49:36.229 DEBUG 11322 --- [ool-30-thread-1] tourGuide.service.TrackerService         : Begin Tracker. Tracking 1 users.
+2022-05-16 16:49:36.287 DEBUG 11322 --- [ool-27-thread-1] tourGuide.service.TrackerService         : Tracker  Time Elapsed: 0 seconds.
+2022-05-16 16:49:36.341  INFO 11322 --- [    Test worker] TourGuideServiceLog                      : TestMode enabled
+2022-05-16 16:49:36.342  INFO 11322 --- [    Test worker] tourGuide.helper.InternalTestDataSet     : Created 1 internal test users.
+2022-05-16 16:49:36.342 DEBUG 11322 --- [ool-33-thread-1] tourGuide.service.TrackerService         : Begin Tracker. Tracking 1 users.
+2022-05-16 16:49:36.352 DEBUG 11322 --- [ool-30-thread-1] tourGuide.service.TrackerService         : Tracker  Time Elapsed: 0 seconds.
+2022-05-16 16:49:36.438 DEBUG 11322 --- [ool-33-thread-1] tourGuide.service.TrackerService         : Tracker  Time Elapsed: 0 seconds.
+2022-05-16 16:49:36.528 DEBUG 11322 --- [ool-24-thread-1] tourGuide.service.TrackerService         : Tracker  Time Elapsed: 0 seconds.
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NearbyAttractionsDto.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">TourGuide</a> &gt; <a href="index.source.html" class="el_package">tourGuide.dto</a> &gt; <span class="el_source">NearbyAttractionsDto.java</span></div><h1>NearbyAttractionsDto.java</h1><pre class="source lang-java linenums">package tourGuide.dto;
+
+import gpsUtil.location.Attraction;
+import gpsUtil.location.Location;
+
+import java.util.Objects;
+
+public class NearbyAttractionsDto {
+    private Attraction attraction;
+    private Location userLocation;
+    private Double distance;
+    private Integer rewardPoints;
+
+<span class="fc" id="L14">    public NearbyAttractionsDto() {</span>
+<span class="fc" id="L15">    }</span>
+
+<span class="nc" id="L17">    public NearbyAttractionsDto(Attraction attraction, Location userLocation, Double distance, Integer rewardPoints) {</span>
+<span class="nc" id="L18">        this.attraction = attraction;</span>
+<span class="nc" id="L19">        this.userLocation = userLocation;</span>
+<span class="nc" id="L20">        this.distance = distance;</span>
+<span class="nc" id="L21">        this.rewardPoints = rewardPoints;</span>
+<span class="nc" id="L22">    }</span>
+
+    public Attraction getAttraction() {
+<span class="nc" id="L25">        return attraction;</span>
+    }
+
+    public void setAttraction(Attraction attraction) {
+<span class="fc" id="L29">        this.attraction = attraction;</span>
+<span class="fc" id="L30">    }</span>
+
+    public Location getUserLocation() {
+<span class="nc" id="L33">        return userLocation;</span>
+    }
+
+    public void setUserLocation(Location userLocation) {
+<span class="fc" id="L37">        this.userLocation = userLocation;</span>
+<span class="fc" id="L38">    }</span>
+
+    public Double getDistance() {
+<span class="nc" id="L41">        return distance;</span>
+    }
+
+    public void setDistance(Double distance) {
+<span class="fc" id="L45">        this.distance = distance;</span>
+<span class="fc" id="L46">    }</span>
+
+    public Integer getRewardPoints() {
+<span class="nc" id="L49">        return rewardPoints;</span>
+    }
+
+    public void setRewardPoints(Integer rewardPoints) {
+<span class="fc" id="L53">        this.rewardPoints = rewardPoints;</span>
+<span class="fc" id="L54">    }</span>
+
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L58" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L59" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L60">        NearbyAttractionsDto that = (NearbyAttractionsDto) o;</span>
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        return Objects.equals(attraction, that.attraction) &amp;&amp;</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">                Objects.equals(userLocation, that.userLocation) &amp;&amp;</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">                Objects.equals(distance, that.distance) &amp;&amp;</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">                Objects.equals(rewardPoints, that.rewardPoints);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L69">        return Objects.hash(attraction, userLocation, distance, rewardPoints);</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L74">        return &quot;NearbyAttractions{&quot; +</span>
+                &quot;attraction=&quot; + attraction +
+                &quot;, userLocation=&quot; + userLocation +
+                &quot;, distance=&quot; + distance +
+                &quot;, rewardPoints=&quot; + rewardPoints +
+                '}';
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
