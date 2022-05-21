@@ -1,16 +1,15 @@
 package User.service;
 
-import User.dto.UserDto;
-import User.dto.UserPreferencesDto;
-import User.dto.UserRewardDto;
-import User.dto.UserLocationDto;
-import User.helper.InternalTestHelper;
-import gpsUtil.location.VisitedLocation;
+import com.dto.UserDto;
+import com.dto.UserLocationDto;
+import com.dto.UserPreferencesDto;
+import com.dto.UserRewardDto;
+import com.helper.InternalTestHelper;
+import com.model.Provider;
+import com.model.VisitedLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import tripPricer.Provider;
-
 
 import java.util.*;
 import java.util.stream.IntStream;
@@ -127,7 +126,7 @@ public class UserService {
         for (UserDto user : getAllUsers()) {
             UUID userId = user.getUserId();
             VisitedLocation userLastVisitedLocation = user.getLastVisitedLocation();
-            userLocationsList.add(new UserLocationDto(userId, userLastVisitedLocation.location));
+            userLocationsList.add(new UserLocationDto(userId, userLastVisitedLocation.getLocation()));
         }
         return userLocationsList;
     }
@@ -151,5 +150,4 @@ public class UserService {
         UserDto user = getUser(userName);
         user.setUserPreferences(userPreferences);
     }
-
 }

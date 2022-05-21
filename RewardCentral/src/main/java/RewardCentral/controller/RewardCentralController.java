@@ -33,7 +33,7 @@ public class RewardCentralController {
      * @param userDto the user
      * @return the list
      */
-    @PostMapping("/calculateRewards/{userName}")
+    @PostMapping("/calculateRewards/{userDto}")
     public List<UserRewardDto> calculateRewards(@PathVariable UserDto userDto) {
         return rewardCentralService.calculateRewards(userDto);
     }
@@ -42,11 +42,11 @@ public class RewardCentralController {
      * Gets reward points.
      *
      * @param attraction the attraction
-     * @param userName   the username
+     * @param userDto   the username
      * @return the reward points
      */
-    @PostMapping("/getRewardPoints/{userName}")
-    public int getRewardPoints(@RequestBody Attraction attraction, @PathVariable String userName) {
-        return rewardCentralService.getAttractionRewardPoints(attraction, userName);
+    @PostMapping("/getRewardPoints/{userDto}")
+    public int rewardPoints(@RequestBody Attraction attraction, @PathVariable UserDto userDto) {
+        return rewardCentralService.getRewardPoints(attraction, userDto);
     }
 }

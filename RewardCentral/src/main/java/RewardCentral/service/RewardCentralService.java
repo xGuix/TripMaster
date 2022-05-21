@@ -24,8 +24,7 @@ public class RewardCentralService {
     private static final double STATUTE_MILES_PER_NAUTICAL_MILE = 1.15077945;
 
 	private final RewardCentral rewardCentral;
-	private final GpsUtilProxy gpsUtil;
-
+	private GpsUtilProxy gpsUtil;
 
 	public RewardCentralService(RewardCentral rewardCentral) {
 		this.rewardCentral = rewardCentral;
@@ -65,11 +64,11 @@ public class RewardCentralService {
 		return !(getDistance(new Location(attraction.getLongitude(),attraction.getLatitude()), location) > attractionProximityRange);
 	}
 
-	private boolean nearAttraction(VisitedLocation visitedLocation, Attraction attraction) {
+	public boolean nearAttraction(VisitedLocation visitedLocation, Attraction attraction) {
 		return !(getDistance(new Location(attraction.getLongitude(),attraction.getLatitude()), visitedLocation.getLocation()) > proximityBuffer);
 	}
 
-	private int getRewardPoints(Attraction attraction, UserDto userDto) {
+	public int getRewardPoints(Attraction attraction, UserDto userDto) {
 		return rewardCentral.getAttractionRewardPoints(attraction.getAttractionId(), userDto.getUserId());
 	}
 
@@ -85,7 +84,4 @@ public class RewardCentralService {
         double nauticalMiles = 60 * Math.toDegrees(angle);
 		return STATUTE_MILES_PER_NAUTICAL_MILE * nauticalMiles;
 	}
-
-    public int getAttractionRewardPoints(Attraction attraction, String userName) {
-    }
 }

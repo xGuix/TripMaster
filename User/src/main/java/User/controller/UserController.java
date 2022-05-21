@@ -1,13 +1,14 @@
 package User.controller;
 
-import User.dto.UserDto;
-import User.dto.UserLocationDto;
-import User.dto.UserPreferencesDto;
-import User.dto.UserRewardDto;
+import com.dto.UserDto;
+import com.dto.UserLocationDto;
+import com.dto.UserPreferencesDto;
+import com.dto.UserRewardDto;
 import User.service.UserService;
-import gpsUtil.location.VisitedLocation;
+import com.model.VisitedLocation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import tripPricer.Provider;
+import com.model.Provider;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ import java.util.List;
 @RestController
 public class UserController {
 
+    @Autowired
     private final UserService userService;
 
     /**
@@ -72,7 +74,7 @@ public class UserController {
     /**
      * Update trip deals.
      *
-     * @param userName  the username
+     * @param userName the username
      * @param tripDeals Update trip deals for this user
      */
     @PostMapping("/tripDeals/{userName}")
@@ -93,7 +95,7 @@ public class UserController {
     /**
      * Create visited location.
      *
-     * @param userName        the username
+     * @param userName the username
      * @param visitedLocation Add the visited location for this user
      */
     @PostMapping("/addVisitedLocation/{userName}")
@@ -101,6 +103,12 @@ public class UserController {
         userService.addVisitedLocation(userName, visitedLocation);
     }
 
+    /**
+     * Update User preferences.
+     *
+     * @param userName the username
+     * @param userPreferences The new user preferences
+     */
     @PostMapping("/userPreferences/{userName}")
     public void userPreferences(@PathVariable String userName, @RequestBody UserPreferencesDto userPreferences){
         userService.UpdateUserPreferences(userName, userPreferences);

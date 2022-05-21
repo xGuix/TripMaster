@@ -16,17 +16,17 @@ public interface RewardCentralProxy {
     /**
      * Calculate rewards list.
      *
-     * @param userDto the user name
+     * @param userDto the username
      * @return the list
      */
-    @PostMapping("/calculateRewards/{userName}")
+    @PostMapping("/calculateRewards/{user}")
     List<UserRewardDto> calculateRewards(@PathVariable UserDto userDto);
 
     /**
      * Gets reward points.
      *
      * @param attraction the attraction
-     * @param userName the user name
+     * @param userName the username
      * @return the reward points
      */
     @PostMapping("/getRewardPoints/{userName}")
@@ -42,6 +42,6 @@ public interface RewardCentralProxy {
     @PostMapping("/getDistance")
     double getDistance(@RequestBody Attraction attraction, Location location);
 
-    @PostMapping("/getRewardPoints/{userName}")
+    @PostMapping
     boolean isWithinAttractionProximity(Attraction attraction, Location location);
 }
