@@ -23,7 +23,7 @@ targetCompatibility = 11
 repositories {
     mavenCentral()
     flatDir {
-        dirs '../libs'
+        dirs 'libs'
     }
 }
 
@@ -40,7 +40,6 @@ dependencies {
 
     implementation (group: "org.springframework.cloud", name: "spring-cloud-starter-openfeign", version: "3.1.2")
     implementation(project(":commonSet"))
-    implementation(project(":rewardCentral"))
 
     testImplementation ("org.junit.jupiter:junit-jupiter:5.8.2")
     testImplementation (group: "org.springframework.boot", name: "spring-boot-starter-test", version: "2.6.7")

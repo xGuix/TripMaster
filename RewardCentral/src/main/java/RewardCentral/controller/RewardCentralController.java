@@ -1,11 +1,14 @@
 package RewardCentral.controller;
 
-import RewardCentral.service.RewardsService;
-import com.dto.UserDto;
-import com.dto.UserRewardDto;
-import com.model.Attraction;
+import RewardCentral.service.RewardCentralService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import com.dto.UserRewardDto;
+import com.dto.UserDto;
+import com.model.Attraction;
 
 import java.util.List;
 
@@ -13,15 +16,15 @@ import java.util.List;
 public class RewardCentralController {
 
     @Autowired
-    public RewardsService rewardsService;
+    public RewardCentralService rewardCentralService;
 
     /**
      * Instantiates a new Rewards controller.
      *
-     * @param rewardsService the rewards service
+     * @param rewardCentralService the rewards service
      */
-    public RewardCentralController(RewardsService rewardsService){
-        this.rewardsService = rewardsService;
+    public RewardCentralController(RewardCentralService rewardCentralService){
+        this.rewardCentralService = rewardCentralService;
     }
 
     /**
@@ -32,7 +35,7 @@ public class RewardCentralController {
      */
     @PostMapping("/calculateRewards/{userName}")
     public List<UserRewardDto> calculateRewards(@PathVariable UserDto userDto) {
-        return rewardsService.calculateRewards(userDto);
+        return rewardCentralService.calculateRewards(userDto);
     }
 
     /**
@@ -44,6 +47,6 @@ public class RewardCentralController {
      */
     @PostMapping("/getRewardPoints/{userName}")
     public int getRewardPoints(@RequestBody Attraction attraction, @PathVariable String userName) {
-        return rewardsService.getAttractionRewardPoints(attraction, userName);
+        return rewardCentralService.getAttractionRewardPoints(attraction, userName);
     }
 }

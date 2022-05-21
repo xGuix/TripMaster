@@ -11,9 +11,6 @@ targetCompatibility = 11
 
 repositories {
     mavenCentral()
-    flatDir {
-        dirs '../libs'
-    }
 }
 
 dependencies {

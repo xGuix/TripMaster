@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import rewardCentral.RewardCentral;
+import tourGuide.proxy.GpsUtilProxy;
 import java.util.List;
 
 
@@ -16,23 +18,24 @@ import java.util.List;
  * Reward Service
  */
 @Service
-public class RewardsService {
+public class RewardCentralService {
 
-    private Logger logger = LoggerFactory.getLogger("RewardServiceLog");
+    private Logger logger = LoggerFactory.getLogger("RewardCentralServiceLog");
     private static final double STATUTE_MILES_PER_NAUTICAL_MILE = 1.15077945;
 
-    private final GpsUtilProxy gpsUtil;
-    private final RewardCentralProxy rewardCentral;
+	private final RewardCentral rewardCentral;
+	private final GpsUtilProxy gpsUtil;
+
+
+	public RewardCentralService(RewardCentral rewardCentral) {
+		this.rewardCentral = rewardCentral;
+	}
 
 	// proximity in miles
     private final int defaultProximityBuffer = 100;
 	private int proximityBuffer = defaultProximityBuffer;
 	public final int attractionProximityRange = 10000;
 
-	public RewardsService(GpsUtilProxy gpsUtil, RewardCentralProxy rewardCentral) {
-		this.gpsUtil = gpsUtil;
-		this.rewardCentral = rewardCentral;
-	}
 
 	public void setProximityBuffer(int proximityBuffer) {
 		this.proximityBuffer = proximityBuffer;
@@ -50,7 +53,7 @@ public class RewardsService {
 			attractions.forEach(a -> {
 				if (userDto.getUserRewards().stream().noneMatch(r -> r.getAttraction().getAttractionName().equals(a.getAttractionName()))) {
 					if (nearAttraction(visitedLocation, a)) {
-						userDto.getUserRewards().add(new UserRewardDto(visitedLocation, a, getRewardPoints(a, userDto.getUserName())));
+						userDto.getUserRewards().add(new UserRewardDto(visitedLocation, a, getRewardPoints(a, userDto)));
 					}
 				}
 			});
@@ -66,8 +69,8 @@ public class RewardsService {
 		return !(getDistance(new Location(attraction.getLongitude(),attraction.getLatitude()), visitedLocation.getLocation()) > proximityBuffer);
 	}
 
-	private int getRewardPoints(Attraction attraction, String userDto) {
-		return rewardCentral.getAttractionRewardPoints(attraction.getAttractionId(), userDto);
+	private int getRewardPoints(Attraction attraction, UserDto userDto) {
+		return rewardCentral.getAttractionRewardPoints(attraction.getAttractionId(), userDto.getUserId());
 	}
 
 	public double getDistance(Location loc1, Location loc2) {

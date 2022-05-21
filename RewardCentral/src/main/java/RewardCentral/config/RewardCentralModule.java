@@ -2,12 +2,18 @@ package RewardCentral.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import rewardCentral.RewardCentral;
 
 @Configuration
 public class RewardCentralModule {
 
+	/**
+	 * Gets reward central.
+	 *
+	 * @return the reward central
+	 */
 	@Bean
-	public RewardCentralModule getRewardCentral() {
-		return new RewardCentralModule();
+	public RewardCentral getRewardCentral() {
+		return new RewardCentral();
 	}
 }

@@ -1,12 +1,27 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.6.RELEASE")
+    }
+}
+
 plugins {
     id ("java")
+    id ("java-library")
 }
 
 group ="tripMaster"
-version '1.0'
+version = "1.0"
+sourceCompatibility = 11
+targetCompatibility = 11
 
 repositories {
     mavenCentral()
+    flatDir {
+        dirs 'libs'
+    }
 }
 
 dependencies {
@@ -17,6 +32,14 @@ dependencies {
     implementation 'org.javamoney:moneta:1.4.2'
     implementation 'com.jsoniter:jsoniter:0.9.23'
     implementation 'org.jetbrains:annotations:23.0.0'
+
+    implementation (group: "org.springframework.cloud", name: "spring-cloud-starter-openfeign", version: "3.1.2")
+    implementation(project(":tourGuide"))
+    implementation(project(":commonSet"))
+    implementation(project(":user"))
+    implementation(project(":gpsUtil"))
+    implementation(project(":rewardCentral"))
+    implementation(project(":tripPricer"))
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.6.7'
