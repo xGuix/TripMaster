@@ -30,8 +30,8 @@ dependencies {
 
     implementation (group: "org.springframework.cloud", name: "spring-cloud-starter-openfeign", version: "3.1.2")
     implementation(name:"RewardCentral", ext:"jar")
-    implementation(project(":tourGuide"))
     implementation(project(":commonSet"))
+    implementation(project(":tourGuide"))
 
     testImplementation ("org.junit.jupiter:junit-jupiter:5.8.2")
     testImplementation (group: "org.springframework.boot", name: "spring-boot-starter-test", version: "2.6.7")
