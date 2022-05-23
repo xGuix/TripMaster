@@ -40,8 +40,15 @@ public interface RewardCentralProxy {
      * @return double distance
      */
     @PostMapping("/getDistance")
-    double getDistance(@RequestBody Attraction attraction, Location location);
+    double getDistance(@RequestBody Attraction attraction,@RequestBody Location location);
 
+    /**
+     * Gets true if attractions around.
+     *
+     * @param attraction the attraction
+     * @param location the location
+     * @return boolean attraction proximity
+     */
     @PostMapping
-    boolean isWithinAttractionProximity(Attraction attraction, Location location);
+    boolean isWithinAttractionProximity(@RequestBody Attraction attraction,@RequestBody Location location);
 }

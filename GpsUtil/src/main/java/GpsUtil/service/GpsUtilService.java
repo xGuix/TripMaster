@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -31,8 +32,8 @@ public class GpsUtilService {
      *
      * @return List of all attraction from Jar
      */
-    public Attraction getAllAttractions() {
+    public List<Attraction> getAllAttractions() {
         logger.info("Service getAllAttractions from gpsUtil");
-        return (gpsUtil.location.Attraction)gpsUtil.getAttractions();
+        return gpsUtil.getAttractions();
     }
 }

@@ -24,7 +24,7 @@ public class RewardCentralService {
     private Logger logger = LoggerFactory.getLogger("RewardCentralServiceLog");
     private static final double STATUTE_MILES_PER_NAUTICAL_MILE = 1.15077945;
 
-	private final RewardCentral rewardCentral;
+	private RewardCentral rewardCentral;
 	private GpsUtil gpsUtil= new GpsUtil();
 
 	public RewardCentralService(RewardCentral rewardCentral) {

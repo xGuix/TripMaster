@@ -1,6 +1,7 @@
 package RewardCentral.controller;
 
 import RewardCentral.service.RewardCentralService;
+import com.model.Location;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,5 +49,17 @@ public class RewardCentralController {
     @PostMapping("/getRewardPoints/{userDto}")
     public int rewardPoints(@RequestBody Attraction attraction, @PathVariable UserDto userDto) {
         return rewardCentralService.getRewardPoints(attraction, userDto);
+    }
+
+    /**
+     * Gets reward points.
+     *
+     * @param attraction the attraction
+     * @param location the location
+     * @return the reward points
+     */
+    @PostMapping("/getRewardPoints/{userDto}")
+    public boolean isWithinAttractionProximity(@RequestBody Attraction attraction, @PathVariable Location location) {
+        return rewardCentralService.isWithinAttractionProximity(attraction, location);
     }
 }

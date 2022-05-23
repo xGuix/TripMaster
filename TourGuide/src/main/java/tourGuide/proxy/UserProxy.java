@@ -68,12 +68,19 @@ public interface UserProxy {
 
     /**
      * Create visited location.
-     *  @param userName        the username
+     *
+     * @param userName the username
      * @param visitedLocation Add the visited location for this user
      */
     @PostMapping("/addVisitedLocation/{userName}")
     void createVisitedLocation(@PathVariable String userName, @RequestBody VisitedLocation visitedLocation);
 
+    /**
+     * Create visited location.
+     *
+     * @param userName the username
+     * @param userPreferences Add preferences of user
+     */
     @PostMapping("/userPreferences/{userName}")
     void userPreferences(@PathVariable String userName, @RequestBody UserPreferencesDto userPreferences);
 }

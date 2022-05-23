@@ -19,7 +19,7 @@ public class GpsUtilController {
     private Logger logger = LoggerFactory.getLogger("GpsUtilControllerLog");
 
     @Autowired
-    private GpsUtilService gpsUtilService;
+    GpsUtilService gpsUtilService;
 
     /**
      * getUserLocation and return user position
