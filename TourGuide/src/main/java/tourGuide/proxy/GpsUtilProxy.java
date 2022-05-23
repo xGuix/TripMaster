@@ -12,9 +12,9 @@ import java.util.UUID;
 @FeignClient(name = "gpsUtil", url = "localhost:8282")
 public interface GpsUtilProxy {
 
-    @GetMapping(value = "/attractions")
-    List<Attraction> getAttractions();
-
     @GetMapping(value = "/userLocation")
     VisitedLocation getUserLocation (@RequestParam("userId") UUID userId);
+
+    @GetMapping(value = "/getAttractions")
+    List<Attraction> getAttractions();
 }

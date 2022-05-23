@@ -5,12 +5,13 @@ import com.dto.UserRewardDto;
 import com.model.Attraction;
 import com.model.Location;
 import com.model.VisitedLocation;
+import gpsUtil.GpsUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
 import rewardCentral.RewardCentral;
-import tourGuide.proxy.GpsUtilProxy;
+
+import java.util.Collections;
 import java.util.List;
 
 
@@ -24,7 +25,7 @@ public class RewardCentralService {
     private static final double STATUTE_MILES_PER_NAUTICAL_MILE = 1.15077945;
 
 	private final RewardCentral rewardCentral;
-	private GpsUtilProxy gpsUtil;
+	private GpsUtil gpsUtil= new GpsUtil();
 
 	public RewardCentralService(RewardCentral rewardCentral) {
 		this.rewardCentral = rewardCentral;
@@ -46,7 +47,7 @@ public class RewardCentralService {
 
 	public List<UserRewardDto> calculateRewards(UserDto userDto) {
 		List<VisitedLocation> userLocations = userDto.getVisitedLocations();
-		List<Attraction> attractions = gpsUtil.getAttractions();
+		List<Attraction> attractions = Collections.singletonList((Attraction) gpsUtil.getAttractions());
 
 		userLocations.forEach(visitedLocation -> {
 			attractions.forEach(a -> {

@@ -1,22 +1,15 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.6.RELEASE")
-    }
-}
-
 plugins {
-    id 'java'
+    id ("java")
+    id ("java-library")
+    id ("eclipse")
+    id ("idea")
+    id ("jacoco")
 }
 
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
-apply plugin: 'jacoco'
-apply plugin: 'io.spring.dependency-management'
-
+group = "tourGuide"
+version = "1.0"
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
 
 repositories {
     mavenCentral()
@@ -25,27 +18,29 @@ repositories {
     }
 }
 
-sourceCompatibility = 11
-targetCompatibility = 11
-
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web:2.6.7'
-    implementation 'org.springframework.boot:spring-boot-starter-actuator:2.6.7'
-    implementation 'org.springframework.boot:spring-boot-starter-test:2.6.7'
-    implementation 'org.junit.jupiter:junit-jupiter:5.8.2'
-    implementation 'org.javamoney:moneta:1.4.2'
-    implementation 'com.jsoniter:jsoniter:0.9.23'
+    implementation ("org.jetbrains:annotations:23.0.0")
+    implementation ("org.springframework.boot:spring-boot-starter-web:2.6.7")
+    implementation ("org.springframework.boot:spring-boot-starter-actuator:2.6.7")
+    implementation ("org.springframework.boot:spring-boot-starter-test:2.6.7")
+    implementation ("org.apache.maven.plugins:maven-surefire-report-plugin:3.0.0-M5")
+    implementation ("org.apache.maven.plugins:maven-site-plugin:3.12.0")
+    implementation ("org.junit.jupiter:junit-jupiter:5.8.2")
+    implementation ("org.javamoney:moneta:1.4.2")
+    implementation ("com.jsoniter:jsoniter:0.9.23")
 
-    implementation 'org.jetbrains:annotations:23.0.0'
+    implementation (group: "org.springframework.cloud", name: "spring-cloud-starter-openfeign", version: "3.1.2")
+    implementation(project(":commonSet"))
 
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
-    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.6.7'
-    testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '4.4.0'
+    testImplementation ("org.junit.jupiter:junit-jupiter:5.8.2")
+    testImplementation (group: "org.springframework.boot", name: "spring-boot-starter-test", version: "2.6.7")
+    testImplementation (group: "org.mockito", name: "mockito-junit-jupiter", version: "4.4.0")
 
 }
 
 test {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport
 }
 
 jacoco {
@@ -56,7 +51,7 @@ jacocoTestReport {
     reports {
         xml.required = true
         csv.required = false
-        html.destination file('${buildDir}/jacocoHtml')
+        html.destination file("${buildDir}/jacocoHtml")
     }
 }
 
@@ -67,9 +62,9 @@ jacocoTestCoverageVerification {
     violationRules {
         rule {
             limit {
-                counter = 'LINE'
-                value = 'COVEREDRATIO'
-                minimum = 0.5
+                counter = "LINE"
+                value = "COVEREDRATIO"
+                minimum = 0.2
             }
         }
     }

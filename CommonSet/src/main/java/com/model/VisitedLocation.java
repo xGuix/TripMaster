@@ -9,7 +9,7 @@ public class VisitedLocation {
     private Location location;
     private Date visitedTime;
 
-    public VisitedLocation() {
+    public VisitedLocation(gpsUtil.location.VisitedLocation visitedLocation) {
     }
 
     public VisitedLocation(UUID userId, Location location, Date visitedTime) {

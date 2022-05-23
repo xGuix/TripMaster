@@ -17,13 +17,13 @@ plugins {
 
 group = "tourGuide"
 version = "1.0"
-sourceCompatibility = 11
-targetCompatibility = 11
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
 
 repositories {
     mavenCentral()
     flatDir {
-        dirs '../libs'
+        dirs 'libs'
     }
 }
 
@@ -44,7 +44,6 @@ dependencies {
     testImplementation ("org.junit.jupiter:junit-jupiter:5.8.2")
     testImplementation (group: "org.springframework.boot", name: "spring-boot-starter-test", version: "2.6.7")
     testImplementation (group: "org.mockito", name: "mockito-junit-jupiter", version: "4.4.0")
-
 }
 
 test {
