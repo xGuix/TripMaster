@@ -15,7 +15,7 @@ plugins {
     id ("jacoco")
 }
 
-group = "gpsUtil"
+group = "com.tourguide"
 version = "1.0"
 
 repositories {

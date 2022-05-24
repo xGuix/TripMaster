@@ -5,12 +5,14 @@ import com.dto.UserRewardDto;
 import com.model.Attraction;
 import com.model.Location;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
+@Service
 @FeignClient(name = "rewardCentral", url = "localhost:8383")
 public interface RewardCentralProxy {
     /**

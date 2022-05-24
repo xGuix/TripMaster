@@ -6,7 +6,7 @@ plugins {
     id ("jacoco")
 }
 
-group = "rewardCentral"
+group = "com.tourguide"
 version = "1.0"
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
@@ -19,7 +19,10 @@ repositories {
 }
 
 dependencies {
-    implementation ("org.jetbrains:annotations:23.0.0")
+    implementation (project(":CommonSet"))
+    implementation (name:"RewardCentral", ext:"jar")
+    implementation (name: "gpsUtil", ext:"jar")
+
     implementation ("org.springframework.boot:spring-boot-starter-web:2.6.7")
     implementation ("org.springframework.boot:spring-boot-starter-actuator:2.6.7")
     implementation ("org.springframework.boot:spring-boot-starter-test:2.6.7")
@@ -29,10 +32,7 @@ dependencies {
     implementation ("org.javamoney:moneta:1.4.2")
     implementation ("com.jsoniter:jsoniter:0.9.23")
 
-    implementation (group: "org.springframework.cloud", name: "spring-cloud-starter-openfeign", version: "3.1.2")
-    implementation(name:"RewardCentral", ext:"jar")
-    implementation (name: "gpsUtil", ext:"jar")
-    implementation (project(":commonSet"))
+
 
     testImplementation ("org.junit.jupiter:junit-jupiter:5.8.2")
     testImplementation (group: "org.springframework.boot", name: "spring-boot-starter-test", version: "2.6.7")
