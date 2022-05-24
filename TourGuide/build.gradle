@@ -17,8 +17,8 @@ plugins {
 
 group = "com.tourguide"
 version = "1.0"
-sourceCompatibility = JavaVersion.VERSION_11
-targetCompatibility = JavaVersion.VERSION_11
+sourceCompatibility = 11
+targetCompatibility = 11
 
 repositories {
     mavenCentral()
@@ -73,7 +73,7 @@ jacocoTestCoverageVerification {
             limit {
                 counter = "LINE"
                 value = "COVEREDRATIO"
-                minimum = 0.2
+                minimum = 0
             }
         }
     }

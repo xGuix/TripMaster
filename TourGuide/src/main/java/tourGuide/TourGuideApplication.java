@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"tourGuide.helper.beans"})
 @EnableFeignClients("tourGuide.proxy")
 public class TourGuideApplication {
     public static void main(String[] args) {

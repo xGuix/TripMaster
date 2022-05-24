@@ -34,7 +34,7 @@ public class RewardCentralController {
      * @param userDto the user
      * @return the list
      */
-    @PostMapping("/calculateRewards/{userDto}")
+    @PostMapping("/calculateRewards")
     public List<UserRewardDto> calculateRewards(@PathVariable UserDto userDto) {
         return rewardCentralService.calculateRewards(userDto);
     }
@@ -46,7 +46,7 @@ public class RewardCentralController {
      * @param userDto   the username
      * @return the reward points
      */
-    @PostMapping("/getRewardPoints/{userDto}")
+    @PostMapping("/getRewardPoints")
     public int rewardPoints(@RequestBody Attraction attraction, @PathVariable UserDto userDto) {
         return rewardCentralService.getRewardPoints(attraction, userDto);
     }
@@ -58,7 +58,7 @@ public class RewardCentralController {
      * @param location the location
      * @return the reward points
      */
-    @PostMapping("/getRewardPoints/{userDto}")
+    @PostMapping("/getAttractionProxy")
     public boolean isWithinAttractionProximity(@RequestBody Attraction attraction, @PathVariable Location location) {
         return rewardCentralService.isWithinAttractionProximity(attraction, location);
     }

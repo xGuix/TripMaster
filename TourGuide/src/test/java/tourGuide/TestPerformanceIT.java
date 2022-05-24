@@ -1,8 +1,6 @@
 //package tourGuide;
 //
 //import com.dto.UserDto;
-//import com.helper.InternalTestDataSet;
-//import com.helper.InternalTestHelper;
 //import com.model.Attraction;
 //import com.model.Location;
 //import com.model.VisitedLocation;
@@ -12,6 +10,8 @@
 //import org.junit.jupiter.api.Test;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.boot.test.context.SpringBootTest;
+//import tourGuide.helper.InternalTestDataSet;
+//import tourGuide.helper.InternalTestHelper;
 //import tourGuide.proxy.GpsUtilProxy;
 //import tourGuide.proxy.RewardCentralProxy;
 //import tourGuide.proxy.TripPricerProxy;
