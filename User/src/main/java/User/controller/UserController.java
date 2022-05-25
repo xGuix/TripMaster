@@ -6,6 +6,8 @@ import com.dto.UserPreferencesDto;
 import com.dto.UserRewardDto;
 import User.service.UserService;
 import com.model.VisitedLocation;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.model.Provider;
@@ -17,6 +19,8 @@ import java.util.List;
  */
 @RestController
 public class UserController {
+
+    private static final Logger logger = LogManager.getLogger("UserControllerLog");
 
     @Autowired
     private final UserService userService;
@@ -30,22 +34,29 @@ public class UserController {
         this.userService = userService;
     }
 
+
     /**
-     * Get users list.
+     * Get All user:
+     * Call to get All user with username
      *
-     * @return list of all users
+     * @return userList List of all users
      */
-    @GetMapping("/users")
-    public List<UserDto> getAllUsers(){
+    @RequestMapping("/allUsers")
+    private List<UserDto> getAllUsers() {
+        logger.info("Search list of all users");
         return userService.getAllUsers();
     }
 
     /**
-     * @param userName
-     * @return return a user with this name
+     * Get user:
+     * Call to get user with username
+     *
+     * @param userName String userName
+     * @return userName User userName
      */
-    @GetMapping("/user/{userName}")
+    @RequestMapping("/getUser")
     private UserDto getUser(@PathVariable String userName) {
+        logger.info("Search user with username: {}", userName);
         return userService.getUser(userName);
     }
 

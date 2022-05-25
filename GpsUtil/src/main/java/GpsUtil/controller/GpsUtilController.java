@@ -40,6 +40,6 @@ public class GpsUtilController {
     @GetMapping(value="/getAttractions")
     public List<Attraction> getAllAttractions() {
         logger.info("Controller request /getAttractions from GpsUtilApp");
-        return (List<Attraction>) gpsUtilService.getAllAttractions();
+        return gpsUtilService.getAllAttractions();
     }
 }

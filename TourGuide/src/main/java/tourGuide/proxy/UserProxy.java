@@ -23,14 +23,14 @@ public interface UserProxy {
      * Get users list.
      * @return list of all users
      */
-    @GetMapping("/users")
+    @GetMapping("/allUsers")
     List<UserDto> getUsers();
 
     /**
      * @param userName
      * @return return a user with this name
      */
-    @GetMapping("/user/{userName}")
+    @GetMapping("/getUser")
     UserDto getUser(@PathVariable String userName);
 
     /**
@@ -39,7 +39,7 @@ public interface UserProxy {
      * @param userName the username
      * @return list of rewards of this user
      */
-    @GetMapping("/rewards/{userName}")
+    @GetMapping("/rewards")
     List<UserRewardDto> getUserRewards(@PathVariable String userName);
 
     /**
@@ -48,7 +48,7 @@ public interface UserProxy {
      * @param userName   the username
      * @param userReward add the reward for this user
      */
-    @PostMapping("/rewards/{userName}")
+    @PostMapping("/rewards")
     void createUserReward(@PathVariable String userName, @RequestBody UserRewardDto userReward);
 
     /**
@@ -57,7 +57,7 @@ public interface UserProxy {
      * @param userName  the username
      * @param tripDeals Update trip deals for this user
      */
-    @PostMapping("/tripDeals/{userName}")
+    @PostMapping("/tripDeals")
     void updateTripDeals(@PathVariable String userName, @RequestBody List<Provider> tripDeals);
 
     /**
@@ -74,7 +74,7 @@ public interface UserProxy {
      * @param userName the username
      * @param visitedLocation Add the visited location for this user
      */
-    @PostMapping("/addVisitedLocation/{userName}")
+    @PostMapping("/addVisitedLocation")
     void createVisitedLocation(@PathVariable String userName, @RequestBody VisitedLocation visitedLocation);
 
     /**
@@ -83,6 +83,6 @@ public interface UserProxy {
      * @param userName the username
      * @param userPreferences Add preferences of user
      */
-    @PostMapping("/userPreferences/{userName}")
+    @PostMapping("/userPreferences")
     void userPreferences(@PathVariable String userName, @RequestBody UserPreferencesDto userPreferences);
 }

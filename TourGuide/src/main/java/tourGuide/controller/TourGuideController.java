@@ -34,6 +34,17 @@ public class TourGuideController {
 	TourGuideService tourGuideService;
 
     /**
+     *  Get Index Controller
+     *
+     * @return String Greetings from TourGuide!
+     */
+    @RequestMapping("/")
+    public String index() {
+        logger.info("Get index");
+        return "Greetings from TourGuide!";
+    }
+
+    /**
      * Get All user:
      * Call to get All user with username
      *
@@ -59,17 +70,6 @@ public class TourGuideController {
     }
 
     /**
-     *  Get Index Controller
-     *
-     * @return String Greetings from TourGuide!
-     */
-    @RequestMapping("/")
-    public String index() {
-        logger.info("Get index");
-        return "Greetings from TourGuide!";
-    }
-
-    /**
      *  Get user location
      *  Call get location with username
      *
@@ -91,7 +91,7 @@ public class TourGuideController {
      * @return userAttractionList List of the closest attraction
      */
     @RequestMapping("/getNearbyAttractions")
-    public List<NearbyAttractionsDto> getNearbyAttractions(@RequestParam String userName) {
+    public List<NearbyAttractionsDto> getNearByAttractions(@RequestParam String userName) {
     	VisitedLocation visitedLocation = tourGuideService.getUserLocation(getUser(userName));
         List<NearbyAttractionsDto> userAttractionList = tourGuideService.getNearByAttractions(visitedLocation);
         logger.info("Get nearby attractions with username: {}", userName);

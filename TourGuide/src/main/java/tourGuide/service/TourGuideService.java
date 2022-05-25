@@ -35,6 +35,11 @@ public class TourGuideService {
 	public TrackerService trackerService;
 	public InternalTestDataSet internalTestDataSet;
 
+
+	/**
+	 *  TourGuideService constructor
+	 *	Load all controller proxy
+	 */
 	public TourGuideService(InternalTestDataSet internalTestDataSet, GpsUtilProxy gpsUtil, RewardCentralProxy rewardCentral, TripPricerProxy tripPricer) {
 		this.internalTestDataSet = internalTestDataSet;
 		this.gpsUtil = gpsUtil;
@@ -49,10 +54,24 @@ public class TourGuideService {
 		addShutDownHook();
 	}
 
+	/**
+	 *  Get user reward List
+	 *  Call to get reward with user
+	 *
+	 * @param userDto User user
+	 * @return userReward Rewards user list
+	 */
 	public List<UserRewardDto> getUserRewards(UserDto userDto) {
 		return userDto.getUserRewards();
 	}
-	
+
+	/**
+	 *  Get user location
+	 *  Call to get location with user
+	 *
+	 * @param userDto User user
+	 * @return visitedLocation The visited location
+	 */
 	public VisitedLocation getUserLocation(UserDto userDto) {
 		VisitedLocation visitedLocation;
 		visitedLocation = (userDto.getVisitedLocations().size() > 0) ?
@@ -61,10 +80,23 @@ public class TourGuideService {
 		return visitedLocation;
 	}
 
+	/**
+	 *  Get a user
+	 *  Call to get user with userName
+	 *
+	 * @param userName String userName
+	 * @return userDto The user
+	 */
 	public UserDto getUser(String userName) {
 		return internalTestDataSet.internalUserMap.get(userName);
 	}
-	
+
+	/**
+	 *  Get all users list
+	 *  Call to get all users
+	 *
+	 * @return The user list
+	 */
 	public List<UserDto> getAllUsers() {
 		return new ArrayList<>(internalTestDataSet.internalUserMap.values());
 	}
