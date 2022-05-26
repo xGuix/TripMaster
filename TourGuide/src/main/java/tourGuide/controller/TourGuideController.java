@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import tourGuide.proxy.GpsUtilProxy;
-import tourGuide.proxy.RewardCentralProxy;
-import tourGuide.proxy.TripPricerProxy;
-import tourGuide.proxy.UserProxy;
+
 import tourGuide.service.TourGuideService;
 
 import java.util.HashMap;
@@ -26,7 +23,7 @@ import java.util.UUID;
 /**
  *  Tour Guide rest controller
  */
-@RestController
+@RestController("/tourGuide")
 public class TourGuideController {
 
     private static final Logger logger = LogManager.getLogger("TourGuideControllerLog");
@@ -55,7 +52,7 @@ public class TourGuideController {
      * @return userList List of all users
      */
     @RequestMapping("/allUsers")
-    private List<UserDto> getAllUsers() {
+    public List<UserDto> getAllUsers() {
         logger.info("Call userProxy search for list of all users");
         return tourGuideService.getAllUsers();
     }
@@ -68,7 +65,7 @@ public class TourGuideController {
      * @return userName User userName
      */
     @RequestMapping("/getUser")
-    private UserDto getUser(String userName) {
+    public UserDto getUser(String userName) {
         logger.info("Call userProxy search user with username: {}", userName);
         return tourGuideService.getUser(userName);
     }

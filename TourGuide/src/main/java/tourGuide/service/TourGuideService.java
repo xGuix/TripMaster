@@ -8,6 +8,7 @@ import com.model.Provider;
 import com.model.VisitedLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tourGuide.proxy.GpsUtilProxy;
 import tourGuide.proxy.RewardCentralProxy;
@@ -28,10 +29,18 @@ public class TourGuideService {
 	static final Logger logger = LoggerFactory.getLogger("TourGuideServiceLog");
 	public static final String tripPricerApiKey = "test-server-api-key";
 
-	private UserProxy userProxy;
-	private GpsUtilProxy gpsUtil;
-	private RewardCentralProxy rewardCentral;
-	private TripPricerProxy tripPricer;
+	@Autowired
+	UserProxy userProxy;
+
+	@Autowired
+	GpsUtilProxy gpsUtil;
+
+	@Autowired
+	RewardCentralProxy rewardCentral;
+
+	@Autowired
+	TripPricerProxy tripPricer;
+
 	public TrackerService trackerService;
 
 
