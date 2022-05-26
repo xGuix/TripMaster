@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-@FeignClient(name = "gpsUtil", url = "localhost:8282")
+@FeignClient(name = "com.tourGuide.gpsUtil", url = "localhost:8282")
 public interface GpsUtilProxy {
 
     @GetMapping(value = "/userLocation")

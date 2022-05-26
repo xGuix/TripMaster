@@ -19,13 +19,18 @@ import java.util.stream.IntStream;
  */
 @Service
 public class UserService {
+
     private final Logger logger = LoggerFactory.getLogger(UserService.class);
+
     /**
      * The Test mode.
      */
     boolean testMode = true;
-    private final Map<String, UserDto> internalUserMap = new HashMap<>();
 
+    /**
+     * Instantiates a new Map for user.
+     */
+    Map<String, UserDto> internalUserMap = new HashMap<>();
 
     /**
      * Instantiates a new User service.
@@ -39,18 +44,19 @@ public class UserService {
         }
     }
 
-
+    /**
+     * Instantiates a new User list.
+     */
     private void initializeInternalUsers() {
         IntStream.range(0, InternalTestHelper.getInternalUserNumber()).forEach(i -> {
             String userName = "internalUser" + i;
             String phone = "000";
             String email = userName + "@tourGuide.com";
             UserDto user = new UserDto(UUID.randomUUID(), userName, phone, email);
-            //UsersHelper.generateUserLocationHistory(user);
 
             internalUserMap.put(userName, user);
         });
-        logger.debug("Created " + InternalTestHelper.getInternalUserNumber() + " internal test users.");
+        logger.debug("Created {} internal test users.", InternalTestHelper.getInternalUserNumber());
     }
 
     /**
@@ -69,7 +75,7 @@ public class UserService {
      * @return the list of all users
      */
     public List<UserDto> getAllUsers() {
-        return new ArrayList<>(internalUserMap.values());
+        return new ArrayList<UserDto>(internalUserMap.values());
     }
 
 
@@ -115,21 +121,21 @@ public class UserService {
     }
 
 
-    /**
-     * Gets all current locations.
-     *
-     * @return the localisation of all users
-     */
-    public List<UserLocationDto> getAllCurrentLocations() {
-        List<UserLocationDto> userLocationsList = new ArrayList<>();
-
-        for (UserDto user : getAllUsers()) {
-            UUID userId = user.getUserId();
-            VisitedLocation userLastVisitedLocation = user.getLastVisitedLocation();
-            userLocationsList.add(new UserLocationDto(userId, userLastVisitedLocation.getLocation()));
-        }
-        return userLocationsList;
-    }
+//    /**
+//     * Gets all current locations.
+//     *
+//     * @return the localisation of all users
+//     */
+//    public List<UserLocationDto> getAllCurrentLocations() {
+//        List<UserLocationDto> userLocationsList = new ArrayList<>();
+//
+//        for (UserDto user : getAllUsers()) {
+//            UUID userId = user.getUserId();
+//            VisitedLocation userLastVisitedLocation = user.getLastVisitedLocation();
+//            userLocationsList.add(new UserLocationDto(userId, userLastVisitedLocation.getLocation()));
+//        }
+//        return userLocationsList;
+//    }
 
     /**
      * Update trip deals.

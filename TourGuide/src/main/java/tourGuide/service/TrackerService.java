@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import tourGuide.proxy.RewardCentralProxy;
+import tourGuide.proxy.UserProxy;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -24,6 +25,7 @@ public class TrackerService extends Thread {
 	private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 	private final TourGuideService tourGuideService;
 	private final RewardCentralProxy rewardsService;
+	private final UserProxy userService;
 	private boolean stop = false;
 
 	/**
@@ -32,8 +34,9 @@ public class TrackerService extends Thread {
 	 * @param tourGuideService TourGuideService
 	 * @param rewardsService RewardService
 	 */
-	TrackerService(TourGuideService tourGuideService, RewardCentralProxy rewardsService) {
+	TrackerService(TourGuideService tourGuideService, UserProxy userService, RewardCentralProxy rewardsService) {
 		this.tourGuideService = tourGuideService;
+		this.userService = userService;
 		this.rewardsService = rewardsService;
 		executorService.submit(this);
 	}
@@ -55,7 +58,7 @@ public class TrackerService extends Thread {
 		ExecutorService trackExecutor = Executors.newFixedThreadPool(1);
 		ExecutorService rewardExecutor = Executors.newFixedThreadPool(1);
 
-			List<UserDto> userDtoList = tourGuideService.getAllUsers();
+			List<UserDto> userDtoList = userService.getUsers();
 			logger.debug("Begin Tracker. Tracking {} users.", userDtoList.size());
 
 			stopWatch.start();

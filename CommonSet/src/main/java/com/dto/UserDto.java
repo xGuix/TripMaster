@@ -12,8 +12,8 @@ import java.util.UUID;
  * User Model
  */
 public class UserDto {
-	private final UUID userId;
-	private final String userName;
+	private UUID userId;
+	private String userName;
 	private String phoneNumber;
 	private String emailAddress;
 	private Date latestLocationTimestamp;
@@ -21,6 +21,12 @@ public class UserDto {
 	private final List<UserRewardDto> userRewardsDto = new ArrayList<>();
 	private UserPreferencesDto userPreferencesDto = new UserPreferencesDto();
 	private List<Provider> tripDeals = new ArrayList<>();
+
+	/**
+	 * Default empty constructor
+	 */
+	public UserDto() {
+	}
 
 	/**
 	 * Default constructor
@@ -48,7 +54,7 @@ public class UserDto {
 		this.phoneNumber = phoneNumber;
 		this.emailAddress = emailAddress;
 	}
-	
+
 	public UUID getUserId() {
 		return userId;
 	}
@@ -111,9 +117,9 @@ public class UserDto {
 		this.userPreferencesDto = userPreferencesDto;
 	}
 
-	public VisitedLocation getLastVisitedLocation() {
-		return visitedLocations.get(visitedLocations.size() - 1);
-	}
+//	public VisitedLocation getLastVisitedLocation() {
+//		return visitedLocations.get(visitedLocations.size() - 1);
+//	}
 	
 	public void setTripDeals(List<Provider> tripDeals) {
 		this.tripDeals = tripDeals;

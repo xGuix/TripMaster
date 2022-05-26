@@ -14,8 +14,10 @@ import java.util.stream.IntStream;
 
 @Service
 public class InternalTestDataSet {
-    public final Logger logger = LoggerFactory.getLogger(InternalTestDataSet.class);
+
+    public final Logger logger = LoggerFactory.getLogger("InternalTestDataSetLog");
     public static final String tripPricerApiKey = "test-server-api-key";
+
     // Database connection will be used for external users, but for testing purposes internal users are provided and stored in memory
     public final Map<String, UserDto> internalUserMap = new HashMap<>();
     public void initializeInternalUsers() {

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import tourGuide.proxy.GpsUtilProxy;
 import tourGuide.proxy.RewardCentralProxy;
 import tourGuide.proxy.TripPricerProxy;
+import tourGuide.proxy.UserProxy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ public class TourGuideService {
 
 	static final Logger logger = LoggerFactory.getLogger("TourGuideServiceLog");
 
+	private final UserProxy userProxy;
 	private final GpsUtilProxy gpsUtil;
 	private final RewardCentralProxy rewardCentral;
 	private final TripPricerProxy tripPricer;
@@ -40,8 +42,13 @@ public class TourGuideService {
 	 *  TourGuideService constructor
 	 *	Load all controller proxy
 	 */
-	public TourGuideService(InternalTestDataSet internalTestDataSet, GpsUtilProxy gpsUtil, RewardCentralProxy rewardCentral, TripPricerProxy tripPricer) {
+	public TourGuideService(InternalTestDataSet internalTestDataSet,
+							UserProxy userProxy,
+							GpsUtilProxy gpsUtil,
+							RewardCentralProxy rewardCentral,
+							TripPricerProxy tripPricer) {
 		this.internalTestDataSet = internalTestDataSet;
+		this.userProxy = userProxy;
 		this.gpsUtil = gpsUtil;
 		this.rewardCentral = rewardCentral;
 		this.tripPricer = tripPricer;
@@ -50,7 +57,7 @@ public class TourGuideService {
 		logger.debug("Initializing users");
 		internalTestDataSet.initializeInternalUsers();
 		logger.debug("Finished initializing users");
-		trackerService = new TrackerService(this, rewardCentral);
+		trackerService = new TrackerService(this,userProxy, rewardCentral);
 		addShutDownHook();
 	}
 
@@ -79,33 +86,33 @@ public class TourGuideService {
 			trackUserLocation(userDto);
 		return visitedLocation;
 	}
-
-	/**
-	 *  Get a user
-	 *  Call to get user with userName
-	 *
-	 * @param userName String userName
-	 * @return userDto The user
-	 */
-	public UserDto getUser(String userName) {
-		return internalTestDataSet.internalUserMap.get(userName);
-	}
-
-	/**
-	 *  Get all users list
-	 *  Call to get all users
-	 *
-	 * @return The user list
-	 */
-	public List<UserDto> getAllUsers() {
-		return new ArrayList<>(internalTestDataSet.internalUserMap.values());
-	}
-	
-	public void addUser(UserDto userDto) {
-		if(!internalTestDataSet.internalUserMap.containsKey(userDto.getUserName())) {
-			internalTestDataSet.internalUserMap.put(userDto.getUserName(), userDto);
-		}
-	}
+//
+//	/**
+//	 *  Get a user
+//	 *  Call to get user with userName
+//	 *
+//	 * @param userName String userName
+//	 * @return userDto The user
+//	 */
+//	public UserDto getUser(String userName) {
+//		return internalTestDataSet.internalUserMap.get(userName);
+//	}
+//
+//	/**
+//	 *  Get all users list
+//	 *  Call to get all users
+//	 *
+//	 * @return The user list
+//	 */
+//	public List<UserDto> getAllUsers() {
+//		return new ArrayList<>(internalTestDataSet.internalUserMap.values());
+//	}
+//
+//	public void addUser(UserDto userDto) {
+//		if(!internalTestDataSet.internalUserMap.containsKey(userDto.getUserName())) {
+//			internalTestDataSet.internalUserMap.put(userDto.getUserName(), userDto);
+//		}
+//	}
 	
 	public List<Provider> getTripDeals(UserDto userDto) {
 		int cumulativeRewardPoints = 0;

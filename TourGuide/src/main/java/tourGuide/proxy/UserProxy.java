@@ -16,21 +16,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
 @Service
-@FeignClient(name = "user", url = "localhost:8181")
+@FeignClient(name = "com.tourGuide.user", url = "localhost:8181")
 public interface UserProxy {
 
     /**
      * Get users list.
      * @return list of all users
      */
-    @GetMapping("/allUsers")
+    @GetMapping(value = "/allUsers")
     List<UserDto> getUsers();
 
     /**
      * @param userName
      * @return return a user with this name
      */
-    @GetMapping("/getUser")
+    @GetMapping(value = "/getUser")
     UserDto getUser(@PathVariable String userName);
 
     /**
@@ -39,7 +39,7 @@ public interface UserProxy {
      * @param userName the username
      * @return list of rewards of this user
      */
-    @GetMapping("/rewards")
+    @GetMapping(value = "/rewards")
     List<UserRewardDto> getUserRewards(@PathVariable String userName);
 
     /**
@@ -48,7 +48,7 @@ public interface UserProxy {
      * @param userName   the username
      * @param userReward add the reward for this user
      */
-    @PostMapping("/rewards")
+    @PostMapping(value = "/rewards")
     void createUserReward(@PathVariable String userName, @RequestBody UserRewardDto userReward);
 
     /**
@@ -57,7 +57,7 @@ public interface UserProxy {
      * @param userName  the username
      * @param tripDeals Update trip deals for this user
      */
-    @PostMapping("/tripDeals")
+    @PostMapping(value = "/tripDeals")
     void updateTripDeals(@PathVariable String userName, @RequestBody List<Provider> tripDeals);
 
     /**
@@ -65,7 +65,7 @@ public interface UserProxy {
      *
      * @return all current locations
      */
-    @GetMapping("/getAllCurrentLocations")
+    @GetMapping(value = "/getAllCurrentLocations")
     List<UserLocationDto> getAllCurrentLocations();
 
     /**
@@ -74,7 +74,7 @@ public interface UserProxy {
      * @param userName the username
      * @param visitedLocation Add the visited location for this user
      */
-    @PostMapping("/addVisitedLocation")
+    @PostMapping(value = "/addVisitedLocation")
     void createVisitedLocation(@PathVariable String userName, @RequestBody VisitedLocation visitedLocation);
 
     /**
@@ -83,6 +83,6 @@ public interface UserProxy {
      * @param userName the username
      * @param userPreferences Add preferences of user
      */
-    @PostMapping("/userPreferences")
+    @PostMapping(value = "/userPreferences")
     void userPreferences(@PathVariable String userName, @RequestBody UserPreferencesDto userPreferences);
 }

@@ -23,16 +23,16 @@ public class UserController {
     private static final Logger logger = LogManager.getLogger("UserControllerLog");
 
     @Autowired
-    private final UserService userService;
+    UserService userService;
 
-    /**
-     * Instantiates a new User controller.
-     *
-     * @param userService the user service
-     */
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+//    /**
+//     * Instantiates a new User controller.
+//     *
+//     * @param userService the user service
+//     */
+//    public UserController(UserService userService) {
+//        this.userService = userService;
+//    }
 
 
     /**
@@ -42,7 +42,7 @@ public class UserController {
      * @return userList List of all users
      */
     @RequestMapping("/allUsers")
-    private List<UserDto> getAllUsers() {
+    public List<UserDto> getAllUsers() {
         logger.info("Search list of all users");
         return userService.getAllUsers();
     }
@@ -55,7 +55,7 @@ public class UserController {
      * @return userName User userName
      */
     @RequestMapping("/getUser")
-    private UserDto getUser(@PathVariable String userName) {
+    public UserDto getUser(@PathVariable String userName) {
         logger.info("Search user with username: {}", userName);
         return userService.getUser(userName);
     }
@@ -66,7 +66,7 @@ public class UserController {
      * @param userName the username
      * @return list of rewards of this user
      */
-    @GetMapping("/rewards/{userName}")
+    @GetMapping("/rewards")
     public List<UserRewardDto> getUserRewards(@PathVariable String userName) {
         return userService.getUserRewards(getUser(userName));
     }
@@ -77,7 +77,7 @@ public class UserController {
      * @param userName   the username
      * @param userReward add the reward for this user
      */
-    @PostMapping("/rewards/{userName}")
+    @PostMapping("/rewards")
     public void createUserReward(@PathVariable String userName, @RequestBody UserRewardDto userReward){
         userService.addUserReward(userName, userReward);
     }
@@ -88,20 +88,20 @@ public class UserController {
      * @param userName the username
      * @param tripDeals Update trip deals for this user
      */
-    @PostMapping("/tripDeals/{userName}")
+    @PostMapping("/tripDeals")
     public void updateTripDeals(@PathVariable String userName, @RequestBody List<Provider> tripDeals){
         userService.updateTripDeals(userName, tripDeals);
     }
 
-    /**
-     * Get all current locations list.
-     *
-     * @return all current locations
-     */
-    @GetMapping("/getAllCurrentLocations")
-    public List<UserLocationDto> getAllCurrentLocations(){
-        return userService.getAllCurrentLocations();
-    }
+//    /**
+//     * Get all current locations list.
+//     *
+//     * @return all current locations
+//     */
+//    @GetMapping("/getAllCurrentLocations")
+//    public List<UserLocationDto> getAllCurrentLocations(){
+//        return userService.getAllCurrentLocations();
+//    }
 
     /**
      * Create visited location.
@@ -109,7 +109,7 @@ public class UserController {
      * @param userName the username
      * @param visitedLocation Add the visited location for this user
      */
-    @PostMapping("/addVisitedLocation/{userName}")
+    @PostMapping("/addVisitedLocation")
     public void createVisitedLocation(@PathVariable String userName, @RequestBody VisitedLocation visitedLocation){
         userService.addVisitedLocation(userName, visitedLocation);
     }
@@ -120,7 +120,7 @@ public class UserController {
      * @param userName the username
      * @param userPreferences The new user preferences
      */
-    @PostMapping("/userPreferences/{userName}")
+    @PostMapping("/userPreferences")
     public void userPreferences(@PathVariable String userName, @RequestBody UserPreferencesDto userPreferences){
         userService.UpdateUserPreferences(userName, userPreferences);
     }

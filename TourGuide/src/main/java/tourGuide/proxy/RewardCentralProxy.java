@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
 @Service
-@FeignClient(name = "rewardCentral", url = "localhost:8383")
+@FeignClient(name = "com.tourGuide.rewardCentral", url = "localhost:8383")
 public interface RewardCentralProxy {
     /**
      * Calculate rewards list.
