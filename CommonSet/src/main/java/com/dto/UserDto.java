@@ -3,10 +3,8 @@ package com.dto;
 import com.model.VisitedLocation;
 import com.model.Provider;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * User Model
@@ -17,8 +15,8 @@ public class UserDto {
 	private String phoneNumber;
 	private String emailAddress;
 	private Date latestLocationTimestamp;
-	private final List<VisitedLocation> visitedLocations = new ArrayList<>();
-	private final List<UserRewardDto> userRewardsDto = new ArrayList<>();
+	private List<VisitedLocation> visitedLocations = new ArrayList<>();
+	private List<UserRewardDto> userRewardsDto = new ArrayList<>();
 	private UserPreferencesDto userPreferencesDto = new UserPreferencesDto();
 	private List<Provider> tripDeals = new ArrayList<>();
 
@@ -94,6 +92,10 @@ public class UserDto {
 	public List<VisitedLocation> getVisitedLocations() {
 		return (List<VisitedLocation>)((ArrayList<VisitedLocation>)visitedLocations).clone();
 	}
+
+	public void setVisitedLocations(List<VisitedLocation> visitedLocations) {
+		this.visitedLocations = visitedLocations;
+	}
 	
 	public void clearVisitedLocations() {
 		visitedLocations.clear();
@@ -117,9 +119,12 @@ public class UserDto {
 		this.userPreferencesDto = userPreferencesDto;
 	}
 
-//	public VisitedLocation getLastVisitedLocation() {
-//		return visitedLocations.get(visitedLocations.size() - 1);
-//	}
+	public VisitedLocation getLastVisitedLocation() {
+		if (visitedLocations.isEmpty()) {
+			return null;
+		}
+		return visitedLocations.get(visitedLocations.size()-1);
+	}
 	
 	public void setTripDeals(List<Provider> tripDeals) {
 		this.tripDeals = tripDeals;

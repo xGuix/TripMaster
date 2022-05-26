@@ -6,7 +6,6 @@ import com.dto.UserRewardDto;
 import com.model.Attraction;
 import com.model.Provider;
 import com.model.VisitedLocation;
-import com.helper.InternalTestDataSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -20,8 +19,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
-import static com.helper.InternalTestDataSet.tripPricerApiKey;
-
 /**
  * Tour Guide Service
  */
@@ -29,36 +26,52 @@ import static com.helper.InternalTestDataSet.tripPricerApiKey;
 public class TourGuideService {
 
 	static final Logger logger = LoggerFactory.getLogger("TourGuideServiceLog");
+	public static final String tripPricerApiKey = "test-server-api-key";
 
-	private final UserProxy userProxy;
-	private final GpsUtilProxy gpsUtil;
-	private final RewardCentralProxy rewardCentral;
-	private final TripPricerProxy tripPricer;
+	private UserProxy userProxy;
+	private GpsUtilProxy gpsUtil;
+	private RewardCentralProxy rewardCentral;
+	private TripPricerProxy tripPricer;
 	public TrackerService trackerService;
-	public InternalTestDataSet internalTestDataSet;
 
 
 	/**
 	 *  TourGuideService constructor
 	 *	Load all controller proxy
 	 */
-	public TourGuideService(InternalTestDataSet internalTestDataSet,
-							UserProxy userProxy,
+	public TourGuideService(UserProxy userProxy,
 							GpsUtilProxy gpsUtil,
 							RewardCentralProxy rewardCentral,
 							TripPricerProxy tripPricer) {
-		this.internalTestDataSet = internalTestDataSet;
 		this.userProxy = userProxy;
 		this.gpsUtil = gpsUtil;
 		this.rewardCentral = rewardCentral;
 		this.tripPricer = tripPricer;
 
-		logger.info("TestMode enabled");
-		logger.debug("Initializing users");
-		internalTestDataSet.initializeInternalUsers();
-		logger.debug("Finished initializing users");
 		trackerService = new TrackerService(this,userProxy, rewardCentral);
 		addShutDownHook();
+	}
+
+
+	/**
+	 *  Get a user
+	 *  Call to get user with userName
+	 *
+	 * @param userName String userName
+	 * @return userDto The user
+	 */
+	public UserDto getUser(String userName) {
+		return userProxy.getUser(userName);
+	}
+
+	/**
+	 *  Get all users list
+	 *  Call to get all users
+	 *
+	 * @return The user list
+	 */
+	public List<UserDto> getAllUsers() {
+		return userProxy.getUsers();
 	}
 
 	/**
@@ -69,7 +82,8 @@ public class TourGuideService {
 	 * @return userReward Rewards user list
 	 */
 	public List<UserRewardDto> getUserRewards(UserDto userDto) {
-		return userDto.getUserRewards();
+		logger.info("Call getUserReward search for list of user reward");
+		return userProxy.getUserRewards(userDto.getUserName());
 	}
 
 	/**
@@ -86,33 +100,7 @@ public class TourGuideService {
 			trackUserLocation(userDto);
 		return visitedLocation;
 	}
-//
-//	/**
-//	 *  Get a user
-//	 *  Call to get user with userName
-//	 *
-//	 * @param userName String userName
-//	 * @return userDto The user
-//	 */
-//	public UserDto getUser(String userName) {
-//		return internalTestDataSet.internalUserMap.get(userName);
-//	}
-//
-//	/**
-//	 *  Get all users list
-//	 *  Call to get all users
-//	 *
-//	 * @return The user list
-//	 */
-//	public List<UserDto> getAllUsers() {
-//		return new ArrayList<>(internalTestDataSet.internalUserMap.values());
-//	}
-//
-//	public void addUser(UserDto userDto) {
-//		if(!internalTestDataSet.internalUserMap.containsKey(userDto.getUserName())) {
-//			internalTestDataSet.internalUserMap.put(userDto.getUserName(), userDto);
-//		}
-//	}
+
 	
 	public List<Provider> getTripDeals(UserDto userDto) {
 		int cumulativeRewardPoints = 0;

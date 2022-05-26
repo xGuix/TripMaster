@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import tourGuide.proxy.GpsUtilProxy;
+import tourGuide.proxy.RewardCentralProxy;
+import tourGuide.proxy.TripPricerProxy;
 import tourGuide.proxy.UserProxy;
 import tourGuide.service.TourGuideService;
 
@@ -35,9 +37,6 @@ public class TourGuideController {
 	@Autowired
 	TourGuideService tourGuideService;
 
-    @Autowired
-    UserProxy userProxy;
-
     /**
      *  Get Index Controller
      *
@@ -57,8 +56,8 @@ public class TourGuideController {
      */
     @RequestMapping("/allUsers")
     private List<UserDto> getAllUsers() {
-        logger.info("Search list of all users");
-        return userProxy.getUsers();
+        logger.info("Call userProxy search for list of all users");
+        return tourGuideService.getAllUsers();
     }
 
     /**
@@ -70,8 +69,8 @@ public class TourGuideController {
      */
     @RequestMapping("/getUser")
     private UserDto getUser(String userName) {
-        logger.info("Search user with username: {}", userName);
-        return userProxy.getUser(userName);
+        logger.info("Call userProxy search user with username: {}", userName);
+        return tourGuideService.getUser(userName);
     }
 
     /**
@@ -126,7 +125,7 @@ public class TourGuideController {
     @RequestMapping("/getAllCurrentLocations")
     public Map<UUID, Location> getAllCurrentLocations() {
         Map<UUID, Location> userLocationMap = new HashMap<>();
-        List<UserDto> usersList = userProxy.getUsers();
+        List<UserDto> usersList = getAllUsers();
         for (UserDto users: usersList){
             VisitedLocation userVisitedLocation = getLocation(users.getUserName());
             userLocationMap.put(userVisitedLocation.getUserId(), userVisitedLocation.getLocation());

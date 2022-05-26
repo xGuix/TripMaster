@@ -4,7 +4,6 @@ import com.dto.UserDto;
 import com.dto.UserLocationDto;
 import com.dto.UserPreferencesDto;
 import com.dto.UserRewardDto;
-import com.helper.InternalTestHelper;
 import com.model.Provider;
 import com.model.VisitedLocation;
 import org.slf4j.Logger;
@@ -26,6 +25,7 @@ public class UserService {
      * The Test mode.
      */
     boolean testMode = true;
+    private static int internalUserNumber = 100;
 
     /**
      * Instantiates a new Map for user.
@@ -41,6 +41,7 @@ public class UserService {
             logger.debug("Initializing users");
             initializeInternalUsers();
             logger.debug("Finished initializing users");
+
         }
     }
 
@@ -48,7 +49,7 @@ public class UserService {
      * Instantiates a new User list.
      */
     private void initializeInternalUsers() {
-        IntStream.range(0, InternalTestHelper.getInternalUserNumber()).forEach(i -> {
+        IntStream.range(0, internalUserNumber).forEach(i -> {
             String userName = "internalUser" + i;
             String phone = "000";
             String email = userName + "@tourGuide.com";
@@ -56,7 +57,16 @@ public class UserService {
 
             internalUserMap.put(userName, user);
         });
-        logger.debug("Created {} internal test users.", InternalTestHelper.getInternalUserNumber());
+        logger.debug("Created {} internal test users.", internalUserNumber);
+    }
+
+    /**
+     * Gets all users.
+     *
+     * @return the list of all users
+     */
+    public List<UserDto> getAllUsers() {
+        return new ArrayList<>(internalUserMap.values());
     }
 
     /**
@@ -68,16 +78,6 @@ public class UserService {
     public UserDto getUser(String userName) {
         return internalUserMap.get(userName);
     }
-
-    /**
-     * Gets all users.
-     *
-     * @return the list of all users
-     */
-    public List<UserDto> getAllUsers() {
-        return new ArrayList<UserDto>(internalUserMap.values());
-    }
-
 
     /**
      * Add user.
@@ -121,21 +121,21 @@ public class UserService {
     }
 
 
-//    /**
-//     * Gets all current locations.
-//     *
-//     * @return the localisation of all users
-//     */
-//    public List<UserLocationDto> getAllCurrentLocations() {
-//        List<UserLocationDto> userLocationsList = new ArrayList<>();
-//
-//        for (UserDto user : getAllUsers()) {
-//            UUID userId = user.getUserId();
-//            VisitedLocation userLastVisitedLocation = user.getLastVisitedLocation();
-//            userLocationsList.add(new UserLocationDto(userId, userLastVisitedLocation.getLocation()));
-//        }
-//        return userLocationsList;
-//    }
+    /**
+     * Gets all current locations.
+     *
+     * @return the localisation of all users
+     */
+    public List<UserLocationDto> getAllCurrentLocations() {
+        List<UserLocationDto> userLocationsList = new ArrayList<>();
+
+        for (UserDto user : getAllUsers()) {
+            UUID userId = user.getUserId();
+            VisitedLocation userLastVisitedLocation = user.getLastVisitedLocation();
+            userLocationsList.add(new UserLocationDto(userId, userLastVisitedLocation.getLocation()));
+        }
+        return userLocationsList;
+    }
 
     /**
      * Update trip deals.
