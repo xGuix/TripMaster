@@ -16,22 +16,22 @@ import java.util.stream.IntStream;
 public class InternalTestDataSet {
 
     public final Logger logger = LoggerFactory.getLogger("InternalTestDataSetLog");
-    public static final String tripPricerApiKey = "test-server-api-key";
-
-    // Database connection will be used for external users, but for testing purposes internal users are provided and stored in memory
-    public final Map<String, UserDto> internalUserMap = new HashMap<>();
-    public void initializeInternalUsers() {
-        IntStream.range(0, InternalTestHelper.getInternalUserNumber()).forEach(i -> {
-            String userName = "internalUser" + i;
-            String phone = "000";
-            String email = userName + "@tourGuide.com";
-            UserDto userDto = new UserDto(UUID.randomUUID(), userName, phone, email);
-            generateUserLocationHistory(userDto);
-
-            internalUserMap.put(userName, userDto);
-        });
-        logger.info("Created " + InternalTestHelper.getInternalUserNumber() + " internal test users.");
-    }
+//    public static final String tripPricerApiKey = "test-server-api-key";
+//
+//    // Database connection will be used for external users, but for testing purposes internal users are provided and stored in memory
+//    public final Map<String, UserDto> internalUserMap = new HashMap<>();
+//    public void initializeInternalUsers() {
+//        IntStream.range(0, InternalTestHelper.getInternalUserNumber()).forEach(i -> {
+//            String userName = "internalUser" + i;
+//            String phone = "000";
+//            String email = userName + "@tourGuide.com";
+//            UserDto userDto = new UserDto(UUID.randomUUID(), userName, phone, email);
+//            generateUserLocationHistory(userDto);
+//
+//            internalUserMap.put(userName, userDto);
+//        });
+//        logger.info("Created " + InternalTestHelper.getInternalUserNumber() + " internal test users.");
+//    }
 
     private void generateUserLocationHistory(UserDto userDto) {
         IntStream.range(0, 3).forEach(i-> {

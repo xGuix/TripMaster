@@ -31,10 +31,10 @@ public class UserController {
      *
      * @return userList List of all users
      */
-    @RequestMapping("/allUsers")
-    public List<UserDto> getAllUsers() {
+    @RequestMapping("/getUsers")
+    public List<UserDto> getUsers() {
         logger.info("Search list of all users");
-        return userService.getAllUsers();
+        return userService.getUsers();
     }
 
     /**

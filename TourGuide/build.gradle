@@ -17,8 +17,6 @@ plugins {
 
 group = "com.tourguide"
 version = "1.0"
-sourceCompatibility = 11
-targetCompatibility = 11
 
 repositories {
     mavenCentral()

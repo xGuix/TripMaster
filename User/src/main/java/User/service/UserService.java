@@ -65,7 +65,7 @@ public class UserService {
      *
      * @return the list of all users
      */
-    public List<UserDto> getAllUsers() {
+    public List<UserDto> getUsers() {
         return new ArrayList<>(internalUserMap.values());
     }
 
@@ -129,7 +129,7 @@ public class UserService {
     public List<UserLocationDto> getAllCurrentLocations() {
         List<UserLocationDto> userLocationsList = new ArrayList<>();
 
-        for (UserDto user : getAllUsers()) {
+        for (UserDto user : getUsers()) {
             UUID userId = user.getUserId();
             VisitedLocation userLastVisitedLocation = user.getLastVisitedLocation();
             userLocationsList.add(new UserLocationDto(userId, userLastVisitedLocation.getLocation()));

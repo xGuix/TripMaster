@@ -1,19 +1,17 @@
-package tourGuide.proxy;
+package tourGuide.controller.proxy;
 
 import com.dto.UserDto;
 import com.dto.UserRewardDto;
 import com.model.Attraction;
 import com.model.Location;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
-@Service
-@FeignClient(name = "com.tourGuide.rewardCentral", url = "localhost:8383")
+@FeignClient(name = "rewardCentral", url = "localhost:8383")
 public interface RewardCentralProxy {
     /**
      * Calculate rewards list.
@@ -21,8 +19,8 @@ public interface RewardCentralProxy {
      * @param userDto the username
      * @return the list
      */
-    @PostMapping("/calculateRewards/{user}")
-    List<UserRewardDto> calculateRewards(@PathVariable UserDto userDto);
+    @RequestMapping("/calculateRewards")
+    List<UserRewardDto> calculateRewards(UserDto userDto);
 
     /**
      * Gets reward points.
@@ -32,7 +30,7 @@ public interface RewardCentralProxy {
      * @return the reward points
      */
     @PostMapping("/getRewardPoints/{userName}")
-    int getRewardPoints(@RequestBody Attraction attraction, @PathVariable String userName);
+    int getRewardPoints(@RequestBody Attraction attraction, String userName);
 
     /**
      * Gets distance.

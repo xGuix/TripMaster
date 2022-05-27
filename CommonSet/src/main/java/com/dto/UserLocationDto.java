@@ -5,8 +5,15 @@ import com.model.Location;
 import java.util.UUID;
 
 public class UserLocationDto {
-    private final UUID userId;
-    private final Location location;
+    private UUID userId;
+    private Location location;
+
+    /**
+     * Default empty constructor
+     */
+    public UserLocationDto() {
+        super();
+    }
 
     /**
      * Instantiates a new Users locations.

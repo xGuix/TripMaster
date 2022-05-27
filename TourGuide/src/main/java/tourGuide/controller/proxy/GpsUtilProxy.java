@@ -1,17 +1,15 @@
-package tourGuide.proxy;
+package tourGuide.controller.proxy;
 
 import com.model.Attraction;
 import com.model.VisitedLocation;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.UUID;
 
-@Service
-@FeignClient(name = "com.tourGuide.gpsUtil", url = "localhost:8282")
+@FeignClient(name = "gpsUtil", url = "localhost:8282")
 public interface GpsUtilProxy {
 
     @GetMapping(value = "/userLocation")

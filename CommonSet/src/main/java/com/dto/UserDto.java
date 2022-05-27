@@ -4,7 +4,6 @@ import com.model.VisitedLocation;
 import com.model.Provider;
 
 import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * User Model
@@ -24,6 +23,7 @@ public class UserDto {
 	 * Default empty constructor
 	 */
 	public UserDto() {
+		super();
 	}
 
 	/**

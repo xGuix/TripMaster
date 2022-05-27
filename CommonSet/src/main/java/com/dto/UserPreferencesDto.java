@@ -1,5 +1,6 @@
 package com.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.javamoney.moneta.Money;
 
 import javax.money.CurrencyUnit;
@@ -8,6 +9,7 @@ import javax.money.Monetary;
 /**
  * User Preferences Model
  */
+@JsonDeserialize(as = UserDto.class)
 public class UserPreferencesDto {
 	
 	private int attractionProximity = Integer.MAX_VALUE;
@@ -20,6 +22,23 @@ public class UserPreferencesDto {
 	private int numberOfChildren = 0;
 	
 	public UserPreferencesDto() {
+		super();
+	}
+
+	public UserPreferencesDto(int attractionProximity,
+							  Money lowerPricePoint,
+							  Money highPricePoint,
+							  int tripDuration,
+							  int ticketQuantity,
+							  int numberOfAdults,
+							  int numberOfChildren) {
+		this.attractionProximity = attractionProximity;
+		this.lowerPricePoint = lowerPricePoint;
+		this.highPricePoint = highPricePoint;
+		this.tripDuration = tripDuration;
+		this.ticketQuantity = ticketQuantity;
+		this.numberOfAdults = numberOfAdults;
+		this.numberOfChildren = numberOfChildren;
 	}
 
 	public void setAttractionProximity(int attractionProximity) {

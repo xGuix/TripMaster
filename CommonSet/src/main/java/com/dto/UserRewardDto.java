@@ -1,5 +1,6 @@
 package com.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.model.Attraction;
 import com.model.VisitedLocation;
 
@@ -8,9 +9,13 @@ import com.model.VisitedLocation;
  */
 public class UserRewardDto {
 
-	public final VisitedLocation visitedLocation;
-	public final Attraction attraction;
+	private VisitedLocation visitedLocation;
+	private Attraction attraction;
 	private int rewardPoints;
+
+	public UserRewardDto() {
+		super();
+	}
 
 	public UserRewardDto(VisitedLocation visitedLocation, Attraction attraction, int rewardPoints) {
 		this.visitedLocation = visitedLocation;
