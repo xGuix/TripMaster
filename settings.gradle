@@ -1,0 +1,2 @@
+rootProject.name = 'tripmaster'
+include ("CommonSet","User","TourGuide","RewardCentral","GpsUtil","TripPricer")
