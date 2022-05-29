@@ -1,14 +1,19 @@
-package com.dto;
+package User.model;
 
-import com.model.VisitedLocation;
+import com.dto.UserPreferencesDto;
+import com.dto.UserRewardDto;
 import com.model.Provider;
+import com.model.VisitedLocation;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * User Model
  */
-public class UserDto {
+public class User {
 	private UUID userId;
 	private String userName;
 	private String phoneNumber;
@@ -22,7 +27,8 @@ public class UserDto {
 	/**
 	 * Default empty constructor
 	 */
-	public UserDto() {
+	public User() {
+		super();
 	}
 
 	/**
@@ -31,7 +37,7 @@ public class UserDto {
 	 * @param userId User id
 	 * @param userName User name
 	 */
-	public UserDto(UUID userId, String userName) {
+	public User(UUID userId, String userName) {
 		this.userId = userId;
 		this.userName = userName;
 
@@ -45,7 +51,7 @@ public class UserDto {
 	 * @param phoneNumber User phone number
 	 * @param emailAddress User email
 	 */
-	public UserDto(UUID userId, String userName, String phoneNumber, String emailAddress) {
+	public User(UUID userId, String userName, String phoneNumber, String emailAddress) {
 		this.userId = userId;
 		this.userName = userName;
 		this.phoneNumber = phoneNumber;

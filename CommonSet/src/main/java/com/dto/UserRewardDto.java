@@ -14,7 +14,6 @@ public class UserRewardDto {
 	private int rewardPoints;
 
 	public UserRewardDto() {
-		super();
 	}
 
 	public UserRewardDto(VisitedLocation visitedLocation, Attraction attraction, int rewardPoints) {

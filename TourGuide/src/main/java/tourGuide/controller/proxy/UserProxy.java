@@ -3,6 +3,7 @@ package tourGuide.controller.proxy;
 import com.dto.UserDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ public interface UserProxy {
      * @return return a user with this name
      */
     @RequestMapping("/getUser")
-    UserDto getUser(String userName);
+    UserDto getUser(@RequestParam("userName") String userName);
 
 //    /**
 //     * Gets user rewards.

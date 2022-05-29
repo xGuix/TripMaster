@@ -45,7 +45,7 @@ public class UserController {
      * @return userName User userName
      */
     @RequestMapping("/getUser")
-    public UserDto getUser(String userName) {
+    public UserDto getUser(@RequestParam String userName) {
         logger.info("Search user with username: {}", userName);
         return userService.getUser(userName);
     }

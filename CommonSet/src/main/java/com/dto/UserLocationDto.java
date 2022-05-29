@@ -12,7 +12,6 @@ public class UserLocationDto {
      * Default empty constructor
      */
     public UserLocationDto() {
-        super();
     }
 
     /**

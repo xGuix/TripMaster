@@ -1,5 +1,6 @@
 package User.service;
 
+import User.model.User;
 import com.dto.UserDto;
 import com.dto.UserLocationDto;
 import com.dto.UserPreferencesDto;
@@ -66,6 +67,7 @@ public class UserService {
      * @return the list of all users
      */
     public List<UserDto> getUsers() {
+        logger.info("Get all internalUserMap users");
         return new ArrayList<>(internalUserMap.values());
     }
 
@@ -76,6 +78,7 @@ public class UserService {
      * @return the user
      */
     public UserDto getUser(String userName) {
+        logger.info("Get internalUserMap with user: {}",userName);
         return internalUserMap.get(userName);
     }
 

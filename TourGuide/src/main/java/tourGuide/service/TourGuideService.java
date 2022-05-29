@@ -1,13 +1,9 @@
 package tourGuide.service;
 
 import com.dto.UserDto;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 import tourGuide.controller.proxy.UserProxy;
 
 import java.util.List;
@@ -21,12 +17,7 @@ public class TourGuideService {
 	static final Logger logger = LoggerFactory.getLogger("TourGuideServiceLog");
 	public static final String tripPricerApiKey = "test-server-api-key";
 
-	ObjectMapper mapper  = new ObjectMapper()
-			.findAndRegisterModules()
-			.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-
-	@Autowired
-	public UserProxy userProxy;
+	private UserProxy userProxy;
 
 //	public GpsUtilProxy gpsUtil;
 //
@@ -36,23 +27,22 @@ public class TourGuideService {
 
 	public TrackerService trackerService;
 
-
-//	/**
-//	 *  TourGuideService constructor
-//	 *	Load all controller proxy
-//	 */
-//	public TourGuideService(UserProxy userProxy
-////							GpsUtilProxy gpsUtil,
-////							RewardCentralProxy rewardCentral,
-///*							TripPricerProxy tripPricer*/) {
-//		this.userProxy = userProxy;
-////		this.gpsUtil = gpsUtil;
-////		this.rewardCentral = rewardCentral;
-////		this.tripPricer = tripPricer;
-////
-////		trackerService = new TrackerService(this,userProxy, rewardCentral);
-////		addShutDownHook();
-//	}
+	/**
+	 *  TourGuideService constructor
+	 *	Load all controller proxy
+	 */
+	public TourGuideService(UserProxy userProxy
+//							GpsUtilProxy gpsUtil,
+//							RewardCentralProxy rewardCentral,
+/*							TripPricerProxy tripPricer*/) {
+		this.userProxy = userProxy;
+//		this.gpsUtil = gpsUtil;
+//		this.rewardCentral = rewardCentral;
+//		this.tripPricer = tripPricer;
+//
+//		trackerService = new TrackerService(this,userProxy, rewardCentral);
+//		addShutDownHook();
+	}
 
 
 	/**
@@ -62,7 +52,7 @@ public class TourGuideService {
 	 * @param userName String userName
 	 * @return userDto The user
 	 */
-	public UserDto getUser(@RequestParam String userName) {
+	public UserDto getUser(String userName) {
 		logger.info("Call userProxy search user with username: {}", userName);
 		return userProxy.getUser(userName);
 	}
