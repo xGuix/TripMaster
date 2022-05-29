@@ -1,8 +1,8 @@
 package User.controller;
 
-import com.dto.UserDto;
+import User.model.User;
+import User.model.UserPreferences;
 import com.dto.UserLocationDto;
-import com.dto.UserPreferencesDto;
 import com.dto.UserRewardDto;
 import User.service.UserService;
 import com.model.VisitedLocation;
@@ -32,7 +32,7 @@ public class UserController {
      * @return userList List of all users
      */
     @RequestMapping("/getUsers")
-    public List<UserDto> getUsers() {
+    public List<User> getUsers() {
         logger.info("Search list of all users");
         return userService.getUsers();
     }
@@ -45,7 +45,7 @@ public class UserController {
      * @return userName User userName
      */
     @RequestMapping("/getUser")
-    public UserDto getUser(@RequestParam String userName) {
+    public User getUser(@RequestParam String userName) {
         logger.info("Search user with username: {}", userName);
         return userService.getUser(userName);
     }
@@ -111,7 +111,7 @@ public class UserController {
      * @param userPreferences The new user preferences
      */
     @PostMapping("/userPreferences")
-    public void userPreferences(String userName, @RequestBody UserPreferencesDto userPreferences){
+    public void userPreferences(String userName, @RequestBody UserPreferences userPreferences){
         userService.UpdateUserPreferences(userName, userPreferences);
     }
 }

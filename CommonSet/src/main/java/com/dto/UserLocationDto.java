@@ -1,9 +1,14 @@
 package com.dto;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.model.Location;
 
 import java.util.UUID;
 
+/**
+ * User Location Model
+ */
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class UserLocationDto {
     private UUID userId;
     private Location location;

@@ -1,5 +1,6 @@
 package com.dto;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.model.Attraction;
 import com.model.VisitedLocation;
@@ -7,6 +8,7 @@ import com.model.VisitedLocation;
 /**
  * User Reward Model
  */
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class UserRewardDto {
 
 	private VisitedLocation visitedLocation;

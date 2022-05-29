@@ -1,6 +1,7 @@
 package User.service;
 
 import User.model.User;
+import User.model.UserPreferences;
 import com.dto.UserDto;
 import com.dto.UserLocationDto;
 import com.dto.UserPreferencesDto;
@@ -31,7 +32,7 @@ public class UserService {
     /**
      * Instantiates a new Map for user.
      */
-    Map<String, UserDto> internalUserMap = new HashMap<>();
+    Map<String, User> internalUserMap = new HashMap<>();
 
     /**
      * Instantiates a new User service.
@@ -54,7 +55,7 @@ public class UserService {
             String userName = "internalUser" + i;
             String phone = "000";
             String email = userName + "@tourGuide.com";
-            UserDto user = new UserDto(UUID.randomUUID(), userName, phone, email);
+            User user = new User(UUID.randomUUID(), userName, phone, email);
 
             internalUserMap.put(userName, user);
         });
@@ -66,9 +67,9 @@ public class UserService {
      *
      * @return the list of all users
      */
-    public List<UserDto> getUsers() {
+    public List<User> getUsers() {
         logger.info("Get all internalUserMap users");
-        return new ArrayList<>(internalUserMap.values());
+        return new ArrayList<User>(internalUserMap.values());
     }
 
     /**
@@ -77,7 +78,7 @@ public class UserService {
      * @param userName the username
      * @return the user
      */
-    public UserDto getUser(String userName) {
+    public User getUser(String userName) {
         logger.info("Get internalUserMap with user: {}",userName);
         return internalUserMap.get(userName);
     }
@@ -87,7 +88,7 @@ public class UserService {
      *
      * @param user the user
      */
-    public void addUser(UserDto user) {
+    public void addUser(User user) {
         if (!internalUserMap.containsKey(user.getUserName())) {
             internalUserMap.put(user.getUserName(), user);
         }
@@ -99,7 +100,7 @@ public class UserService {
      * @param user the user
      * @return the rewards for this user
      */
-    public List<UserRewardDto> getUserRewards(UserDto user) {
+    public List<UserRewardDto> getUserRewards(User user) {
         return user.getUserRewards();
     }
 
@@ -132,7 +133,7 @@ public class UserService {
     public List<UserLocationDto> getAllCurrentLocations() {
         List<UserLocationDto> userLocationsList = new ArrayList<>();
 
-        for (UserDto user : getUsers()) {
+        for (User user : getUsers()) {
             UUID userId = user.getUserId();
             VisitedLocation userLastVisitedLocation = user.getLastVisitedLocation();
             userLocationsList.add(new UserLocationDto(userId, userLastVisitedLocation.getLocation()));
@@ -147,7 +148,7 @@ public class UserService {
      * @param tripDeals List of Provider
      */
     public void updateTripDeals(String userName, List<Provider> tripDeals) {
-        UserDto user = getUser(userName);
+        User user = getUser(userName);
         user.setTripDeals(tripDeals);
     }
 
@@ -155,8 +156,8 @@ public class UserService {
      * @param userName
      * @param userPreferences
      */
-    public void UpdateUserPreferences(String userName, UserPreferencesDto userPreferences){
-        UserDto user = getUser(userName);
+    public void UpdateUserPreferences(String userName, UserPreferences userPreferences){
+        User user = getUser(userName);
         user.setUserPreferences(userPreferences);
     }
 }

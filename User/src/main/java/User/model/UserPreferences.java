@@ -20,7 +20,6 @@ public class UserPreferences {
 	private int numberOfChildren = 0;
 
 	public UserPreferences() {
-		super();
 	}
 
 	public UserPreferences(int attractionProximity,

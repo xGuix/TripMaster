@@ -1,5 +1,6 @@
 package com.dto;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.javamoney.moneta.Money;
 
@@ -9,6 +10,7 @@ import javax.money.Monetary;
 /**
  * User Preferences Model
  */
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class UserPreferencesDto {
 	
 	private int attractionProximity = Integer.MAX_VALUE;

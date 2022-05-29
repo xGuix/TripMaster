@@ -1,6 +1,7 @@
 package tourGuide.controller;
 
 import com.dto.UserDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.jsoniter.output.JsonStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import tourGuide.service.TourGuideService;
+
+import java.util.List;
 
 /**
  *  Tour Guide rest controller
@@ -43,9 +46,9 @@ public class TourGuideController {
      * @return userList List of all users
      */
     @RequestMapping("/getUsers")
-    public String getUsers() {
+    public List<UserDto> getUsers() {
         logger.info("Call service for list of all users");
-        return JsonStream.serialize(tourGuideService.getUsers());
+        return tourGuideService.getUsers();
     }
 
     /**
@@ -56,9 +59,9 @@ public class TourGuideController {
      * @return userName User userName
      */
     @RequestMapping("/getUser")
-    public String getUser(@RequestParam String userName) {
+    public UserDto getUser(@RequestParam String userName) {
         logger.info("Call service for user with username: {}", userName);
-        return JsonStream.serialize(tourGuideService.getUser(userName));
+        return tourGuideService.getUser(userName);
     }
 //
 //    /**
