@@ -16,13 +16,13 @@ public interface GpsUtilProxy {
      * Get users location.
      * @return User visited location
      */
-    @RequestMapping(value = "/userLocation")
+    @RequestMapping("/userLocation")
     VisitedLocation getUserLocation (@RequestParam("userId") UUID userId);
 
     /**
      * Get attraction list.
      * @return attractionsList List of all attraction
      */
-    @RequestMapping(value = "/getAttractions")
+    @RequestMapping("/getAttractions")
     List<Attraction> getAttractions();
 }

@@ -8,7 +8,6 @@ import com.model.VisitedLocation;
 /**
  * User Reward Model
  */
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class UserRewardDto {
 
 	private VisitedLocation visitedLocation;

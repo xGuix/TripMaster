@@ -7,7 +7,7 @@ import com.dto.UserRewardDto;
 import com.model.Provider;
 import com.model.VisitedLocation;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -44,8 +44,8 @@ public interface UserProxy {
      *  @param userName   the username
      * @param userReward add the reward for this user
      */
-    @RequestMapping("/rewards")
-    void createUserReward(String userName, @RequestBody UserRewardDto userReward);
+    @PostMapping("/rewards")
+    void createUserReward(@RequestParam("userName") String userName, UserRewardDto userReward);
 
     /**
      * Update trip deals.
@@ -54,7 +54,7 @@ public interface UserProxy {
      * @param tripDeals Update trip deals for this user
      */
     @RequestMapping("/tripDeals")
-    void updateTripDeals(String userName, @RequestBody List<Provider> tripDeals);
+    void updateTripDeals(@RequestParam("userName") String userName, List<Provider> tripDeals);
 
     /**
      * Get all current locations list.
@@ -70,8 +70,8 @@ public interface UserProxy {
      * @param userName the username
      * @param visitedLocation Add the visited location for this user
      */
-    @RequestMapping("/addVisitedLocation")
-    void createVisitedLocation(String userName, @RequestBody VisitedLocation visitedLocation);
+    @PostMapping("/addVisitedLocation")
+    void createVisitedLocation(@RequestParam("userName") String userName, VisitedLocation visitedLocation);
 
     /**
      * Create visited location.
@@ -79,6 +79,6 @@ public interface UserProxy {
      * @param userName the username
      * @param userPreferences Add preferences of user
      */
-    @RequestMapping("/userPreferences")
-    void userPreferences(String userName, @RequestBody UserPreferencesDto userPreferences);
+    @PostMapping("/userPreferences")
+    void userPreferences(@RequestParam("userName") String userName, UserPreferencesDto userPreferences);
 }

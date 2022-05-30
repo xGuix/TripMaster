@@ -25,8 +25,8 @@ public interface RewardCentralProxy {
      * @param userName the username
      * @return the reward points
      */
-    @RequestMapping(value="/getRewardPoints")
-    int getRewardPoints(@RequestBody Attraction attraction, String userName);
+    @RequestMapping("/getRewardPoints")
+    int getRewardPoints(@RequestParam("attraction")Attraction attraction, String userName);
 
     /**
      * Gets distance.
@@ -36,7 +36,7 @@ public interface RewardCentralProxy {
      * @return double distance
      */
     @RequestMapping("/getDistance")
-    double getDistance(@RequestBody Attraction attraction,@RequestBody Location location);
+    double getDistance(@RequestParam("attraction") Attraction attraction, Location location);
 
     /**
      * Gets true if attractions around.
@@ -46,7 +46,7 @@ public interface RewardCentralProxy {
      * @return boolean attraction proximity
      */
     @RequestMapping("/getAttractionProxy")
-    boolean isWithinAttractionProximity(@RequestBody Attraction attraction,@RequestBody Location location);
+    boolean isWithinAttractionProximity(@RequestParam("attraction") Attraction attraction,Location location);
 
     /**
      * Gets true if visited attraction around.
@@ -56,5 +56,5 @@ public interface RewardCentralProxy {
      * @return boolean Visited location proximity
      */
     @RequestMapping("/getNearAttraction")
-    boolean nearAttraction(@RequestBody VisitedLocation visitedLocation,@RequestBody Attraction attraction);
+    boolean nearAttraction(@RequestParam("attraction") VisitedLocation visitedLocation, Attraction attraction);
 }

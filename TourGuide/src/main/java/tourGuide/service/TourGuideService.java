@@ -51,8 +51,8 @@ public class TourGuideService {
 		this.rewardCentralProxy = rewardCentralProxy;
 //		this.tripPricer = tripPricer;
 //
-//		trackerService = new TrackerService(this,userProxy, rewardCentral);
-//		addShutDownHook();
+		trackerService = new TrackerService(this, userProxy);
+		addShutDownHook();
 	}
 
 	/**

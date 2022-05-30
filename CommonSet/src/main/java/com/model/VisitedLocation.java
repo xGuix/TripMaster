@@ -9,7 +9,7 @@ public class VisitedLocation {
     private Location location;
     private Date visitedTime;
 
-    public VisitedLocation(VisitedLocation visitedLocation) {
+    public VisitedLocation() {
     }
 
     public VisitedLocation(UUID userId, Location location, Date visitedTime) {

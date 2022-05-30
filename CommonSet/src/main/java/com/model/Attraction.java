@@ -11,6 +11,9 @@ public class Attraction {
     private double longitude;
     private double latitude;
 
+    public Attraction() {
+    }
+
     public Attraction(String attractionName, String city, String state, UUID attractionId, double longitude, double latitude) {
         this.attractionName = attractionName;
         this.city = city;
@@ -25,9 +28,6 @@ public class Attraction {
         this.city = city;
         this.state = state;
         this.attractionId = attractionId;
-    }
-
-    public Attraction() {
     }
 
     public double getLongitude() {

@@ -8,7 +8,6 @@ import java.util.UUID;
 /**
  * User Location Model
  */
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class UserLocationDto {
     private UUID userId;
     private Location location;

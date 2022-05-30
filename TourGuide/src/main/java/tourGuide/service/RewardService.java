@@ -41,5 +41,4 @@ public class RewardService {
         });
         return userDto.getUserRewards();
     }
-
 }
