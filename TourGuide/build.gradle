@@ -17,8 +17,8 @@ plugins {
 
 group = "com.tourguide"
 version = "1.0"
-sourceCompatibility = "11"
-targetCompatibility = "11"
+sourceCompatibility = 11
+targetCompatibility = 11
 
 repositories {
     mavenCentral()
@@ -40,6 +40,7 @@ dependencies {
     implementation("org.javamoney:moneta:1.4.2")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.13.3")
     implementation("com.fasterxml.jackson.core:jackson-core:2.13.3")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.3")
     implementation(group: "org.springframework.cloud", name: "spring-cloud-starter-openfeign", version: "3.1.2")
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
     implementation project(':CommonSet')

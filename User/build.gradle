@@ -13,16 +13,13 @@ targetCompatibility = "11"
 
 repositories {
     mavenCentral()
-    flatDir {
-        dirs '../libs'
-    }
 }
 
 dependencies {
     implementation (project(":CommonSet"))
-    implementation (name: "gpsUtil", ext:"jar")
     implementation ("org.javamoney:moneta:1.4.2")
     implementation ("com.fasterxml.jackson.core:jackson-databind:2.13.3")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.3")
     implementation ("org.springframework.boot:spring-boot-starter-web:2.6.7")
     implementation ("org.springframework.boot:spring-boot-starter-test:2.6.7")
     implementation ("org.junit.jupiter:junit-jupiter:5.8.2")

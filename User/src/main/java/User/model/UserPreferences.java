@@ -1,19 +1,14 @@
 package User.model;
 
-import org.javamoney.moneta.Money;
-
-import javax.money.CurrencyUnit;
-import javax.money.Monetary;
-
 /**
  * User Preferences Model
  */
 public class UserPreferences {
 
 	private int attractionProximity = Integer.MAX_VALUE;
-	private final CurrencyUnit currency = Monetary.getCurrency("USD");
-	private Money lowerPricePoint = Money.of(0, currency);
-	private Money highPricePoint = Money.of(Integer.MAX_VALUE, currency);
+	private String currency = "USD";
+	private int lowerPricePoint = 1;
+	private int highPricePoint = 2;
 	private int tripDuration = 1;
 	private int ticketQuantity = 1;
 	private int numberOfAdults = 1;
@@ -22,14 +17,10 @@ public class UserPreferences {
 	public UserPreferences() {
 	}
 
-	public UserPreferences(int attractionProximity,
-                           Money lowerPricePoint,
-                           Money highPricePoint,
-                           int tripDuration,
-                           int ticketQuantity,
-                           int numberOfAdults,
-                           int numberOfChildren) {
+	public UserPreferences(int attractionProximity,String currency, int lowerPricePoint, int highPricePoint,
+						   int tripDuration, int ticketQuantity, int numberOfAdults, int numberOfChildren) {
 		this.attractionProximity = attractionProximity;
+		this.currency = currency;
 		this.lowerPricePoint = lowerPricePoint;
 		this.highPricePoint = highPricePoint;
 		this.tripDuration = tripDuration;
@@ -45,20 +36,28 @@ public class UserPreferences {
 	public int getAttractionProximity() {
 		return attractionProximity;
 	}
+
+	public String getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(String currency) {
+		this.currency = currency;
+	}
 	
-	public Money getLowerPricePoint() {
+	public int getLowerPricePoint() {
 		return lowerPricePoint;
 	}
 
-	public void setLowerPricePoint(Money lowerPricePoint) {
+	public void setLowerPricePoint(int lowerPricePoint) {
 		this.lowerPricePoint = lowerPricePoint;
 	}
 
-	public Money getHighPricePoint() {
+	public int getHighPricePoint() {
 		return highPricePoint;
 	}
 
-	public void setHighPricePoint(Money highPricePoint) {
+	public void setHighPricePoint(int highPricePoint) {
 		this.highPricePoint = highPricePoint;
 	}
 	

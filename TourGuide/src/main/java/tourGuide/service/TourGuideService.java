@@ -1,13 +1,19 @@
 package tourGuide.service;
 
 import com.dto.UserDto;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import tourGuide.proxy.UserProxy;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -22,12 +28,10 @@ public class TourGuideService {
 	private UserProxy userProxy;
 
 //	public GpsUtilProxy gpsUtil;
-//
 //	public RewardCentralProxy rewardCentral;
-//
 //	public TripPricerProxy tripPricer;
 
-	public TrackerService trackerService;
+//	public TrackerService trackerService;
 
 	/**
 	 *  TourGuideService constructor
@@ -36,7 +40,7 @@ public class TourGuideService {
 	public TourGuideService(UserProxy userProxy
 //							GpsUtilProxy gpsUtil,
 //							RewardCentralProxy rewardCentral,
-/*							TripPricerProxy tripPricer*/) {
+			/*				TripPricerProxy tripPricer*/) {
 		this.userProxy = userProxy;
 //		this.gpsUtil = gpsUtil;
 //		this.rewardCentral = rewardCentral;
@@ -45,7 +49,6 @@ public class TourGuideService {
 //		trackerService = new TrackerService(this,userProxy, rewardCentral);
 //		addShutDownHook();
 	}
-
 
 	/**
 	 *  Get a user
@@ -69,7 +72,7 @@ public class TourGuideService {
 		logger.info("Call userProxy search for list of all users");
 		return userProxy.getUsers();
 	}
-//
+
 //	/**
 //	 *  Get user reward List
 //	 *  Call to get reward with user

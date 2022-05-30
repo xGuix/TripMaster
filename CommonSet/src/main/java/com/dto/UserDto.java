@@ -9,7 +9,6 @@ import java.util.*;
 /**
  * User Model
  */
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class UserDto {
 	private UUID userId;
 	private String userName;

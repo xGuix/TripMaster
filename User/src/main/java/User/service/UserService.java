@@ -2,9 +2,7 @@ package User.service;
 
 import User.model.User;
 import User.model.UserPreferences;
-import com.dto.UserDto;
 import com.dto.UserLocationDto;
-import com.dto.UserPreferencesDto;
 import com.dto.UserRewardDto;
 import com.model.Provider;
 import com.model.VisitedLocation;
