@@ -18,6 +18,9 @@ public class GpsUtilController {
 
     private static final Logger logger = LoggerFactory.getLogger("GpsUtilControllerLog");
 
+    /**
+     *  Load GpsUtilService
+     */
     @Autowired
     GpsUtilService gpsUtilService;
 

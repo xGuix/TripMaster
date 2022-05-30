@@ -9,7 +9,6 @@ public class RewardCentralModule {
 
 	/**
 	 * Gets reward central.
-	 *
 	 * @return the reward central
 	 */
 	@Bean

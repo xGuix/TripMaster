@@ -21,11 +21,9 @@ repositories {
 dependencies {
     implementation (project(":CommonSet"))
     implementation (name:"RewardCentral", ext:"jar")
-
     implementation ("org.springframework.boot:spring-boot-starter-web:2.6.7")
     implementation ("org.springframework.boot:spring-boot-starter-test:2.6.7")
     implementation ("org.junit.jupiter:junit-jupiter:5.8.2")
-    implementation ("com.jsoniter:jsoniter:0.9.23")
 
     testImplementation ("org.junit.jupiter:junit-jupiter:5.8.2")
     testImplementation (group: "org.springframework.boot", name: "spring-boot-starter-test", version: "2.6.7")
@@ -38,5 +36,5 @@ test {
 }
 
 jacocoTestReport {
-    dependsOn test
+    dependsOn test // tests required run before generating the report
 }

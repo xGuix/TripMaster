@@ -1,26 +1,22 @@
 package tourGuide.proxy;
 
-import com.dto.UserDto;
-import com.dto.UserRewardDto;
 import com.model.Attraction;
 import com.model.Location;
+import com.model.VisitedLocation;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@FeignClient(name = "rewardCentral", url = "localhost:8383")
+@FeignClient(value = "rewardCentral", url = "localhost:8383")
 public interface RewardCentralProxy {
-    /**
-     * Calculate rewards list.
-     *
-     * @param userDto the username
-     * @return the list
-     */
-    @RequestMapping("/calculateRewards")
-    List<UserRewardDto> calculateRewards(UserDto userDto);
+
+//    /**
+//     * Calculate rewards list.
+//     *
+//     * @param userDto the username
+//     * @return the list
+//     */
+//    @RequestMapping(value="/calculateRewards")
+//    List<UserRewardDto> calculateRewards(@RequestParam("user")UserDto userDto);
 
     /**
      * Gets reward points.
@@ -29,7 +25,7 @@ public interface RewardCentralProxy {
      * @param userName the username
      * @return the reward points
      */
-    @PostMapping("/getRewardPoints/{userName}")
+    @RequestMapping(value="/getRewardPoints")
     int getRewardPoints(@RequestBody Attraction attraction, String userName);
 
     /**
@@ -39,7 +35,7 @@ public interface RewardCentralProxy {
      * @param location the visited location
      * @return double distance
      */
-    @PostMapping("/getDistance")
+    @RequestMapping("/getDistance")
     double getDistance(@RequestBody Attraction attraction,@RequestBody Location location);
 
     /**
@@ -49,6 +45,16 @@ public interface RewardCentralProxy {
      * @param location the location
      * @return boolean attraction proximity
      */
-    @PostMapping
+    @RequestMapping("/getAttractionProxy")
     boolean isWithinAttractionProximity(@RequestBody Attraction attraction,@RequestBody Location location);
+
+    /**
+     * Gets true if visited attraction around.
+     *
+     * @param visitedLocation visited location
+     * @param attraction the attraction
+     * @return boolean Visited location proximity
+     */
+    @RequestMapping("/getNearAttraction")
+    boolean nearAttraction(@RequestBody VisitedLocation visitedLocation,@RequestBody Attraction attraction);
 }
