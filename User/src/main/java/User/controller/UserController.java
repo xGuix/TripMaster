@@ -26,6 +26,17 @@ public class UserController {
     UserService userService;
 
     /**
+     *  Get Index Controller
+     *
+     * @return String Greetings from User!
+     */
+    @RequestMapping("/")
+    public String index() {
+        logger.info("Get user index");
+        return "Greetings from User!";
+    }
+
+    /**
      * Get All user:
      * Call to get All user with username
      *
@@ -33,7 +44,7 @@ public class UserController {
      */
     @RequestMapping("/getUsers")
     public List<User> getUsers() {
-        logger.info("Search list of all users");
+        logger.info("Get list of all users");
         return userService.getUsers();
     }
 
@@ -46,8 +57,19 @@ public class UserController {
      */
     @RequestMapping("/getUser")
     public User getUser(@RequestParam String userName) {
-        logger.info("Search user with username: {}", userName);
+        logger.info("Get user with username: {}", userName);
         return userService.getUser(userName);
+    }
+
+    /**
+     * Get all current locations list.
+     *
+     * @return all current locations
+     */
+    @RequestMapping("/getAllCurrentLocations")
+    public List<UserLocationDto> getAllCurrentLocations(){
+        logger.info("Get all list of current location users");
+        return userService.getAllCurrentLocations();
     }
 
     /**
@@ -56,8 +78,9 @@ public class UserController {
      * @param userName the username
      * @return list of rewards of this user
      */
-    @GetMapping("/rewards")
-    public List<UserRewardDto> getUserRewards(String userName) {
+    @RequestMapping("/rewards")
+    public List<UserRewardDto> getUserRewards(@RequestParam String userName) {
+        logger.info("Get user rewards with userName: {}",userName);
         return userService.getUserRewards(getUser(userName));
     }
 
@@ -68,7 +91,8 @@ public class UserController {
      * @param userReward add the reward for this user
      */
     @PostMapping("/rewards")
-    public void createUserReward(String userName, @RequestBody UserRewardDto userReward){
+    public void createUserReward(@RequestParam String userName, @RequestBody UserRewardDto userReward){
+        logger.info("Add user reward to userName: {}",userName);
         userService.addUserReward(userName, userReward);
     }
 
@@ -79,18 +103,8 @@ public class UserController {
      * @param tripDeals Update trip deals for this user
      */
     @PostMapping("/tripDeals")
-    public void updateTripDeals(String userName, @RequestBody List<Provider> tripDeals){
+    public void updateTripDeals(@RequestParam String userName, @RequestBody List<Provider> tripDeals){
         userService.updateTripDeals(userName, tripDeals);
-    }
-
-    /**
-     * Get all current locations list.
-     *
-     * @return all current locations
-     */
-    @GetMapping("/getAllCurrentLocations")
-    public List<UserLocationDto> getAllCurrentLocations(){
-        return userService.getAllCurrentLocations();
     }
 
     /**
@@ -100,7 +114,7 @@ public class UserController {
      * @param visitedLocation Add the visited location for this user
      */
     @PostMapping("/addVisitedLocation")
-    public void createVisitedLocation(String userName, @RequestBody VisitedLocation visitedLocation){
+    public void createVisitedLocation(@RequestParam String userName, @RequestBody VisitedLocation visitedLocation){
         userService.addVisitedLocation(userName, visitedLocation);
     }
 
@@ -111,7 +125,7 @@ public class UserController {
      * @param userPreferences The new user preferences
      */
     @PostMapping("/userPreferences")
-    public void userPreferences(String userName, @RequestBody UserPreferences userPreferences){
+    public void userPreferences(@RequestParam String userName, @RequestBody UserPreferences userPreferences){
         userService.UpdateUserPreferences(userName, userPreferences);
     }
 }

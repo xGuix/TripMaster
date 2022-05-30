@@ -1,19 +1,13 @@
 package RewardCentral.service;
 
 import com.dto.UserDto;
-import com.dto.UserRewardDto;
 import com.model.Attraction;
 import com.model.Location;
 import com.model.VisitedLocation;
-import gpsUtil.GpsUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import rewardCentral.RewardCentral;
-
-import java.util.Collections;
-import java.util.List;
-
 
 /**
  * Reward Service
@@ -25,7 +19,7 @@ public class RewardCentralService {
     private static final double STATUTE_MILES_PER_NAUTICAL_MILE = 1.15077945;
 
 	private RewardCentral rewardCentral;
-	private GpsUtil gpsUtil= new GpsUtil();
+	//private GpsUtil gpsUtil= new GpsUtil();
 
 	public RewardCentralService(RewardCentral rewardCentral) {
 		this.rewardCentral = rewardCentral;
@@ -45,21 +39,21 @@ public class RewardCentralService {
 		proximityBuffer = defaultProximityBuffer;
 	}
 
-	public List<UserRewardDto> calculateRewards(UserDto userDto) {
-		List<VisitedLocation> userLocations = userDto.getVisitedLocations();
-		List<Attraction> attractions = Collections.singletonList((Attraction) gpsUtil.getAttractions());
-
-		userLocations.forEach(visitedLocation -> {
-			attractions.forEach(a -> {
-				if (userDto.getUserRewards().stream().noneMatch(r -> r.getAttraction().getAttractionName().equals(a.getAttractionName()))) {
-					if (nearAttraction(visitedLocation, a)) {
-						userDto.getUserRewards().add(new UserRewardDto(visitedLocation, a, getRewardPoints(a, userDto)));
-					}
-				}
-			});
-		});
-		return userDto.getUserRewards();
-	}
+//	public List<UserRewardDto> calculateRewards(UserDto userDto) {
+//		List<VisitedLocation> userLocations = userDto.getVisitedLocations();
+//		List<Attraction> attractions = Collections.singletonList((Attraction) gpsUtil.getAttractions());
+//
+//		userLocations.forEach(visitedLocation -> {
+//			attractions.forEach(a -> {
+//				if (userDto.getUserRewards().stream().noneMatch(r -> r.getAttraction().getAttractionName().equals(a.getAttractionName()))) {
+//					if (nearAttraction(visitedLocation, a)) {
+//						userDto.getUserRewards().add(new UserRewardDto(visitedLocation, a, getRewardPoints(a, userDto)));
+//					}
+//				}
+//			});
+//		});
+//		return userDto.getUserRewards();
+//	}
 
 	public boolean isWithinAttractionProximity(Attraction attraction, Location location) {
 		return !(getDistance(new Location(attraction.getLongitude(),attraction.getLatitude()), location) > attractionProximityRange);

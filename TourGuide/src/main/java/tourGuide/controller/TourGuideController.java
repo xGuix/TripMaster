@@ -33,7 +33,7 @@ public class TourGuideController {
      */
     @RequestMapping("/")
     public String index() {
-        logger.info("Get index");
+        logger.info("Get tour guide index");
         return "Greetings from TourGuide!";
     }
 

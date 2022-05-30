@@ -17,7 +17,7 @@ public class UserPreferencesDto {
 	public UserPreferencesDto() {
 	}
 
-	public UserPreferencesDto(int attractionProximity,String currency, int lowerPricePoint, int highPricePoint,
+	public UserPreferencesDto(int attractionProximity, String currency, int lowerPricePoint, int highPricePoint,
 							  int tripDuration, int ticketQuantity, int numberOfAdults, int numberOfChildren) {
 		this.attractionProximity = attractionProximity;
 		this.currency = currency;

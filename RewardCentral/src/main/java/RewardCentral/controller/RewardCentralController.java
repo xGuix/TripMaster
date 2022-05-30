@@ -2,11 +2,10 @@ package RewardCentral.controller;
 
 import RewardCentral.service.RewardCentralService;
 import com.model.Location;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.dto.UserRewardDto;
 import com.dto.UserDto;
 import com.model.Attraction;
@@ -16,16 +15,23 @@ import java.util.List;
 @RestController
 public class RewardCentralController {
 
-    @Autowired
-    public RewardCentralService rewardCentralService;
+    private static final Logger logger = LogManager.getLogger("RewardCentralControllerLog");
 
     /**
-     * Instantiates a new Rewards controller.
-     *
-     * @param rewardCentralService the rewards service
+     *  Load RewardCentralService
      */
-    public RewardCentralController(RewardCentralService rewardCentralService){
-        this.rewardCentralService = rewardCentralService;
+    @Autowired
+    RewardCentralService rewardCentralService;
+
+    /**
+     *  Get Index Controller
+     *
+     * @return String Greetings from RewardCentral!
+     */
+    @RequestMapping("/")
+    public String index() {
+        logger.info("Get reward central index");
+        return "Greetings from RewardCentral!";
     }
 
     /**

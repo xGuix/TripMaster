@@ -19,7 +19,7 @@ import java.util.stream.IntStream;
 @Service
 public class UserService {
 
-    private final Logger logger = LoggerFactory.getLogger(UserService.class);
+    private final Logger logger = LoggerFactory.getLogger("UserServiceLog");
 
     /**
      * The Test mode.
@@ -93,6 +93,22 @@ public class UserService {
     }
 
     /**
+     * Gets all current locations.
+     *
+     * @return the localisation of all users
+     */
+    public List<UserLocationDto> getAllCurrentLocations() {
+        List<UserLocationDto> userLocationsList = new ArrayList<>();
+
+        for (User user : getUsers()) {
+            UUID userId = user.getUserId();
+            VisitedLocation userLastVisitedLocation = user.getLastVisitedLocation();
+            userLocationsList.add(new UserLocationDto(userId, userLastVisitedLocation.getLocation()));
+        }
+        return userLocationsList;
+    }
+
+    /**
      * Gets user rewards.
      *
      * @param user the user
@@ -120,23 +136,6 @@ public class UserService {
      */
     public void addVisitedLocation(String userName, VisitedLocation visitedLocation){
         getUser(userName).addToVisitedLocations(visitedLocation);
-    }
-
-
-    /**
-     * Gets all current locations.
-     *
-     * @return the localisation of all users
-     */
-    public List<UserLocationDto> getAllCurrentLocations() {
-        List<UserLocationDto> userLocationsList = new ArrayList<>();
-
-        for (User user : getUsers()) {
-            UUID userId = user.getUserId();
-            VisitedLocation userLastVisitedLocation = user.getLastVisitedLocation();
-            userLocationsList.add(new UserLocationDto(userId, userLastVisitedLocation.getLocation()));
-        }
-        return userLocationsList;
     }
 
     /**
