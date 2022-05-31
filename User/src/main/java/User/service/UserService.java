@@ -2,6 +2,7 @@ package User.service;
 
 import User.model.User;
 import User.model.UserPreferences;
+import User.util.InternalTestDataSet;
 import com.dto.UserLocationDto;
 import com.dto.UserRewardDto;
 import com.model.Provider;
@@ -20,6 +21,7 @@ import java.util.stream.IntStream;
 public class UserService {
 
     private final Logger logger = LoggerFactory.getLogger("UserServiceLog");
+    private InternalTestDataSet internalTestDataSet = new InternalTestDataSet();
 
     /**
      * The Test mode.
@@ -53,8 +55,9 @@ public class UserService {
             String userName = "internalUser" + i;
             String phone = "000";
             String email = userName + "@tourGuide.com";
-            User user = new User(UUID.randomUUID(), userName, phone, email);
-
+            Date latestLocationTimestamp = internalTestDataSet.getRandomTime();
+            User user = new User(UUID.randomUUID(), userName, phone, email, latestLocationTimestamp);
+            internalTestDataSet.generateUserLocationHistory(user);
             internalUserMap.put(userName, user);
         });
         logger.debug("Created {} internal test users.", internalUserNumber);

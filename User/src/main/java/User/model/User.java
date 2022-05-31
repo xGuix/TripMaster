@@ -22,7 +22,7 @@ public class User {
 	private String emailAddress;
 	private Date latestLocationTimestamp;
 	private List<VisitedLocation> visitedLocations = new ArrayList<>();
-	private final List<UserRewardDto> userRewardsDto = new ArrayList<>();
+	private List<UserRewardDto> userRewardsDto = new ArrayList<>();
 	private UserPreferences userPreferences = new UserPreferences();
 	private List<Provider> tripDeals = new ArrayList<>();
 
@@ -52,11 +52,12 @@ public class User {
 	 * @param phoneNumber User phone number
 	 * @param emailAddress User email
 	 */
-	public User(UUID userId, String userName, String phoneNumber, String emailAddress) {
+	public User(UUID userId, String userName, String phoneNumber, String emailAddress, Date latestLocationTimestamp) {
 		this.userId = userId;
 		this.userName = userName;
 		this.phoneNumber = phoneNumber;
 		this.emailAddress = emailAddress;
+		this.latestLocationTimestamp = latestLocationTimestamp;
 	}
 
 	public UUID getUserId() {

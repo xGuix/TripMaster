@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import tourGuide.proxy.GpsUtilProxy;
 import tourGuide.proxy.RewardCentralProxy;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -21,14 +20,14 @@ public class RewardService {
     private GpsUtilProxy gpsUtilProxy;
     private RewardCentralProxy rewardCentralProxy;
 
-    public RewardService( GpsUtilProxy gpsUtilProxy,RewardCentralProxy rewardCentralProxy) {
+    public RewardService(GpsUtilProxy gpsUtilProxy,RewardCentralProxy rewardCentralProxy) {
         this.gpsUtilProxy = gpsUtilProxy;
         this.rewardCentralProxy = rewardCentralProxy;
     }
 
     public List<UserRewardDto> calculateRewards(UserDto userDto) {
         List<VisitedLocation> userLocations = userDto.getVisitedLocations();
-        List<Attraction> attractions = Collections.singletonList((Attraction) gpsUtilProxy.getAttractions());
+        List<Attraction> attractions = gpsUtilProxy.getAttractions();
 
         userLocations.forEach(visitedLocation -> {
             attractions.forEach(a -> {

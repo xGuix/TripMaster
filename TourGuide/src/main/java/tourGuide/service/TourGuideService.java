@@ -63,7 +63,7 @@ public class TourGuideService {
 	 * @return userDto The user
 	 */
 	public UserDto getUser(String userName) {
-		logger.info("Call userProxy search user with username: {}", userName);
+		logger.info("Call userProxy to search user with username: {}", userName);
 		return userProxy.getUser(userName);
 	}
 
@@ -74,7 +74,7 @@ public class TourGuideService {
 	 * @return The user list
 	 */
 	public List<UserDto> getUsers() {
-		logger.info("Call userProxy search for list of all users");
+		logger.info("Call userProxy to search for list of all users");
 		return userProxy.getUsers();
 	}
 
@@ -86,7 +86,7 @@ public class TourGuideService {
 	 * @return userReward Rewards user list
 	 */
 	public List<UserRewardDto> getUserRewards(UserDto userDto) {
-		logger.info("Call getUserReward search for list of user reward");
+		logger.info("Call getUserReward to search for list of user reward");
 		return userProxy.getUserRewards(userDto.getUserName());
 	}
 
@@ -98,11 +98,8 @@ public class TourGuideService {
 	 * @return visitedLocation The visited location
 	 */
 	public VisitedLocation getUserLocation(UserDto userDto) {
-		VisitedLocation visitedLocation;
-		visitedLocation = (userDto.getVisitedLocations().size() > 0) ?
-			userDto.getLastVisitedLocation() :
-			trackUserLocation(userDto);
-		return visitedLocation;
+		logger.info("Call getUserLocation to search for user location");
+		return gpsUtilProxy.getUserLocation(userDto.getUserId());
 	}
 
 //	public List<Provider> getTripDeals(UserDto userDto) {
