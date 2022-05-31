@@ -2,6 +2,7 @@ package tourGuide.service;
 
 import com.dto.NearbyAttractionsDto;
 import com.dto.UserDto;
+import com.dto.UserLocationDto;
 import com.dto.UserRewardDto;
 import com.model.Attraction;
 import com.model.Provider;
@@ -12,11 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tourGuide.proxy.GpsUtilProxy;
 import tourGuide.proxy.RewardCentralProxy;
+import tourGuide.proxy.TripPricerProxy;
 import tourGuide.proxy.UserProxy;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -31,8 +31,7 @@ public class TourGuideService {
 	private UserProxy userProxy;
 	private GpsUtilProxy gpsUtilProxy;
 	private RewardCentralProxy rewardCentralProxy;
-
-//	public TripPricerProxy tripPricer;
+	private TripPricerProxy tripPricerProxy;
 
 	@Autowired
 	RewardService rewardService;
@@ -45,14 +44,27 @@ public class TourGuideService {
 	 */
 	public TourGuideService(UserProxy userProxy,
 							GpsUtilProxy gpsUtilProxy,
-							RewardCentralProxy rewardCentralProxy) {
+							RewardCentralProxy rewardCentralProxy,
+							TripPricerProxy tripPricerProxy) {
 		this.userProxy = userProxy;
 		this.gpsUtilProxy = gpsUtilProxy;
 		this.rewardCentralProxy = rewardCentralProxy;
-//		this.tripPricer = tripPricer;
-//
+		this.tripPricerProxy = tripPricerProxy;
+
 		trackerService = new TrackerService(this, userProxy);
 		addShutDownHook();
+	}
+
+	/**
+	 *  Get a user
+	 *  Call to get user with user id
+	 *
+	 * @param userId UUID user id
+	 * @return userDto The user
+	 */
+	public UserDto getUserById(UUID userId) {
+		logger.info("Call userProxy to search user with user id: {}", userId);
+		return userProxy.getUserById(userId);
 	}
 
 	/**
@@ -82,12 +94,12 @@ public class TourGuideService {
 	 *  Get user reward List
 	 *  Call to get reward with user
 	 *
-	 * @param userDto User user
+	 * @param userName String user
 	 * @return userReward Rewards user list
 	 */
-	public List<UserRewardDto> getUserRewards(UserDto userDto) {
+	public List<UserRewardDto> getUserRewards(String userName) {
 		logger.info("Call getUserReward to search for list of user reward");
-		return userProxy.getUserRewards(userDto.getUserName());
+		return userProxy.getUserRewards(userName);
 	}
 
 	/**
@@ -99,23 +111,36 @@ public class TourGuideService {
 	 */
 	public VisitedLocation getUserLocation(UserDto userDto) {
 		logger.info("Call getUserLocation to search for user location");
+		Date date = new Date();
+		userDto.setLatestLocationTimestamp(date);
 		return gpsUtilProxy.getUserLocation(userDto.getUserId());
 	}
 
-//	public List<Provider> getTripDeals(UserDto userDto) {
-//		int cumulativeRewardPoints = 0;
-//		for (UserRewardDto i : userDto.getUserRewards()) {
-//			int rewardPoints = i.getRewardPoints();
-//			cumulativeRewardPoints += rewardPoints;
-//		}
-//		List<Provider> providers = tripPricer.getPrice(tripPricerApiKey, userDto.getUserName(), userDto.getUserPreferences().getNumberOfAdults(),
-//				userDto.getUserPreferences().getNumberOfChildren(), userDto.getUserPreferences().getTripDuration(), cumulativeRewardPoints);
-//		userDto.setTripDeals(providers);
-//		return providers;
-//	}
+	/**
+	 * Get all current locations:
+	 * Call to get all current locations with username
+	 *
+	 * @return allUsers List of all users locations
+	 */
+	public List<UserLocationDto> getAllCurrentLocations() {
+		logger.info("Get all users current Location with userProxy");
+		return userProxy.getAllCurrentLocations();
+	}
+
+	public List<Provider> getTripDeals(UserDto userDto) {
+		int cumulativeRewardPoints = 0;
+		for (UserRewardDto i : userDto.getUserRewards()) {
+			int rewardPoints = i.getRewardPoints();
+			cumulativeRewardPoints += rewardPoints;
+		}
+		List<Provider> providers = tripPricerProxy.getPrice(tripPricerApiKey, userDto.getUserId(), userDto.getUserPreferences().getNumberOfAdults(),
+				userDto.getUserPreferences().getNumberOfChildren(), userDto.getUserPreferences().getTripDuration(), cumulativeRewardPoints);
+		userDto.setTripDeals(providers);
+		return providers;
+	}
 
 	public VisitedLocation trackUserLocation(UserDto userDto) {
-		Locale.setDefault(Locale.US);
+		//Locale.setDefault(Locale.US);
 		VisitedLocation visitedLocation = gpsUtilProxy.getUserLocation(userDto.getUserId());
 		userDto.addToVisitedLocations(visitedLocation);
 		rewardService.calculateRewards(userDto);
@@ -130,7 +155,7 @@ public class TourGuideService {
 				nearBy.setAttraction(attraction);
 				nearBy.setUserLocation(visitedLocation.getLocation());
 				nearBy.setDistance(rewardCentralProxy.getDistance(attraction, visitedLocation.getLocation()));
-				String userDto = null;
+				UserDto userDto = userProxy.getUserById(visitedLocation.getUserId());
 				nearBy.setRewardPoints(rewardCentralProxy.getRewardPoints(attraction, userDto));
 				nearbyAttractionsListDto.add(nearBy);
 			}

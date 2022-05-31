@@ -32,17 +32,6 @@ public class RewardCentralController {
         return "Greetings from RewardCentral!";
     }
 
-//    /**
-//     * Calculate rewards list.
-//     *
-//     * @param userDto the user
-//     * @return the list
-//     */
-//    @PostMapping("/calculateRewards")
-//    public List<UserRewardDto> calculateRewards(@RequestParam UserDto userDto) {
-//        return rewardCentralService.calculateRewards(userDto);
-//    }
-
     /**
      * Gets reward points.
      *
@@ -75,7 +64,7 @@ public class RewardCentralController {
      * @return boolean Visited location proximity
      */
     @RequestMapping("/getNearAttraction")
-    public boolean nearAttraction(VisitedLocation visitedLocation,Attraction attraction) {
+    public boolean nearAttraction(VisitedLocation visitedLocation, Attraction attraction) {
         return rewardCentralService.nearAttraction(visitedLocation, attraction);
     }
 

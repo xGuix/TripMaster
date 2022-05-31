@@ -2,8 +2,9 @@ package tourGuide.controller;
 
 import com.dto.NearbyAttractionsDto;
 import com.dto.UserDto;
+import com.dto.UserLocationDto;
 import com.dto.UserRewardDto;
-import com.model.Location;
+import com.model.Provider;
 import com.model.VisitedLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,9 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import tourGuide.service.TourGuideService;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -61,12 +60,25 @@ public class TourGuideController {
      * Call to get user with username
      *
      * @param userName String userName
-     * @return userName User userName
+     * @return userDto User the user
      */
     @RequestMapping("/getUser")
     public UserDto getUser(@RequestParam String userName) {
         logger.info("Call service for user with username: {}", userName);
         return tourGuideService.getUser(userName);
+    }
+
+    /**
+     * Get user:
+     * Call to get user with id
+     *
+     * @param userId UUID user id
+     * @return userName User userName
+     */
+    @RequestMapping("/getUserById")
+    public UserDto getUserById(@RequestParam UUID userId) {
+        logger.info("Call service for user with user id: {}", userId);
+        return tourGuideService.getUserById(userId);
     }
 
     /**
@@ -79,7 +91,20 @@ public class TourGuideController {
     @RequestMapping("/getLocation")
     public VisitedLocation getLocation(@RequestParam String userName) {
         logger.info("Get visited locations with username: {}", userName);
-		return tourGuideService.getUserLocation(getUser(userName));
+        UserDto userDto = getUser(userName);
+		return tourGuideService.getUserLocation(userDto);
+    }
+
+    /**
+     * Get all current locations:
+     * Call to get all current locations with username
+     *
+     * @return allUsers List of all users locations
+     */
+    @RequestMapping("/getAllCurrentLocations")
+    public List<UserLocationDto> getAllCurrentLocations() {
+        logger.info("Get all users current Location");
+        return tourGuideService.getAllCurrentLocations();
     }
 
     /**
@@ -91,10 +116,9 @@ public class TourGuideController {
      */
     @RequestMapping("/getNearbyAttractions")
     public List<NearbyAttractionsDto> getNearByAttractions(@RequestParam String userName) {
-    	VisitedLocation visitedLocation = tourGuideService.getUserLocation(getUser(userName));
-        List<NearbyAttractionsDto> userAttractionList = tourGuideService.getNearByAttractions(visitedLocation);
         logger.info("Get nearby attractions with username: {}", userName);
-    	return userAttractionList;
+        VisitedLocation visitedLocation = getLocation(userName);
+    	return tourGuideService.getNearByAttractions(visitedLocation);
     }
 
     /**
@@ -106,40 +130,21 @@ public class TourGuideController {
      */
     @RequestMapping("/getRewards")
     public List<UserRewardDto> getRewards(@RequestParam String userName) {
-        List<UserRewardDto> userRewardDtoList = tourGuideService.getUserRewards(getUser(userName));
         logger.info("Get user reward with username: {}", userName);
-    	return userRewardDtoList;
+    	return tourGuideService.getUserRewards(userName);
     }
 
     /**
-     * Get all current locations:
-     * Call to get all current locations with username
+     * Get List of providers:
+     * Call to get trip deals with username
      *
-     * @return allUsers List of all users locations
+     * @param userName String userName
+     * @return providers List of providers
      */
-    @RequestMapping("/getAllCurrentLocations")
-    public Map<UUID, Location> getAllCurrentLocations() {
-        Map<UUID, Location> userLocationMap = new HashMap<>();
-        List<UserDto> usersList = getUsers();
-        for (UserDto users: usersList){
-            VisitedLocation userVisitedLocation = getLocation(users.getUserName());
-            userLocationMap.put(userVisitedLocation.getUserId(), userVisitedLocation.getLocation());
-        }
-        logger.info("Get all users current Location");
-    	return userLocationMap;
+    @RequestMapping("/getTripDeals")
+    public List<Provider> getTripDeals(@RequestParam String userName) {
+    	List<Provider> providers = tourGuideService.getTripDeals(getUser(userName));
+        logger.info("Get user trip deal with username: {}", userName);
+    	return providers;
     }
-
-//    /**
-//     * Get List of providers:
-//     * Call to get trip deals with username
-//     *
-//     * @param userName String userName
-//     * @return providers List of providers
-//     */
-//    @RequestMapping("/getTripDeals")
-//    public List<Provider> getTripDeals(@RequestParam String userName) {
-//    	List<Provider> providers = tourGuideService.getTripDeals(getUser(userName));
-//        logger.info("Get user trip deal with username: {}", userName);
-//    	return providers;
-//    }
 }

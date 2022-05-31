@@ -1,5 +1,6 @@
 package tourGuide.proxy;
 
+import com.dto.UserDto;
 import com.model.Attraction;
 import com.model.Location;
 import com.model.VisitedLocation;
@@ -9,24 +10,15 @@ import org.springframework.web.bind.annotation.*;
 @FeignClient(value = "rewardCentral", url = "localhost:8383")
 public interface RewardCentralProxy {
 
-//    /**
-//     * Calculate rewards list.
-//     *
-//     * @param userDto the username
-//     * @return the list
-//     */
-//    @RequestMapping(value="/calculateRewards")
-//    List<UserRewardDto> calculateRewards(@RequestParam("user")UserDto userDto);
-
     /**
      * Gets reward points.
      *
      * @param attraction the attraction
-     * @param userName the username
+     * @param userDto the user
      * @return the reward points
      */
     @RequestMapping("/getRewardPoints")
-    int getRewardPoints(@RequestParam("attraction")Attraction attraction, String userName);
+    int getRewardPoints(@RequestParam("attraction")Attraction attraction, UserDto userDto);
 
     /**
      * Gets distance.
@@ -56,5 +48,5 @@ public interface RewardCentralProxy {
      * @return boolean Visited location proximity
      */
     @RequestMapping("/getNearAttraction")
-    boolean nearAttraction(@RequestParam("attraction") VisitedLocation visitedLocation, Attraction attraction);
+    boolean nearAttraction(@RequestParam("visitedLocation") VisitedLocation visitedLocation, Attraction attraction);
 }

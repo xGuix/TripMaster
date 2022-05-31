@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import com.model.Provider;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * The type User controller.
@@ -62,6 +63,19 @@ public class UserController {
     }
 
     /**
+     * Get user:
+     * Call to get user with id
+     *
+     * @param userId String userName
+     * @return userName User userName
+     */
+    @RequestMapping("/getUserById")
+    public User getUserById(@RequestParam UUID userId) {
+        logger.info("Get user with userId: {}", userId);
+        return userService.getUserById(userId);
+    }
+
+    /**
      * Get all current locations list.
      *
      * @return all current locations
@@ -78,7 +92,7 @@ public class UserController {
      * @param userName the username
      * @return list of rewards of this user
      */
-    @RequestMapping("/rewards")
+    @RequestMapping("/getRewards")
     public List<UserRewardDto> getUserRewards(@RequestParam String userName) {
         logger.info("Get user rewards with userName: {}",userName);
         return userService.getUserRewards(getUser(userName));
@@ -90,7 +104,7 @@ public class UserController {
      * @param userName   the username
      * @param userReward add the reward for this user
      */
-    @PostMapping("/rewards")
+    @PostMapping("/getRewards")
     public void createUserReward(@RequestParam String userName, @RequestBody UserRewardDto userReward){
         logger.info("Add user reward to userName: {}",userName);
         userService.addUserReward(userName, userReward);

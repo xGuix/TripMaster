@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.UUID;
 
 @FeignClient(value="user" ,url="localhost:8181")
 public interface UserProxy {
@@ -31,20 +32,27 @@ public interface UserProxy {
     UserDto getUser(@RequestParam("userName") String userName);
 
     /**
+     * @param userId UUID user id
+     * @return return a user with this id
+     */
+    @RequestMapping("/getUserById")
+    UserDto getUserById(@RequestParam("userId") UUID userId);
+
+    /**
      * Gets user rewards.
      *
      * @param userName the username
      * @return list of rewards of this user
      */
-    @RequestMapping("/rewards")
-    List<UserRewardDto> getUserRewards(String userName);
+    @RequestMapping("/getRewards")
+    List<UserRewardDto> getUserRewards(@RequestParam("userName")String userName);
 
     /**
      * Create user reward.
      *  @param userName   the username
      * @param userReward add the reward for this user
      */
-    @PostMapping("/rewards")
+    @PostMapping("/getRewards")
     void createUserReward(@RequestParam("userName") String userName, UserRewardDto userReward);
 
     /**

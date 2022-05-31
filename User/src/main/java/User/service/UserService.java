@@ -21,7 +21,7 @@ import java.util.stream.IntStream;
 public class UserService {
 
     private final Logger logger = LoggerFactory.getLogger("UserServiceLog");
-    private InternalTestDataSet internalTestDataSet = new InternalTestDataSet();
+    private final InternalTestDataSet internalTestDataSet = new InternalTestDataSet();
 
     /**
      * The Test mode.
@@ -64,17 +64,17 @@ public class UserService {
     }
 
     /**
-     * Gets all users.
+     * Gets the list of all users.
      *
      * @return the list of all users
      */
     public List<User> getUsers() {
         logger.info("Get all internalUserMap users");
-        return new ArrayList<User>(internalUserMap.values());
+        return new ArrayList<>(internalUserMap.values());
     }
 
     /**
-     * Gets user.
+     * Gets the user with username.
      *
      * @param userName the username
      * @return the user
@@ -82,6 +82,17 @@ public class UserService {
     public User getUser(String userName) {
         logger.info("Get internalUserMap with user: {}",userName);
         return internalUserMap.get(userName);
+    }
+
+    /**
+     * Gets the user by user id.
+     *
+     * @param userId the user id
+     * @return the user
+     */
+    public User getUserById(UUID userId) {
+        logger.info("Get internalUserMap with user: {}",userId);
+        return internalUserMap.get(userId);
     }
 
     /**
@@ -102,12 +113,12 @@ public class UserService {
      */
     public List<UserLocationDto> getAllCurrentLocations() {
         List<UserLocationDto> userLocationsList = new ArrayList<>();
-
         for (User user : getUsers()) {
             UUID userId = user.getUserId();
             VisitedLocation userLastVisitedLocation = user.getLastVisitedLocation();
             userLocationsList.add(new UserLocationDto(userId, userLastVisitedLocation.getLocation()));
         }
+        logger.info("Get all current location for all users");
         return userLocationsList;
     }
 

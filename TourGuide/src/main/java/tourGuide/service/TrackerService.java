@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tourGuide.proxy.RewardCentralProxy;
 import tourGuide.proxy.UserProxy;
 
 import java.util.List;
@@ -22,7 +21,7 @@ import java.util.stream.Collectors;
 @Service
 public class TrackerService extends Thread {
 
-	private final Logger logger = LoggerFactory.getLogger(TrackerService.class);
+	private final Logger logger = LoggerFactory.getLogger("TrackerServiceLog");
 	private final ExecutorService executorService = Executors.newSingleThreadExecutor();
     private final UserProxy userProxy;
 	private boolean stop = false;
@@ -53,7 +52,7 @@ public class TrackerService extends Thread {
 	}
 
 	/**
-	 * Run
+	 * Run tracker
 	 */
 	@Override
 	public void run() {

@@ -20,11 +20,21 @@ public class RewardService {
     private GpsUtilProxy gpsUtilProxy;
     private RewardCentralProxy rewardCentralProxy;
 
+    /**
+     * Set RewardService constructor with proxy
+     */
     public RewardService(GpsUtilProxy gpsUtilProxy,RewardCentralProxy rewardCentralProxy) {
         this.gpsUtilProxy = gpsUtilProxy;
         this.rewardCentralProxy = rewardCentralProxy;
     }
 
+    /**
+     * Get user calculate rewards:
+     * Call to get the list of user rewards
+     *
+     * @param userDto UserDto user
+     * @return User reward List
+     */
     public List<UserRewardDto> calculateRewards(UserDto userDto) {
         List<VisitedLocation> userLocations = userDto.getVisitedLocations();
         List<Attraction> attractions = gpsUtilProxy.getAttractions();
@@ -33,11 +43,12 @@ public class RewardService {
             attractions.forEach(a -> {
                 if (userDto.getUserRewards().stream().noneMatch(r -> r.getAttraction().getAttractionName().equals(a.getAttractionName()))) {
                     if (rewardCentralProxy.nearAttraction(visitedLocation, a)) {
-                        userDto.getUserRewards().add(new UserRewardDto(visitedLocation, a, rewardCentralProxy.getRewardPoints(a, String.valueOf(userDto))));
+                        userDto.getUserRewards().add(new UserRewardDto(visitedLocation, a, rewardCentralProxy.getRewardPoints(a, userDto)));
                     }
                 }
             });
         });
+        logger.info("Get list of calculate rewards for users");
         return userDto.getUserRewards();
     }
 }
