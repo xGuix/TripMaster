@@ -2,6 +2,7 @@ package User.controller;
 
 import User.model.User;
 import User.model.UserPreferences;
+import com.dto.UserDto;
 import com.dto.UserLocationDto;
 import com.dto.UserRewardDto;
 import User.service.UserService;
@@ -95,7 +96,8 @@ public class UserController {
     @RequestMapping("/getRewards")
     public List<UserRewardDto> getUserRewards(@RequestParam String userName) {
         logger.info("Get user rewards with userName: {}",userName);
-        return userService.getUserRewards(getUser(userName));
+        User user = getUser(userName);
+        return userService.getUserRewards(user);
     }
 
     /**

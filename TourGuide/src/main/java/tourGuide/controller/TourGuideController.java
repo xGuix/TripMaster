@@ -131,7 +131,7 @@ public class TourGuideController {
     @RequestMapping("/getRewards")
     public List<UserRewardDto> getRewards(@RequestParam String userName) {
         logger.info("Get user reward with username: {}", userName);
-    	return tourGuideService.getUserRewards(userName);
+    	return tourGuideService.getRewards(userName);
     }
 
     /**
@@ -143,8 +143,8 @@ public class TourGuideController {
      */
     @RequestMapping("/getTripDeals")
     public List<Provider> getTripDeals(@RequestParam String userName) {
-    	List<Provider> providers = tourGuideService.getTripDeals(getUser(userName));
         logger.info("Get user trip deal with username: {}", userName);
-    	return providers;
+        UserDto userDto = getUser(userName);
+    	return tourGuideService.getTripDeals(userDto);
     }
 }

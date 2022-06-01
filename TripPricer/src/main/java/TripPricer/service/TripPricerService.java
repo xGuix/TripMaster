@@ -15,7 +15,7 @@ public class TripPricerService {
     private final Logger logger = LoggerFactory.getLogger("TripPricerServiceLog");
     TripPricer tripPricer = new TripPricer();
 
-    public List<Provider> getPrice(String apiKey, UUID attractionId, int adults, int children, int nightsStay, int rewardsPoints) {
+    public List<Provider> getTripDeals(String apiKey, UUID attractionId, int adults, int children, int nightsStay, int rewardsPoints) {
         return tripPricer.getPrice(apiKey, attractionId, adults,children , nightsStay, rewardsPoints);
     }
 }

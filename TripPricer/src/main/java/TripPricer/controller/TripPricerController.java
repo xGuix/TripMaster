@@ -31,14 +31,13 @@ public class TripPricerController {
         return "Greetings from TripPricer!";
     }
 
-    @RequestMapping("/getPrice")
-    public List<Provider> getPrice(@RequestParam("apiKey") String apiKey,
+    @RequestMapping("/getTripDeals")
+    public List<Provider> getTripDeals(@RequestParam("apiKey") String apiKey,
                                    @RequestParam("attractionId") UUID attractionId,
                                    @RequestParam("adults") int adults,
                                    @RequestParam("children") int children,
                                    @RequestParam("nightsStay") int nightsStay,
                                    @RequestParam("rewardsPoints") int rewardsPoints ){
-        return tripPricerService.getPrice(apiKey,attractionId,adults,children,nightsStay,rewardsPoints);
+        return tripPricerService.getTripDeals(apiKey,attractionId,adults,children,nightsStay,rewardsPoints);
     }
-
 }

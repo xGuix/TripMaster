@@ -97,8 +97,9 @@ public class TourGuideService {
 	 * @param userName String user
 	 * @return userReward Rewards user list
 	 */
-	public List<UserRewardDto> getUserRewards(String userName) {
+	public List<UserRewardDto> getRewards(String userName) {
 		logger.info("Call getUserReward to search for list of user reward");
+		userProxy.
 		return userProxy.getUserRewards(userName);
 	}
 
@@ -133,7 +134,7 @@ public class TourGuideService {
 			int rewardPoints = i.getRewardPoints();
 			cumulativeRewardPoints += rewardPoints;
 		}
-		List<Provider> providers = tripPricerProxy.getPrice(tripPricerApiKey, userDto.getUserId(), userDto.getUserPreferences().getNumberOfAdults(),
+		List<Provider> providers = tripPricerProxy.getTripDeals(tripPricerApiKey, userDto.getUserId(), userDto.getUserPreferences().getNumberOfAdults(),
 				userDto.getUserPreferences().getNumberOfChildren(), userDto.getUserPreferences().getTripDuration(), cumulativeRewardPoints);
 		userDto.setTripDeals(providers);
 		return providers;
