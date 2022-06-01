@@ -11,10 +11,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import proxy.GpsUtilProxy;
-import proxy.RewardCentralProxy;
-import proxy.TripPricerProxy;
-import proxy.UserProxy;
+import tourGuide.proxy.GpsUtilProxy;
+import tourGuide.proxy.RewardCentralProxy;
+import tourGuide.proxy.TripPricerProxy;
+import tourGuide.proxy.UserProxy;
 
 import java.util.*;
 import java.util.stream.Collectors;

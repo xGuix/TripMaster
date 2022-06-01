@@ -77,6 +77,19 @@ public class UserController {
     }
 
     /**
+     * Add user:
+     * Call to add a new user
+     *
+     * @param user User user
+     * @return userName User userName
+     */
+    @RequestMapping("/addUser")
+    public void getUser(@RequestParam User user) {
+        logger.info("Get user with user: {}", user);
+        userService.addUser(user);
+    }
+
+    /**
      * Get all current locations list.
      *
      * @return all current locations

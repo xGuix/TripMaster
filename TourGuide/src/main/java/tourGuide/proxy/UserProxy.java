@@ -1,4 +1,4 @@
-package proxy;
+package tourGuide.proxy;
 
 import com.dto.UserDto;
 import com.dto.UserLocationDto;
@@ -24,6 +24,7 @@ public interface UserProxy {
     List<UserDto> getUsers();
 
     /**
+     * Get user.
      * @param userName
      * @return return a user with this name
      */
@@ -31,11 +32,19 @@ public interface UserProxy {
     UserDto getUser(@RequestParam("userName") String userName);
 
     /**
+     * Get users with id.
      * @param userId UUID user id
      * @return return a user with this id
      */
     @RequestMapping("/getUserById")
     UserDto getUserById(@RequestParam("userId") UUID userId);
+
+    /**
+     * Get users list.
+     * @param user User user
+     */
+    @PostMapping("/addUser")
+    void addUser(@RequestParam("user") UserDto user);
 
     /**
      * Get all current locations list.

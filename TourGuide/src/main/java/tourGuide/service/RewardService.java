@@ -7,8 +7,8 @@ import com.model.VisitedLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import proxy.GpsUtilProxy;
-import proxy.RewardCentralProxy;
+import tourGuide.proxy.GpsUtilProxy;
+import tourGuide.proxy.RewardCentralProxy;
 
 import java.util.List;
 

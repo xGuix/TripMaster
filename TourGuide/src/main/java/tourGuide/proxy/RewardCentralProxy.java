@@ -1,4 +1,4 @@
-package proxy;
+package tourGuide.proxy;
 
 import com.dto.UserDto;
 import com.model.Attraction;
