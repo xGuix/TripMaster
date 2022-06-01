@@ -6,13 +6,11 @@ import com.dto.UserLocationDto;
 import com.dto.UserRewardDto;
 import com.model.Provider;
 import com.model.VisitedLocation;
+import feign.Body;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import tourGuide.service.TourGuideService;
 
@@ -142,8 +140,8 @@ public class TourGuideController {
      * @param userName String userName
      * @return providers List of providers
      */
-    @PostMapping("/addRewards")
-    public void addRewards(@RequestParam String userName, UserRewardDto userReward) {
+    @PutMapping("/addRewards")
+    public void addRewards(@RequestParam String userName, @RequestBody UserRewardDto userReward) {
         logger.info("Add user reward with username: {} reward {}", userName,userReward);
         tourGuideService.addRewards(userName,userReward);
     }

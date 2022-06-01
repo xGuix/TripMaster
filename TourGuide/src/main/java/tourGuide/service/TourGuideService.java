@@ -11,10 +11,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tourGuide.proxy.GpsUtilProxy;
-import tourGuide.proxy.RewardCentralProxy;
-import tourGuide.proxy.TripPricerProxy;
-import tourGuide.proxy.UserProxy;
+import proxy.GpsUtilProxy;
+import proxy.RewardCentralProxy;
+import proxy.TripPricerProxy;
+import proxy.UserProxy;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -109,7 +109,7 @@ public class TourGuideService {
 	 * @param userName String user
 	 * @param userReward UserRewardDto reward
 	 */
-	public void addRewards( String userName, UserRewardDto userReward) {
+	public void addRewards(String userName, UserRewardDto userReward) {
 		logger.info("Call userProxy /addUserReward to search for list of user reward");
 		userProxy.addUserReward(userName,userReward);
 	}

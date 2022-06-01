@@ -106,9 +106,9 @@ public class UserController {
      * @param userName   the username
      * @param userReward add the reward for this user
      */
-    @RequestMapping("/addRewards")
+    @PutMapping("/addRewards")
     public void addUserReward(@RequestParam String userName, @RequestBody UserRewardDto userReward){
-        logger.info("Add user reward to userName: {}",userName);
+        logger.info("Add user reward to userName: {} {}",userName, userReward);
         userService.addUserReward(userName, userReward);
     }
 

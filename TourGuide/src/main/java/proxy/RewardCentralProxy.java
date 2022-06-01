@@ -1,4 +1,4 @@
-package tourGuide.proxy;
+package proxy;
 
 import com.dto.UserDto;
 import com.model.Attraction;
@@ -18,7 +18,7 @@ public interface RewardCentralProxy {
      * @return the reward points
      */
     @RequestMapping("/getRewardPoints")
-    int getRewardPoints(@RequestParam("attraction")Attraction attraction, UserDto userDto);
+    int getRewardPoints(@RequestParam("attraction")Attraction attraction, @RequestParam("userDto") UserDto userDto);
 
     /**
      * Gets distance.
@@ -38,7 +38,7 @@ public interface RewardCentralProxy {
      * @return boolean attraction proximity
      */
     @RequestMapping("/getAttractionProxy")
-    boolean isWithinAttractionProximity(@RequestParam("attraction") Attraction attraction,Location location);
+    boolean isWithinAttractionProximity(@RequestParam("attraction") Attraction attraction, Location location);
 
     /**
      * Gets true if visited attraction around.
@@ -48,5 +48,5 @@ public interface RewardCentralProxy {
      * @return boolean Visited location proximity
      */
     @RequestMapping("/getNearAttraction")
-    boolean nearAttraction(@RequestParam("visitedLocation") VisitedLocation visitedLocation, Attraction attraction);
+    boolean nearAttraction(@RequestParam("visitedLocation") VisitedLocation visitedLocation, @RequestParam("attraction") Attraction attraction);
 }

@@ -1,4 +1,4 @@
-package tourGuide.proxy;
+package proxy;
 
 import com.model.Attraction;
 import com.model.VisitedLocation;

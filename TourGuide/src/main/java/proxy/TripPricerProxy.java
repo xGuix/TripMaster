@@ -1,4 +1,4 @@
-package tourGuide.proxy;
+package proxy;
 
 import com.model.Provider;
 import org.springframework.cloud.openfeign.FeignClient;

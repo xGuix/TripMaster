@@ -1,4 +1,4 @@
-package tourGuide.proxy;
+package proxy;
 
 import com.dto.UserDto;
 import com.dto.UserLocationDto;
@@ -6,10 +6,9 @@ import com.dto.UserPreferencesDto;
 import com.dto.UserRewardDto;
 import com.model.Provider;
 import com.model.VisitedLocation;
+import feign.Body;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -39,6 +38,14 @@ public interface UserProxy {
     UserDto getUserById(@RequestParam("userId") UUID userId);
 
     /**
+     * Get all current locations list.
+     *
+     * @return all current locations
+     */
+    @RequestMapping("/getAllCurrentLocations")
+    List<UserLocationDto> getAllCurrentLocations();
+
+    /**
      * Gets user rewards.
      *
      * @param userName the username
@@ -52,7 +59,7 @@ public interface UserProxy {
      * @param userName   the username
      * @param userReward add the reward for this user
      */
-    @RequestMapping("/addRewards")
+    @PutMapping("/addRewards")
     void addUserReward(@RequestParam("userName") String userName,@RequestParam("userRewardDto") UserRewardDto userReward);
 
     /**
@@ -63,14 +70,6 @@ public interface UserProxy {
      */
     @RequestMapping("/tripDeals")
     void updateTripDeals(@RequestParam("userName") String userName, List<Provider> tripDeals);
-
-    /**
-     * Get all current locations list.
-     *
-     * @return all current locations
-     */
-    @RequestMapping("/getAllCurrentLocations")
-    List<UserLocationDto> getAllCurrentLocations();
 
     /**
      * Create visited location.

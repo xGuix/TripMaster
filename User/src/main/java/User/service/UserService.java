@@ -59,6 +59,8 @@ public class UserService {
             Date latestLocationTimestamp = internalTestDataSet.getRandomTime();
             User user = new User(UUID.randomUUID(), userName, phone, email, latestLocationTimestamp);
             internalTestDataSet.generateUserLocationHistory(user);
+            UserRewardDto userReward = new UserRewardDto(user.getLastVisitedLocation(), new Attraction("DisneyLand","Miami","Florida", UUID.randomUUID()),100);
+            user.getUserRewards().add(userReward);
             internalUserMap.put(userName, user);
         });
         logger.debug("Created {} internal test users.", internalUserNumber);
@@ -104,6 +106,7 @@ public class UserService {
     public void addUser(User user) {
         if (!internalUserMap.containsKey(user.getUserName())) {
             internalUserMap.put(user.getUserName(), user);
+            logger.info("User: {} have been added.",user);
         }
     }
 
@@ -130,6 +133,7 @@ public class UserService {
      * @return the rewards for this user
      */
     public List<UserRewardDto> getUserRewards(User user) {
+        logger.info("Reward list for user: {}",user);
         return user.getUserRewards();
     }
 
@@ -143,6 +147,7 @@ public class UserService {
         User user = getUser(userName);
         user.getUserRewards().add(userReward);
         internalUserMap.put(userName, user);
+        logger.info("Reward for user: {} have been added.",user);
     }
 
     /**
@@ -153,6 +158,7 @@ public class UserService {
      */
     public void addVisitedLocation(String userName, VisitedLocation visitedLocation){
         getUser(userName).addToVisitedLocations(visitedLocation);
+        logger.info("Visited location for username: {} have been added.",userName);
     }
 
     /**
