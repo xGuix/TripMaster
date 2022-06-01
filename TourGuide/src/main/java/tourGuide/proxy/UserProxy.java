@@ -48,12 +48,12 @@ public interface UserProxy {
     List<UserRewardDto> getUserRewards(@RequestParam("userName")String userName);
 
     /**
-     * Create user reward.
-     *  @param userName   the username
+     * Add user reward.
+     * @param userName   the username
      * @param userReward add the reward for this user
      */
-    @PostMapping("/getRewards")
-    void createUserReward(@RequestParam("userName") String userName, UserRewardDto userReward);
+    @RequestMapping("/addRewards")
+    void addUserReward(@RequestParam("userName") String userName,@RequestParam("userRewardDto") UserRewardDto userReward);
 
     /**
      * Update trip deals.

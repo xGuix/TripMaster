@@ -63,7 +63,7 @@ public class TourGuideService {
 	 * @return userDto The user
 	 */
 	public UserDto getUserById(UUID userId) {
-		logger.info("Call userProxy to search user with user id: {}", userId);
+		logger.info("Call userProxy /getUserById to search user with user id: {}", userId);
 		return userProxy.getUserById(userId);
 	}
 
@@ -75,7 +75,7 @@ public class TourGuideService {
 	 * @return userDto The user
 	 */
 	public UserDto getUser(String userName) {
-		logger.info("Call userProxy to search user with username: {}", userName);
+		logger.info("Call userProxy /getUser to search user with username: {}", userName);
 		return userProxy.getUser(userName);
 	}
 
@@ -86,7 +86,7 @@ public class TourGuideService {
 	 * @return The user list
 	 */
 	public List<UserDto> getUsers() {
-		logger.info("Call userProxy to search for list of all users");
+		logger.info("Call userProxy /getUsers to search for list of all users");
 		return userProxy.getUsers();
 	}
 
@@ -98,9 +98,20 @@ public class TourGuideService {
 	 * @return userReward Rewards user list
 	 */
 	public List<UserRewardDto> getRewards(String userName) {
-		logger.info("Call getUserReward to search for list of user reward");
-		userProxy.
+		logger.info("Call userProxy /getUserReward to search for list of user reward");
 		return userProxy.getUserRewards(userName);
+	}
+
+	/**
+	 *  Add user reward
+	 *  Call to add reward for user
+	 *
+	 * @param userName String user
+	 * @param userReward UserRewardDto reward
+	 */
+	public void addRewards( String userName, UserRewardDto userReward) {
+		logger.info("Call userProxy /addUserReward to search for list of user reward");
+		userProxy.addUserReward(userName,userReward);
 	}
 
 	/**
@@ -111,7 +122,7 @@ public class TourGuideService {
 	 * @return visitedLocation The visited location
 	 */
 	public VisitedLocation getUserLocation(UserDto userDto) {
-		logger.info("Call getUserLocation to search for user location");
+		logger.info("Call gpsUtilProxy /getUserLocation to search for user location");
 		Date date = new Date();
 		userDto.setLatestLocationTimestamp(date);
 		return gpsUtilProxy.getUserLocation(userDto.getUserId());
@@ -128,6 +139,13 @@ public class TourGuideService {
 		return userProxy.getAllCurrentLocations();
 	}
 
+	/**
+	 * Get trip deals:
+	 * Call to get all provider list with user
+	 *
+	 * @param userDto UserDto user
+	 * @return allProviders List of all provider
+	 */
 	public List<Provider> getTripDeals(UserDto userDto) {
 		int cumulativeRewardPoints = 0;
 		for (UserRewardDto i : userDto.getUserRewards()) {
@@ -140,6 +158,13 @@ public class TourGuideService {
 		return providers;
 	}
 
+	/**
+	 * Get track user location:
+	 * Call to get the user visited location
+	 *
+	 * @param userDto UserDto user
+	 * @return visitedLocation User visited location
+	 */
 	public VisitedLocation trackUserLocation(UserDto userDto) {
 		//Locale.setDefault(Locale.US);
 		VisitedLocation visitedLocation = gpsUtilProxy.getUserLocation(userDto.getUserId());
@@ -148,7 +173,14 @@ public class TourGuideService {
 		return visitedLocation;
 	}
 
-	public List<NearbyAttractionsDto> getNearByAttractions(VisitedLocation visitedLocation) {
+	/**
+	 * Get nearby attraction:
+	 * Call to get the list of all visited location proximity
+	 *
+	 * @param visitedLocation VisitedLocation user visited Location
+	 * @return AttractionList List of all attraction proximity
+	 */
+	public List<NearbyAttractionsDto> getNearbyAttractions(VisitedLocation visitedLocation) {
 		List<NearbyAttractionsDto> nearbyAttractionsListDto = new ArrayList<>();
 		for(Attraction attraction : gpsUtilProxy.getAttractions()) {
 			if(rewardCentralProxy.isWithinAttractionProximity(attraction, visitedLocation.getLocation())) {
@@ -163,7 +195,11 @@ public class TourGuideService {
 		}
 		return nearbyAttractionsListDto.stream().limit(5).collect(Collectors.toList());
 	}
-	
+
+	/**
+	 * Shut down hook:
+	 * Call to stop tracking
+	 */
 	private void addShutDownHook() {
 		Runtime.getRuntime().addShutdownHook(new Thread(() -> trackerService.stopTracking()));
 	}

@@ -5,6 +5,7 @@ import User.model.UserPreferences;
 import User.util.InternalTestDataSet;
 import com.dto.UserLocationDto;
 import com.dto.UserRewardDto;
+import com.model.Attraction;
 import com.model.Provider;
 import com.model.VisitedLocation;
 import org.slf4j.Logger;
@@ -139,7 +140,9 @@ public class UserService {
      * @param userReward add reward for the user
      */
     public void addUserReward(String userName, UserRewardDto userReward) {
-        getUser(userName).addUserReward(userReward);
+        User user = getUser(userName);
+        user.getUserRewards().add(userReward);
+        internalUserMap.put(userName, user);
     }
 
     /**

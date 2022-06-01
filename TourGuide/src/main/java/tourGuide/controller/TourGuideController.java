@@ -9,6 +9,7 @@ import com.model.VisitedLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -115,10 +116,10 @@ public class TourGuideController {
      * @return userAttractionList List of the closest attraction
      */
     @RequestMapping("/getNearbyAttractions")
-    public List<NearbyAttractionsDto> getNearByAttractions(@RequestParam String userName) {
+    public List<NearbyAttractionsDto> getNearbyAttractions(@RequestParam String userName) {
         logger.info("Get nearby attractions with username: {}", userName);
         VisitedLocation visitedLocation = getLocation(userName);
-    	return tourGuideService.getNearByAttractions(visitedLocation);
+    	return tourGuideService.getNearbyAttractions(visitedLocation);
     }
 
     /**
@@ -132,6 +133,19 @@ public class TourGuideController {
     public List<UserRewardDto> getRewards(@RequestParam String userName) {
         logger.info("Get user reward with username: {}", userName);
     	return tourGuideService.getRewards(userName);
+    }
+
+    /**
+     * Add user rewards:
+     * Call to add user rewards
+     *
+     * @param userName String userName
+     * @return providers List of providers
+     */
+    @PostMapping("/addRewards")
+    public void addRewards(@RequestParam String userName, UserRewardDto userReward) {
+        logger.info("Add user reward with username: {} reward {}", userName,userReward);
+        tourGuideService.addRewards(userName,userReward);
     }
 
     /**
