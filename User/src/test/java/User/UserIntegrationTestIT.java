@@ -63,7 +63,6 @@ public class UserIntegrationTestIT {
     @Test
     void addUserRewards(){
         User user = userService.getUsers().get(0);
-        long now = new Date().getTime();
         VisitedLocation visitedLocation = new VisitedLocation(UUID.randomUUID(), new Location(1234567, 1234567), new Date());
         Attraction attraction = new Attraction("name", "city", "stat", UUID.randomUUID(),1234567, 12345678);
         UserRewardDto userReward = new UserRewardDto(visitedLocation, attraction, 325);
@@ -79,7 +78,6 @@ public class UserIntegrationTestIT {
     @Test
     void getUserRewardsTest(){
         User user = userService.getUsers().get(0);
-        long now = new Date().getTime();
         VisitedLocation visitedLocation = new VisitedLocation(UUID.randomUUID(), new Location(1234567, 1234567), new Date());
         Attraction attraction = new Attraction("name", "city", "stat",UUID.randomUUID(), 1234567, 12345678);
         UserRewardDto userReward = new UserRewardDto(visitedLocation, attraction, 325);

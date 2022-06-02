@@ -143,7 +143,7 @@ public class UserController {
      * @param visitedLocation Add the visited location for this user
      */
     @PostMapping("/addVisitedLocation")
-    public void createVisitedLocation(@RequestParam String userName, @RequestBody VisitedLocation visitedLocation){
+    public void addVisitedLocation(@RequestParam String userName, @RequestBody VisitedLocation visitedLocation){
         userService.addVisitedLocation(userName, visitedLocation);
     }
 
