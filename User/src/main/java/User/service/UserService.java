@@ -28,7 +28,7 @@ public class UserService {
      * The Test mode.
      */
     boolean testMode = true;
-    private static int internalUserNumber = 100;
+    private static int internalUserNumber = 1000;
 
     /**
      * Instantiates a new Map for user.
