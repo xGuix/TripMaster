@@ -89,8 +89,7 @@ public class TourGuideControllerTest {
 
         String userName = "username";
 
-        Mockito.when(tourGuideService.getTripDeals(tourGuideService.getUser(userName)))
-                .thenReturn(new ArrayList<>());
+        Mockito.when(tourGuideService.getTripDeals(tourGuideService.getUser(userName))).thenReturn(new ArrayList<>());
 
         mockMvc.perform(get("/getTripDeals").param("userName", userName))
                 .andExpect(status().isOk());

@@ -38,6 +38,7 @@ public class TripPricerController {
                                    @RequestParam("children") int children,
                                    @RequestParam("nightsStay") int nightsStay,
                                    @RequestParam("rewardsPoints") int rewardsPoints ){
+        logger.info("Get TripPricer controller with apiKey {}",apiKey);
         return tripPricerService.getTripDeals(apiKey,attractionId,adults,children,nightsStay,rewardsPoints);
     }
 }

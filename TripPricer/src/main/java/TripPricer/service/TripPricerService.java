@@ -13,9 +13,11 @@ import java.util.UUID;
 public class TripPricerService {
 
     private final Logger logger = LoggerFactory.getLogger("TripPricerServiceLog");
+
     TripPricer tripPricer = new TripPricer();
 
     public List<Provider> getTripDeals(String apiKey, UUID attractionId, int adults, int children, int nightsStay, int rewardsPoints) {
-        return tripPricer.getPrice(apiKey, attractionId, adults,children , nightsStay, rewardsPoints);
+        logger.info("Get TripPricer service with apiKey {}, and userPreferences",apiKey);
+        return tripPricer.getPrice(apiKey, attractionId, adults, children , nightsStay, rewardsPoints);
     }
 }

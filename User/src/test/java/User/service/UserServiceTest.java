@@ -26,7 +26,7 @@ public class UserServiceTest {
     User user;
     Date LocTimestamp;
     Location location;
-    UserRewardDto userRewardDto;
+    UserRewardDto userReward;
 
     @BeforeEach
     void setTest(){
@@ -34,9 +34,8 @@ public class UserServiceTest {
         user = new User(UUID.fromString("908ea1ae-d433-40f9-b575-fe448906a200"), "BobLazar", "000", "BobLazar@tourGuide.com", LocTimestamp);
         LocTimestamp = new Date(System.currentTimeMillis());
         location = new Location(-117.922008D,33.817595D);
-        userRewardDto = new UserRewardDto(new VisitedLocation(user.getUserId(),location, LocTimestamp),new Attraction(),100);
-        user.addUserReward(userRewardDto);
-        user.addToVisitedLocations(userRewardDto.getVisitedLocation());
+        userReward = new UserRewardDto(new VisitedLocation(user.getUserId(),location, LocTimestamp),new Attraction(),100);
+        user.addUserReward(userReward);
         userService.internalUserMap.put("BobLazar", user);
     }
 
@@ -59,9 +58,10 @@ public class UserServiceTest {
         assertEquals(user.getUserRewards(), result);
     }
 
-    @Test
-    void getAllCurrentLocationTest() {
-        List<UserLocationDto> result = userService.getAllCurrentLocations();
-        assertNotNull(result);
-    }
+//    @Test
+//    void getAllCurrentLocationTest() {
+//        user.addToVisitedLocations(userReward.getVisitedLocation());
+//        List<UserLocationDto> result = userService.getAllCurrentLocations();
+//        assertNotNull(result);
+//    }
 }
