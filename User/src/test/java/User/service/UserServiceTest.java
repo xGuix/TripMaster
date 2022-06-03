@@ -1,6 +1,7 @@
 package User.service;
 
 import User.model.User;
+import com.dto.UserLocationDto;
 import com.dto.UserRewardDto;
 import com.model.Attraction;
 import com.model.Location;
@@ -30,7 +31,7 @@ public class UserServiceTest {
     @BeforeEach
     void setTest(){
 
-        user = new User(UUID.randomUUID(), "BobLazar", "000", "BobLazar@tourGuide.com", LocTimestamp);
+        user = new User(UUID.fromString("908ea1ae-d433-40f9-b575-fe448906a200"), "BobLazar", "000", "BobLazar@tourGuide.com", LocTimestamp);
         LocTimestamp = new Date(System.currentTimeMillis());
         location = new Location(-117.922008D,33.817595D);
         userRewardDto = new UserRewardDto(new VisitedLocation(user.getUserId(),location, LocTimestamp),new Attraction(),100);
@@ -53,14 +54,14 @@ public class UserServiceTest {
     }
 
     @Test
-    void getUserByIdTest() {
-        User result = userService.getUserById(user.getUserId());
-        assertEquals(user, result);
-    }
-
-    @Test
     void getUserRewardTest() {
         List<UserRewardDto> result = userService.getUserRewards(user);
         assertEquals(user.getUserRewards(), result);
+    }
+
+    @Test
+    void getAllCurrentLocationTest() {
+        List<UserLocationDto> result = userService.getAllCurrentLocations();
+        assertNotNull(result);
     }
 }

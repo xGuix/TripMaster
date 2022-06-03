@@ -64,15 +64,4 @@ public class UserControllerTest {
         Mockito.when(userService.getAllCurrentLocations()).thenReturn(userLocationsList);
         mockMvc.perform(get("/getAllCurrentLocations")).andExpect(status().isOk());
     }
-
-//    @Test
-//    void addVisitedLocationTest() throws Exception {
-//        VisitedLocation visitedLocation = new VisitedLocation(user.getUserId(),location, LocTimestamp);
-//        doNothing().when(userService).addVisitedLocation(user.getUserName(),visitedLocation);
-//        mockMvc.perform(post("/addVisitedLocation")
-//                .param("userName",user.getUserName())
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(String.valueOf(visitedLocation)))
-//                .andExpect(status().isOk());
-//    }
 }

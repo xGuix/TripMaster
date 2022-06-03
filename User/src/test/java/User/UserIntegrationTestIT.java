@@ -64,7 +64,7 @@ public class UserIntegrationTestIT {
     void addUserRewards(){
         User user = userService.getUsers().get(0);
         VisitedLocation visitedLocation = new VisitedLocation(UUID.randomUUID(), new Location(1234567, 1234567), new Date());
-        Attraction attraction = new Attraction("name", "city", "stat", UUID.randomUUID(),1234567, 12345678);
+        Attraction attraction = new Attraction("name", "city", "state", UUID.randomUUID(),1234567, 12345678);
         UserRewardDto userReward = new UserRewardDto(visitedLocation, attraction, 325);
         userService.addUserReward(user.getUserName(), userReward);
 
@@ -79,7 +79,7 @@ public class UserIntegrationTestIT {
     void getUserRewardsTest(){
         User user = userService.getUsers().get(0);
         VisitedLocation visitedLocation = new VisitedLocation(UUID.randomUUID(), new Location(1234567, 1234567), new Date());
-        Attraction attraction = new Attraction("name", "city", "stat",UUID.randomUUID(), 1234567, 12345678);
+        Attraction attraction = new Attraction("name", "city", "state",UUID.randomUUID(), 1234567, 12345678);
         UserRewardDto userReward = new UserRewardDto(visitedLocation, attraction, 325);
         user.addUserReward(userReward);
         List<UserRewardDto> userRewards = userService.getUserRewards(user);
