@@ -126,8 +126,8 @@ public class TourGuideController {
     @RequestMapping("/getNearbyAttractions")
     public List<NearbyAttractionsDto> getNearbyAttractions(@RequestParam String userName) {
         logger.info("Get nearby attractions with username: {}", userName);
-        VisitedLocation visitedLocation = getLocation(userName);
-    	return tourGuideService.getNearbyAttractions(visitedLocation);
+        UserDto userDto = getUser(userName);
+    	return tourGuideService.getNearbyAttractions(userDto);
     }
 
     /**
@@ -169,4 +169,11 @@ public class TourGuideController {
         UserDto userDto = getUser(userName);
     	return tourGuideService.getTripDeals(userDto);
     }
+
+//    @RequestMapping("/trackUserLocation")
+//    public VisitedLocation trackUserLocation(@RequestParam String userName) {
+//        logger.info("Get visited locations with username: {}", userName);
+//        UserDto userDto = getUser(userName);
+//        return tourGuideService.trackUserLocation(userDto);
+//    }
 }

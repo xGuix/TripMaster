@@ -65,7 +65,7 @@ public class TrackerService extends Thread {
 
 			stopWatch.start();
 			List<CompletableFuture<?>> trackResult = userDtoList.stream()
-							.map(userDto -> CompletableFuture.runAsync(() -> tourGuideService.trackUserLocation(userDto), trackExecutor)
+							.map(userDto -> CompletableFuture.runAsync(() -> tourGuideService.getUserLocation(userDto), trackExecutor)
 									.thenRunAsync(() -> rewardService.calculateRewards(userDto),rewardExecutor))
 					.collect(Collectors.toList());
 			trackResult.forEach(CompletableFuture::join);

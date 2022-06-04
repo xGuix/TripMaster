@@ -23,12 +23,12 @@ public interface RewardCentralProxy {
     /**
      * Gets distance.
      *
-     * @param attraction the location
-     * @param location the visited location
+     * @param location1 the location
+     * @param location2 the visited location
      * @return double distance
      */
     @RequestMapping("/getDistance")
-    double getDistance(@RequestParam("attraction") Attraction attraction, Location location);
+    double getDistance(@RequestParam("location") Location location1,@RequestParam("location") Location location2);
 
     /**
      * Gets true if attractions around.
@@ -38,7 +38,7 @@ public interface RewardCentralProxy {
      * @return boolean attraction proximity
      */
     @RequestMapping("/getAttractionProxy")
-    boolean isWithinAttractionProximity(@RequestParam("attraction") Attraction attraction, Location location);
+    boolean isWithinAttractionProximity(@RequestParam("attraction") Attraction attraction,@RequestParam("location") Location location);
 
     /**
      * Gets true if visited attraction around.
@@ -47,6 +47,6 @@ public interface RewardCentralProxy {
      * @param attraction the attraction
      * @return boolean Visited location proximity
      */
-    @RequestMapping("/getNearAttraction")
-    boolean nearAttraction(@RequestParam("visitedLocation") VisitedLocation visitedLocation, @RequestParam("attraction") Attraction attraction);
+    @RequestMapping("/getNearbyAttractions")
+    boolean getNearbyAttractions(@RequestParam("visitedLocation") VisitedLocation visitedLocation, @RequestParam("attraction") Attraction attraction);
 }

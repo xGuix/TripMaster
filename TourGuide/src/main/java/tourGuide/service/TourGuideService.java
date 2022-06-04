@@ -5,11 +5,11 @@ import com.dto.UserDto;
 import com.dto.UserLocationDto;
 import com.dto.UserRewardDto;
 import com.model.Attraction;
+import com.model.Location;
 import com.model.Provider;
 import com.model.VisitedLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tourGuide.proxy.GpsUtilProxy;
 import tourGuide.proxy.RewardCentralProxy;
@@ -32,9 +32,6 @@ public class TourGuideService {
 	private GpsUtilProxy gpsUtilProxy;
 	private RewardCentralProxy rewardCentralProxy;
 	private TripPricerProxy tripPricerProxy;
-
-	@Autowired
-	RewardService rewardService;
 
 	public TrackerService trackerService;
 
@@ -170,37 +167,40 @@ public class TourGuideService {
 		return providers;
 	}
 
-	/**
-	 * Get track user location:
-	 * Call to get the user visited location
-	 *
-	 * @param userDto UserDto user
-	 * @return visitedLocation User visited location
-	 */
-	public VisitedLocation trackUserLocation(UserDto userDto) {
-		VisitedLocation visitedLocation = gpsUtilProxy.getUserLocation(userDto.getUserId());
-		userDto.addToVisitedLocations(visitedLocation);
-		rewardService.calculateRewards(userDto);
-		return visitedLocation;
-	}
+//	/**
+//	 * Get track user location:
+//	 * Call to get the user visited location
+//	 *
+//	 * @param userDto UserDto user
+//	 * @return visitedLocation User visited location
+//	 */
+//	public VisitedLocation trackUserLocation(UserDto userDto) {
+//		RewardService rewardService = new RewardService(gpsUtilProxy,rewardCentralProxy);
+//		VisitedLocation visitedLocation = gpsUtilProxy.getUserLocation(userDto.getUserId());
+//		userDto.addToVisitedLocations(visitedLocation);
+//		rewardCentralProxy.getDistance(userDto.getLastVisitedLocation().getLocation(),visitedLocation.getLocation());
+//		rewardService.calculateRewards(userDto);
+//		return visitedLocation;
+//	}
 
 	/**
 	 * Get nearby attraction:
 	 * Call to get the list of all visited location proximity
 	 *
-	 * @param visitedLocation VisitedLocation user visited Location
+	 * @param userDto User visited Location
 	 * @return AttractionList List of all attraction proximity
 	 */
-	public List<NearbyAttractionsDto> getNearbyAttractions(VisitedLocation visitedLocation) {
+	public List<NearbyAttractionsDto> getNearbyAttractions(UserDto userDto) {
+		RewardService rewardService = new RewardService(gpsUtilProxy,rewardCentralProxy);
 		List<NearbyAttractionsDto> nearbyAttractionsListDto = new ArrayList<>();
+		Location userLocation = getUserLocation(userDto).getLocation();
 		for(Attraction attraction : gpsUtilProxy.getAttractions()) {
-			if(rewardCentralProxy.isWithinAttractionProximity(attraction, visitedLocation.getLocation())) {
+			if(rewardCentralProxy.isWithinAttractionProximity(attraction, userLocation)) {
 				NearbyAttractionsDto nearBy = new NearbyAttractionsDto();
 				nearBy.setAttraction(attraction);
-				nearBy.setUserLocation(visitedLocation.getLocation());
-				nearBy.setDistance(rewardCentralProxy.getDistance(attraction, visitedLocation.getLocation()));
-				UserDto userDto = userProxy.getUserById(visitedLocation.getUserId());
-				nearBy.setRewardPoints(rewardCentralProxy.getRewardPoints(attraction, userDto));
+				nearBy.setUserLocation(getUserLocation(userDto).getLocation());
+				nearBy.setDistance(rewardCentralProxy.getDistance(new Location(attraction.getLongitude(),attraction.getLatitude()), userLocation));
+				nearBy.setRewardPoints(rewardService.calculateRewards(userDto));
 				nearbyAttractionsListDto.add(nearBy);
 			}
 		}

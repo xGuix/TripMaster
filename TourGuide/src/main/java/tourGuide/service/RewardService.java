@@ -42,7 +42,7 @@ public class RewardService {
         userLocations.forEach(visitedLocation -> {
             attractions.forEach(a -> {
                 if (userDto.getUserRewards().stream().noneMatch(r -> r.getAttraction().getAttractionName().equals(a.getAttractionName()))) {
-                    if (rewardCentralProxy.nearAttraction(visitedLocation, a)) {
+                    if (rewardCentralProxy.getNearbyAttractions(visitedLocation, a)) {
                         userDto.getUserRewards().add(new UserRewardDto(visitedLocation, a, rewardCentralProxy.getRewardPoints(a, userDto)));
                     }
                 }

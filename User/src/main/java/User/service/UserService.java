@@ -28,7 +28,7 @@ public class UserService {
      * The Test mode.
      */
     boolean testMode = true;
-    private static int internalUserNumber = 100;
+    private static int internalUserNumber = 1000;
 
     /**
      * Instantiates a new Map for user.
@@ -41,9 +41,10 @@ public class UserService {
     public UserService(){
         if (testMode) {
             logger.info("TestMode enabled");
-            logger.debug("Initializing users");
+            logger.info("Initializing users");
             initializeInternalUsers();
             logger.debug("Finished initializing users");
+            logger.info("{} users created",internalUserMap.size());
 
         }
     }

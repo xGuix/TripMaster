@@ -1,6 +1,7 @@
 package tourGuide.controller;
 
 import com.dto.NearbyAttractionsDto;
+import com.dto.UserDto;
 import com.model.Location;
 import com.model.VisitedLocation;
 import org.junit.jupiter.api.Test;
@@ -54,11 +55,12 @@ public class TourGuideControllerTest {
         String userName = "username";
         Location location = new Location(33.817595D,-117.922008D);
         Date date = new Date();
+        UserDto userDto = new UserDto(UUID.randomUUID(),userName);
         VisitedLocation visitedLocation = new VisitedLocation(UUID.randomUUID(),location, date);
         List<NearbyAttractionsDto> nearbyAttractionsDtoList = new ArrayList<>();
 
         Mockito.when(tourGuideService.getUserLocation(tourGuideService.getUser(userName))).thenReturn(visitedLocation);
-        Mockito.when(tourGuideService.getNearbyAttractions(visitedLocation)).thenReturn(nearbyAttractionsDtoList);
+        Mockito.when(tourGuideService.getNearbyAttractions(userDto)).thenReturn(nearbyAttractionsDtoList);
 
         mockMvc.perform(get("/getNearbyAttractions").param("userName", userName))
                 .andExpect(status().isOk());

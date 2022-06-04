@@ -41,6 +41,7 @@ public class RewardCentralController {
      */
     @RequestMapping("/getRewardPoints")
     public int getRewardPoints(Attraction attraction, UserDto userDto) {
+        logger.info("Get reward points from rewardCentral");
         return rewardCentralService.getRewardPoints(attraction, userDto);
     }
 
@@ -53,6 +54,7 @@ public class RewardCentralController {
      */
     @RequestMapping("/getAttractionProxy")
     public boolean isWithinAttractionProximity(Attraction attraction, Location location) {
+        logger.info("Get within attraction proximity from rewardCentral");
         return rewardCentralService.isWithinAttractionProximity(attraction, location);
     }
 
@@ -63,8 +65,9 @@ public class RewardCentralController {
      * @param attraction the attraction
      * @return boolean Visited location proximity
      */
-    @RequestMapping("/getNearAttraction")
-    public boolean nearAttraction(VisitedLocation visitedLocation, Attraction attraction) {
+    @RequestMapping("/getNearbyAttractions")
+    public boolean getNearbyAttractions(VisitedLocation visitedLocation, Attraction attraction) {
+        logger.info("Get nearby attraction from rewardCentral");
         return rewardCentralService.nearAttraction(visitedLocation, attraction);
     }
 
@@ -77,6 +80,7 @@ public class RewardCentralController {
      */
     @RequestMapping("/getDistance")
     public double getDistance(Location loc1, Location loc2) {
+        logger.info("Get distance from rewardCentral");
         return rewardCentralService.getDistance(loc1, loc2);
     }
 }

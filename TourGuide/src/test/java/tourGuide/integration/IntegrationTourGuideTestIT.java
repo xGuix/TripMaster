@@ -86,8 +86,7 @@ public class IntegrationTourGuideTestIT {
 	@Test
 	public void getNearbyAttractions() {
         TourGuideService tourGuideService = new TourGuideService(userProxy, gpsUtil, rewardCentral, tripPricer);
-		VisitedLocation visitedLocation = tourGuideService.getUserLocation(userDto);
-		List<NearbyAttractionsDto> attractions = tourGuideService.getNearbyAttractions(visitedLocation);
+		List<NearbyAttractionsDto> attractions = tourGuideService.getNearbyAttractions(userDto);
 		tourGuideService.trackerService.stopTracking();
 
 		assertTrue(attractions.size() > 0);

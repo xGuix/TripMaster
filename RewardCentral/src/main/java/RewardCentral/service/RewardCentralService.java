@@ -20,9 +20,9 @@ public class RewardCentralService {
 
 	// Location and proximity data set in miles
 	private static final double STATUTE_MILES_PER_NAUTICAL_MILE = 1.15077945;
-	private final int defaultProximityBuffer = 100;
+	private final int defaultProximityBuffer = 10;
 	private int proximityBuffer = defaultProximityBuffer;
-	public final int attractionProximityRange = 10000;
+	public final int attractionProximityRange = 1000;
 
 	/**
 	 * Setter proximity buffer
