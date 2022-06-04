@@ -82,9 +82,9 @@ public class UserController {
      * @param user User user
      * @return userName User userName
      */
-    @RequestMapping("/addUser")
-    public void getUser(@RequestParam User user) {
-        logger.info("Get user with user: {}", user);
+    @PostMapping("/addUser")
+    public void getUser(@RequestBody User user) {
+        logger.info("Add user: {}", user.getUserName());
         userService.addUser(user);
     }
 
@@ -118,7 +118,7 @@ public class UserController {
      * @param userName   the username
      * @param userReward add the reward for this user
      */
-    @PutMapping("/addRewards")
+    @PostMapping("/addRewards")
     public void addUserReward(@RequestParam String userName, @RequestBody UserRewardDto userReward){
         logger.info("Add user reward to userName: {} {}",userName, userReward);
         userService.addUserReward(userName, userReward);

@@ -68,6 +68,16 @@ public class TourGuideController {
     }
 
     /**
+     * Add user:
+     * @param userDto UserDto user
+     */
+    @PostMapping("/addUser")
+    public void addUser(@RequestBody UserDto userDto){
+        logger.info("Call service for add user: {}", userDto);
+        tourGuideService.addUser(userDto);
+    };
+
+    /**
      * Get user:
      * Call to get user with id
      *

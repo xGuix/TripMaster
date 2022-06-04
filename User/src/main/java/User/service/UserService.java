@@ -28,7 +28,7 @@ public class UserService {
      * The Test mode.
      */
     boolean testMode = true;
-    private static int internalUserNumber = 1000;
+    private static int internalUserNumber = 100;
 
     /**
      * Instantiates a new Map for user.
@@ -106,7 +106,7 @@ public class UserService {
     public void addUser(User user) {
         if (!internalUserMap.containsKey(user.getUserName())) {
             internalUserMap.put(user.getUserName(), user);
-            logger.info("User: {} have been added.",user);
+            logger.info("{} have been added.",user.getUserName());
         }
     }
 

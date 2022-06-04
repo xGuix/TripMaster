@@ -41,10 +41,10 @@ public interface UserProxy {
 
     /**
      * Get users list.
-     * @param user User user
+     * @param userDto UserDto user
      */
     @PostMapping("/addUser")
-    void addUser(@RequestParam("user") UserDto user);
+    void addUser(@RequestBody UserDto userDto);
 
     /**
      * Get all current locations list.

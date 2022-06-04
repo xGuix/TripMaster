@@ -91,6 +91,18 @@ public class TourGuideService {
 	}
 
 	/**
+	 *  Add user
+	 *  Call to get reward with user
+	 *
+	 * @param userDto String user
+	 * @return userReward Rewards user list
+	 */
+	public void addUser(UserDto userDto) {
+		logger.info("Call userProxy /addUser to add new user");
+		userProxy.addUser(userDto);
+	}
+
+	/**
 	 *  Get user reward List
 	 *  Call to get reward with user
 	 *
@@ -166,7 +178,6 @@ public class TourGuideService {
 	 * @return visitedLocation User visited location
 	 */
 	public VisitedLocation trackUserLocation(UserDto userDto) {
-		//Locale.setDefault(Locale.US);
 		VisitedLocation visitedLocation = gpsUtilProxy.getUserLocation(userDto.getUserId());
 		userDto.addToVisitedLocations(visitedLocation);
 		rewardService.calculateRewards(userDto);
