@@ -6,7 +6,6 @@ import com.dto.UserLocationDto;
 import com.dto.UserRewardDto;
 import com.model.Provider;
 import com.model.VisitedLocation;
-import feign.Body;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,14 +93,14 @@ public class TourGuideController {
      *  Get user location
      *  Call get location with username
      *
-     * @param userName String user name
+     * @param userId String user name
      * @return visitedLocation The visited location
      */
     @RequestMapping("/getLocation")
-    public VisitedLocation getLocation(@RequestParam String userName) {
-        logger.info("Get visited locations with username: {}", userName);
-        UserDto userDto = getUser(userName);
-		return tourGuideService.getUserLocation(userDto);
+    public VisitedLocation getLocation(@RequestParam UUID userId) {
+        logger.info("Get user locations with userId: {}", userId);
+        //UserDto userDto = getUser(userName);
+		return tourGuideService.getUserLocation(userId);
     }
 
     /**
@@ -123,10 +122,10 @@ public class TourGuideController {
      * @param userName String user name
      * @return userAttractionList List of the closest attraction
      */
-    @RequestMapping("/getNearbyAttractions")
+    @GetMapping("/getNearbyAttractions")
     public List<NearbyAttractionsDto> getNearbyAttractions(@RequestParam String userName) {
         logger.info("Get nearby attractions with username: {}", userName);
-        UserDto userDto = getUser(userName);
+        UserDto userDto = tourGuideService.getUser(userName);
     	return tourGuideService.getNearbyAttractions(userDto);
     }
 
@@ -150,7 +149,7 @@ public class TourGuideController {
      * @param userName String userName
      * @return providers List of providers
      */
-    @PutMapping("/addRewards")
+    @PostMapping("/addRewards")
     public void addRewards(@RequestParam String userName, @RequestBody UserRewardDto userReward) {
         logger.info("Add user reward with username: {} reward {}", userName,userReward);
         tourGuideService.addRewards(userName,userReward);
@@ -169,11 +168,4 @@ public class TourGuideController {
         UserDto userDto = getUser(userName);
     	return tourGuideService.getTripDeals(userDto);
     }
-
-//    @RequestMapping("/trackUserLocation")
-//    public VisitedLocation trackUserLocation(@RequestParam String userName) {
-//        logger.info("Get visited locations with username: {}", userName);
-//        UserDto userDto = getUser(userName);
-//        return tourGuideService.trackUserLocation(userDto);
-//    }
 }

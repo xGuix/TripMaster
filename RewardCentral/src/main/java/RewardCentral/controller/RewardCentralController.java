@@ -2,7 +2,6 @@ package RewardCentral.controller;
 
 import RewardCentral.service.RewardCentralService;
 import com.model.Location;
-import com.model.VisitedLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,31 +55,5 @@ public class RewardCentralController {
     public boolean isWithinAttractionProximity(Attraction attraction, Location location) {
         logger.info("Get within attraction proximity from rewardCentral");
         return rewardCentralService.isWithinAttractionProximity(attraction, location);
-    }
-
-    /**
-     * Gets visited attraction around.
-     *
-     * @param visitedLocation visited location
-     * @param attraction the attraction
-     * @return boolean Visited location proximity
-     */
-    @RequestMapping("/getNearbyAttractions")
-    public boolean getNearbyAttractions(VisitedLocation visitedLocation, Attraction attraction) {
-        logger.info("Get nearby attraction from rewardCentral");
-        return rewardCentralService.nearAttraction(visitedLocation, attraction);
-    }
-
-    /**
-     * Gets attractions proximity.
-     *
-     * @param loc1 the location 1
-     * @param loc2 the location 2
-     * @return boolean
-     */
-    @RequestMapping("/getDistance")
-    public double getDistance(Location loc1, Location loc2) {
-        logger.info("Get distance from rewardCentral");
-        return rewardCentralService.getDistance(loc1, loc2);
     }
 }

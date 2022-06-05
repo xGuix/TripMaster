@@ -37,30 +37,20 @@ public class TourGuideControllerTest {
 
     @Test
     public void getLocation() throws Exception {
-
-        String userName = "username";
         Location location = new Location(33.817595D,-117.922008D);
         Date date = new Date();
-        VisitedLocation visitedLocation = new VisitedLocation(UUID.randomUUID(),location, date);
+        VisitedLocation visitedLocation = new VisitedLocation(UUID.randomUUID(), location, date);
+        Mockito.when(tourGuideService.getUserLocation(visitedLocation.getUserId())).thenReturn(visitedLocation);
 
-        Mockito.when(tourGuideService.getUserLocation(tourGuideService.getUser(userName))).thenReturn(visitedLocation);
-
-        mockMvc.perform(get("/getLocation").param("userName", userName))
+        mockMvc.perform(get("/getLocation").param("userId", String.valueOf(visitedLocation.getUserId())))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void getNearbyAttractionsTest() throws Exception {
-
         String userName = "username";
-        Location location = new Location(33.817595D,-117.922008D);
-        Date date = new Date();
-        UserDto userDto = new UserDto(UUID.randomUUID(),userName);
-        VisitedLocation visitedLocation = new VisitedLocation(UUID.randomUUID(),location, date);
-        List<NearbyAttractionsDto> nearbyAttractionsDtoList = new ArrayList<>();
-
-        Mockito.when(tourGuideService.getUserLocation(tourGuideService.getUser(userName))).thenReturn(visitedLocation);
-        Mockito.when(tourGuideService.getNearbyAttractions(userDto)).thenReturn(nearbyAttractionsDtoList);
+        UserDto userDto = new UserDto(UUID.randomUUID(), userName);
+        Mockito.when(tourGuideService.getUser(userDto.getUserName())).thenReturn(userDto);
 
         mockMvc.perform(get("/getNearbyAttractions").param("userName", userName))
                 .andExpect(status().isOk());
@@ -68,9 +58,7 @@ public class TourGuideControllerTest {
 
     @Test
     public void getRewardsTest() throws Exception {
-
         String userName = "username";
-
         Mockito.when(tourGuideService.getRewards(userName)).thenReturn(new ArrayList<>());
 
         mockMvc.perform(get("/getRewards").param("userName", userName))
@@ -79,7 +67,6 @@ public class TourGuideControllerTest {
 
     @Test
     public void getAllCurrentLocationsTest() throws Exception {
-
         Mockito.when(tourGuideService.getUsers()).thenReturn(new ArrayList<>());
 
         mockMvc.perform(get("/getAllCurrentLocations"))
@@ -88,9 +75,7 @@ public class TourGuideControllerTest {
 
     @Test
     public void getTripDealsTest() throws Exception {
-
         String userName = "username";
-
         Mockito.when(tourGuideService.getTripDeals(tourGuideService.getUser(userName))).thenReturn(new ArrayList<>());
 
         mockMvc.perform(get("/getTripDeals").param("userName", userName))

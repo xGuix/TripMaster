@@ -37,7 +37,7 @@ public class IntegrationTourGuideTestIT {
 	@Test
 	public void getUserLocation() throws NumberFormatException {
         TourGuideService tourGuideService = new TourGuideService(userProxy, gpsUtil, rewardCentral, tripPricer);
-		VisitedLocation visitedLocation = tourGuideService.getUserLocation(userDto);
+		VisitedLocation visitedLocation = tourGuideService.getUserLocation(userDto.getUserId());
 		tourGuideService.trackerService.stopTracking();
 
 		assertEquals(visitedLocation.getUserId(), userDto.getUserId());
@@ -77,7 +77,7 @@ public class IntegrationTourGuideTestIT {
 	@Test
 	public void trackUser() {
         TourGuideService tourGuideService = new TourGuideService(userProxy, gpsUtil, rewardCentral, tripPricer);
-		VisitedLocation visitedLocation = tourGuideService.getUserLocation(userDto);
+		VisitedLocation visitedLocation = tourGuideService.getUserLocation(userDto.getUserId());
 		tourGuideService.trackerService.stopTracking();
 
 		assertEquals(userDto.getUserId(), visitedLocation.getUserId());

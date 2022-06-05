@@ -68,8 +68,8 @@ public interface UserProxy {
      * @param userName   the username
      * @param userReward add the reward for this user
      */
-    @PutMapping("/addRewards")
-    void addUserReward(@RequestParam("userName") String userName,@RequestParam("userRewardDto") UserRewardDto userReward);
+    @PostMapping("/addRewards")
+    void addUserReward(@RequestParam("userName") String userName, @RequestBody UserRewardDto userReward);
 
     /**
      * Update trip deals.

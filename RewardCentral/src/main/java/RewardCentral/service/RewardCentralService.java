@@ -1,6 +1,7 @@
 package RewardCentral.service;
 
 import com.dto.UserDto;
+import com.dto.UserLocationDto;
 import com.model.Attraction;
 import com.model.Location;
 import com.model.VisitedLocation;
@@ -16,29 +17,12 @@ import rewardCentral.RewardCentral;
 public class RewardCentralService {
 
     private final Logger logger = LoggerFactory.getLogger("RewardCentralServiceLog");
+	private static final double STATUTE_MILES_PER_NAUTICAL_MILE = 1.15077945;
 	private final RewardCentral rewardCentral = new RewardCentral();
 
 	// Location and proximity data set in miles
-	private static final double STATUTE_MILES_PER_NAUTICAL_MILE = 1.15077945;
-	private final int defaultProximityBuffer = 10;
-	private int proximityBuffer = defaultProximityBuffer;
 	public final int attractionProximityRange = 1000;
 
-	/**
-	 * Setter proximity buffer
-	 *
-	 * @param proximityBuffer int in miles
-	 */
-	public void setProximityBuffer(int proximityBuffer) {
-		this.proximityBuffer = proximityBuffer;
-	}
-
-	/**
-	 * Setter default proximity buffer
-	 */
-	public void setDefaultProximityBuffer() {
-		proximityBuffer = defaultProximityBuffer;
-	}
 
 	/**
 	 * Get user reward points
@@ -62,18 +46,6 @@ public class RewardCentralService {
 	public boolean isWithinAttractionProximity(Attraction attraction, Location location) {
 		logger.info("Get if user is within attraction proximity with current Location");
 		return !(getDistance(new Location(attraction.getLongitude(),attraction.getLatitude()), location) > attractionProximityRange);
-	}
-
-	/**
-	 * Get if user is near attraction
-	 *
-	 * @param visitedLocation Visited Location
-	 * @param attraction Attraction
-	 * @return boolean true if near attractions
-	 */
-	public boolean nearAttraction(VisitedLocation visitedLocation, Attraction attraction) {
-		logger.info("Get if user is near attraction with visited location");
-		return !(getDistance(new Location(attraction.getLongitude(),attraction.getLatitude()), visitedLocation.getLocation()) > proximityBuffer);
 	}
 
 	/**

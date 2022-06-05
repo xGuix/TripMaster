@@ -61,7 +61,7 @@ public class TestPerformanceIT {
 	/**
 	 * Create ThreadPool of 1000
 	 */
-	Executor executor = Executors.newFixedThreadPool(100);
+	Executor executor = Executors.newFixedThreadPool(1000);
 
 	/**
 	 * Create user List of 100,000 for tests
@@ -115,7 +115,7 @@ public class TestPerformanceIT {
 
 		allUsersDto.forEach(u -> {
 			CompletableFuture completable = CompletableFuture.runAsync(() -> {
-				tourGuideService.getUserLocation(u);
+				tourGuideService.getUserLocation(u.getUserId());
 				}, executor);
 			completableFutures.add(completable);
 		});

@@ -127,14 +127,12 @@ public class TourGuideService {
 	 *  Get user location
 	 *  Call to get location with user
 	 *
-	 * @param userDto User user
+	 * @param userId User user id
 	 * @return visitedLocation The visited location
 	 */
-	public VisitedLocation getUserLocation(UserDto userDto) {
-		logger.info("Call gpsUtilProxy /getUserLocation to search for user location");
-		Date date = new Date();
-		userDto.setLatestLocationTimestamp(date);
-		return gpsUtilProxy.getUserLocation(userDto.getUserId());
+	public VisitedLocation getUserLocation(UUID userId) {
+		logger.info("Call gpsUtilProxy /getUserLocation to search for user visited location");
+		return gpsUtilProxy.getUserLocation(userId);
 	}
 
 	/**
@@ -167,22 +165,6 @@ public class TourGuideService {
 		return providers;
 	}
 
-//	/**
-//	 * Get track user location:
-//	 * Call to get the user visited location
-//	 *
-//	 * @param userDto UserDto user
-//	 * @return visitedLocation User visited location
-//	 */
-//	public VisitedLocation trackUserLocation(UserDto userDto) {
-//		RewardService rewardService = new RewardService(gpsUtilProxy,rewardCentralProxy);
-//		VisitedLocation visitedLocation = gpsUtilProxy.getUserLocation(userDto.getUserId());
-//		userDto.addToVisitedLocations(visitedLocation);
-//		rewardCentralProxy.getDistance(userDto.getLastVisitedLocation().getLocation(),visitedLocation.getLocation());
-//		rewardService.calculateRewards(userDto);
-//		return visitedLocation;
-//	}
-
 	/**
 	 * Get nearby attraction:
 	 * Call to get the list of all visited location proximity
@@ -193,14 +175,16 @@ public class TourGuideService {
 	public List<NearbyAttractionsDto> getNearbyAttractions(UserDto userDto) {
 		RewardService rewardService = new RewardService(gpsUtilProxy,rewardCentralProxy);
 		List<NearbyAttractionsDto> nearbyAttractionsListDto = new ArrayList<>();
-		Location userLocation = getUserLocation(userDto).getLocation();
+		Location userLocation = getUserLocation(userDto.getUserId()).getLocation();
 		for(Attraction attraction : gpsUtilProxy.getAttractions()) {
+			double distance = rewardService.getDistance(new Location(attraction.getLongitude(),attraction.getLatitude()), userLocation);
+			int reward = rewardCentralProxy.getRewardPoints(attraction, userDto);
 			if(rewardCentralProxy.isWithinAttractionProximity(attraction, userLocation)) {
 				NearbyAttractionsDto nearBy = new NearbyAttractionsDto();
 				nearBy.setAttraction(attraction);
-				nearBy.setUserLocation(getUserLocation(userDto).getLocation());
-				nearBy.setDistance(rewardCentralProxy.getDistance(new Location(attraction.getLongitude(),attraction.getLatitude()), userLocation));
-				nearBy.setRewardPoints(rewardService.calculateRewards(userDto));
+				nearBy.setUserLocation(userLocation);
+				nearBy.setDistance(distance);
+				nearBy.setRewardPoints(reward);
 				nearbyAttractionsListDto.add(nearBy);
 			}
 		}

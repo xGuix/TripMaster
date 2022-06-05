@@ -28,7 +28,7 @@ public class UserService {
      * The Test mode.
      */
     boolean testMode = true;
-    private static int internalUserNumber = 1000;
+    private static int internalUserNumber = 100;
 
     /**
      * Instantiates a new Map for user.
@@ -126,6 +126,15 @@ public class UserService {
         logger.info("Get all current location for all users");
         return userLocationsList;
     }
+
+//    /**
+//     * Gets user current location.
+//     *
+//     * @return the localisation of user
+//     */
+//    public UserLocationDto getUserLocation(User user) {
+//        user.
+//    }
 
     /**
      * Gets user rewards.
