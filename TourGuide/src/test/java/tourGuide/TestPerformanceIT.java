@@ -21,7 +21,6 @@ import tourGuide.proxy.RewardCentralProxy;
 import tourGuide.proxy.TripPricerProxy;
 import tourGuide.proxy.UserProxy;
 import tourGuide.service.RewardService;
-import tourGuide.service.TourGuideService;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -61,7 +60,7 @@ public class TestPerformanceIT {
 	/**
 	 * Create ThreadPool of 1000
 	 */
-	Executor executor = Executors.newFixedThreadPool(1000);
+	Executor executor = Executors.newFixedThreadPool(50);
 
 	/**
 	 * Create user List of 100,000 for tests
@@ -105,7 +104,8 @@ public class TestPerformanceIT {
 
 	@Test
 	public void highVolumeTrackLocation() {
-		TourGuideService tourGuideService = new TourGuideService(userProxy, gpsUtilProxy, rewardCentralProxy, tripPricerProxy);
+		// Users should be incremented up to 100,000 and test finishes within 15 minutes
+		//InternalTestHelper.setInternalUserNumber(10000);
 
 		List<UserDto> allUsersDto = new ArrayList<>(internalUserMap.values());
 		ArrayList<CompletableFuture> completableFutures= new ArrayList<>();
@@ -115,7 +115,7 @@ public class TestPerformanceIT {
 
 		allUsersDto.forEach(u -> {
 			CompletableFuture completable = CompletableFuture.runAsync(() -> {
-				tourGuideService.getUserLocation(u.getUserId());
+				gpsUtilProxy.getUserLocation(u.getUserId());
 				}, executor);
 			completableFutures.add(completable);
 		});
@@ -130,13 +130,19 @@ public class TestPerformanceIT {
 	@Test
 	public void highVolumeGetRewards() {
 		// Users should be incremented up to 100,000 and test finishes within 20 minutes
+		//InternalTestHelper.setInternalUserNumber(10000);
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
 
 	    Attraction attraction = gpsUtilProxy.getAttractions().get(0);
 		List<UserDto> allUsersDto = new ArrayList<>(internalUserMap.values());
 		List<CompletableFuture> completableFutures = new ArrayList<>();
-		allUsersDto.forEach(u -> u.addToVisitedLocations(new VisitedLocation(u.getUserId(), new Location(attraction.getLongitude(),attraction.getLatitude()), new Date())));
+
+		allUsersDto.forEach(u ->
+				u.addToVisitedLocations(
+						new VisitedLocation(u.getUserId(),
+						new Location(attraction.getLongitude(),attraction.getLatitude()),
+						new Date())));
 
 		allUsersDto.forEach(u -> {
 			CompletableFuture completable = CompletableFuture.runAsync(() -> {

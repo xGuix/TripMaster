@@ -39,6 +39,7 @@ public class IntegrationRewardsTestIT {
 
 	@Test
 	public void userGetRewards() {
+		InternalTestHelper.setInternalUserNumber(1);
 		TourGuideService tourGuideService = new TourGuideService(userProxy, gpsUtilProxy, rewardCentralProxy, tripPricerProxy);
 		UserDto userDto = new UserDto(UUID.randomUUID(), "jon", "000", "jon@tourGuide.com");
 		Attraction attraction = gpsUtilProxy.getAttractions().get(0);
@@ -54,26 +55,23 @@ public class IntegrationRewardsTestIT {
 
 	@Test
 	public void isWithinAttractionProximity() {
+		UserDto user = new UserDto(UUID.randomUUID(), "jon", "000", "jon@tourGuide.com");
 		Attraction attraction = gpsUtilProxy.getAttractions().get(0);
+		VisitedLocation userLocation = gpsUtilProxy.getUserLocation(user.getUserId());
 
-		assertTrue(rewardCentralProxy.isWithinAttractionProximity(attraction, new Location(attraction.getLongitude(),attraction.getLatitude())));
+		assertTrue(rewardService.isWithinAttractionProximity(attraction, userLocation.getLocation()));
 	}
 
 	@Test
 	public void nearAllAttractions() {
 		InternalTestHelper.setInternalUserNumber(1);
 		TourGuideService tourGuideService = new TourGuideService(userProxy,gpsUtilProxy, rewardCentralProxy, tripPricerProxy);
-        UserDto userDto = new UserDto(UUID.randomUUID(), "jon", "000", "jon@tourGuide.com");
-		Attraction attraction = gpsUtilProxy.getAttractions().get(0);
-		userDto.addToVisitedLocations(new VisitedLocation(userDto.getUserId(), new Location(attraction.getLongitude(),attraction.getLatitude()), new Date()));
-		UserRewardDto userRewardDto = new UserRewardDto(userDto.getLastVisitedLocation(),attraction, rewardCentralProxy.getRewardPoints(attraction, userDto));
-		userDto.addUserReward(userRewardDto);
-		userProxy.addUser(userDto);
 
 		rewardService.calculateRewards(tourGuideService.getUsers().get(0));
 		List<UserRewardDto> userRewardsDto = tourGuideService.getRewards(tourGuideService.getUsers().get(0).getUserName());
 		tourGuideService.trackerService.stopTracking();
 
+		UserDto userDto = tourGuideService.getUsers().get(0);
 		assertEquals(userDto.getUserRewards().size(), userRewardsDto.size());
 	}
 }

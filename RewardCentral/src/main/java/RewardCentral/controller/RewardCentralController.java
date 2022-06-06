@@ -1,7 +1,6 @@
 package RewardCentral.controller;
 
 import RewardCentral.service.RewardCentralService;
-import com.model.Location;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,18 +41,5 @@ public class RewardCentralController {
     public int getRewardPoints(Attraction attraction, UserDto userDto) {
         logger.info("Get reward points from rewardCentral");
         return rewardCentralService.getRewardPoints(attraction, userDto);
-    }
-
-    /**
-     * Gets attractions proximity.
-     *
-     * @param attraction the attraction
-     * @param location the location
-     * @return boolean
-     */
-    @RequestMapping("/getAttractionProxy")
-    public boolean isWithinAttractionProximity(Attraction attraction, Location location) {
-        logger.info("Get within attraction proximity from rewardCentral");
-        return rewardCentralService.isWithinAttractionProximity(attraction, location);
     }
 }

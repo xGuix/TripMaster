@@ -4,6 +4,7 @@ import com.dto.NearbyAttractionsDto;
 import com.dto.UserDto;
 import com.model.Provider;
 import com.model.VisitedLocation;
+import com.util.InternalTestHelper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -36,6 +37,7 @@ public class IntegrationTourGuideTestIT {
 
 	@Test
 	public void getUserLocation() throws NumberFormatException {
+		InternalTestHelper.setInternalUserNumber(1);
         TourGuideService tourGuideService = new TourGuideService(userProxy, gpsUtil, rewardCentral, tripPricer);
 		VisitedLocation visitedLocation = tourGuideService.getUserLocation(userDto.getUserId());
 		tourGuideService.trackerService.stopTracking();
@@ -45,6 +47,7 @@ public class IntegrationTourGuideTestIT {
 
 	@Test
 	public void addUser() {
+		InternalTestHelper.setInternalUserNumber(1);
         TourGuideService tourGuideService = new TourGuideService(userProxy, gpsUtil, rewardCentral, tripPricer);
 		userProxy.addUser(userDto);
         userProxy.addUser(userDto2);
@@ -61,6 +64,7 @@ public class IntegrationTourGuideTestIT {
 
 	@Test
 	public void getAllUsers() {
+		InternalTestHelper.setInternalUserNumber(1);
         TourGuideService tourGuideService = new TourGuideService(userProxy, gpsUtil, rewardCentral, tripPricer);
         userProxy.addUser(userDto);
         userProxy.addUser(userDto2);
@@ -76,6 +80,7 @@ public class IntegrationTourGuideTestIT {
 
 	@Test
 	public void trackUser() {
+		InternalTestHelper.setInternalUserNumber(1);
         TourGuideService tourGuideService = new TourGuideService(userProxy, gpsUtil, rewardCentral, tripPricer);
 		VisitedLocation visitedLocation = tourGuideService.getUserLocation(userDto.getUserId());
 		tourGuideService.trackerService.stopTracking();
@@ -85,6 +90,7 @@ public class IntegrationTourGuideTestIT {
 
 	@Test
 	public void getNearbyAttractions() {
+		InternalTestHelper.setInternalUserNumber(1);
         TourGuideService tourGuideService = new TourGuideService(userProxy, gpsUtil, rewardCentral, tripPricer);
 		List<NearbyAttractionsDto> attractions = tourGuideService.getNearbyAttractions(userDto);
 		tourGuideService.trackerService.stopTracking();
@@ -94,6 +100,7 @@ public class IntegrationTourGuideTestIT {
 
     @Test
 	public void getTripDeals() {
+		InternalTestHelper.setInternalUserNumber(1);
         TourGuideService tourGuideService = new TourGuideService(userProxy, gpsUtil, rewardCentral, tripPricer);
 		List<Provider> providers = tourGuideService.getTripDeals(userDto);
 		tourGuideService.trackerService.stopTracking();

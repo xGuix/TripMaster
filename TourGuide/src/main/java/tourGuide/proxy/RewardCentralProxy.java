@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 @FeignClient(value = "rewardCentral", url = "localhost:8383")
 public interface RewardCentralProxy {
-
     /**
      * Gets reward points.
      *
@@ -20,14 +19,4 @@ public interface RewardCentralProxy {
      */
     @RequestMapping("/getRewardPoints")
     int getRewardPoints(@RequestParam("attraction") Attraction attraction, @RequestParam("userDto") UserDto userDto);
-
-    /**
-     * Gets true if attractions around.
-     *
-     * @param attraction the attraction
-     * @param location the location
-     * @return boolean attraction proximity
-     */
-    @RequestMapping("/getAttractionProxy")
-    boolean isWithinAttractionProximity(@RequestParam("attraction") Attraction attraction, @RequestParam("location") Location location);
 }

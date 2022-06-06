@@ -179,7 +179,7 @@ public class TourGuideService {
 		for(Attraction attraction : gpsUtilProxy.getAttractions()) {
 			double distance = rewardService.getDistance(new Location(attraction.getLongitude(),attraction.getLatitude()), userLocation);
 			int reward = rewardCentralProxy.getRewardPoints(attraction, userDto);
-			if(rewardCentralProxy.isWithinAttractionProximity(attraction, userLocation)) {
+			if(rewardService.isWithinAttractionProximity(attraction, userLocation)) {
 				NearbyAttractionsDto nearBy = new NearbyAttractionsDto();
 				nearBy.setAttraction(attraction);
 				nearBy.setUserLocation(userLocation);
