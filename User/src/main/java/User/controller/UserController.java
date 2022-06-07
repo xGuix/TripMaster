@@ -1,8 +1,8 @@
 package User.controller;
 
-import com.dto.UserDto;
+import User.model.User;
+import User.model.UserPreferences;
 import com.dto.UserLocationDto;
-import com.dto.UserPreferencesDto;
 import com.dto.UserRewardDto;
 import User.service.UserService;
 import com.model.VisitedLocation;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import com.model.Provider;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * The type User controller.
@@ -26,14 +27,25 @@ public class UserController {
     UserService userService;
 
     /**
+     *  Get Index Controller
+     *
+     * @return String Greetings from User!
+     */
+    @RequestMapping("/")
+    public String index() {
+        logger.info("Get user index");
+        return "Greetings from User!";
+    }
+
+    /**
      * Get All user:
      * Call to get All user with username
      *
      * @return userList List of all users
      */
     @RequestMapping("/getUsers")
-    public List<UserDto> getUsers() {
-        logger.info("Search list of all users");
+    public List<User> getUsers() {
+        logger.info("Get list of all users");
         return userService.getUsers();
     }
 
@@ -45,9 +57,46 @@ public class UserController {
      * @return userName User userName
      */
     @RequestMapping("/getUser")
-    public UserDto getUser(String userName) {
-        logger.info("Search user with username: {}", userName);
+    public User getUser(@RequestParam String userName) {
+        logger.info("Get user with username: {}", userName);
         return userService.getUser(userName);
+    }
+
+    /**
+     * Get user:
+     * Call to get user with id
+     *
+     * @param userId String userName
+     * @return userName User userName
+     */
+    @RequestMapping("/getUserById")
+    public User getUserById(@RequestParam UUID userId) {
+        logger.info("Get user with userId: {}", userId);
+        return userService.getUserById(userId);
+    }
+
+    /**
+     * Add user:
+     * Call to add a new user
+     *
+     * @param user User user
+     * @return userName User userName
+     */
+    @PostMapping("/addUser")
+    public void getUser(@RequestBody User user) {
+        logger.info("Add user: {}", user.getUserName());
+        userService.addUser(user);
+    }
+
+    /**
+     * Get all current locations list.
+     *
+     * @return all current locations
+     */
+    @RequestMapping("/getAllCurrentLocations")
+    public List<UserLocationDto> getAllCurrentLocations(){
+        logger.info("Get all list of current location users");
+        return userService.getAllCurrentLocations();
     }
 
     /**
@@ -56,9 +105,11 @@ public class UserController {
      * @param userName the username
      * @return list of rewards of this user
      */
-    @GetMapping("/rewards")
-    public List<UserRewardDto> getUserRewards(String userName) {
-        return userService.getUserRewards(getUser(userName));
+    @RequestMapping("/getRewards")
+    public List<UserRewardDto> getUserRewards(@RequestParam String userName) {
+        logger.info("Get user rewards with userName: {}",userName);
+        User user = getUser(userName);
+        return userService.getUserRewards(user);
     }
 
     /**
@@ -67,8 +118,9 @@ public class UserController {
      * @param userName   the username
      * @param userReward add the reward for this user
      */
-    @PostMapping("/rewards")
-    public void createUserReward(String userName, @RequestBody UserRewardDto userReward){
+    @PostMapping("/addRewards")
+    public void addUserReward(@RequestParam String userName, @RequestBody UserRewardDto userReward){
+        logger.info("Add user reward to userName: {} {}",userName, userReward);
         userService.addUserReward(userName, userReward);
     }
 
@@ -79,18 +131,8 @@ public class UserController {
      * @param tripDeals Update trip deals for this user
      */
     @PostMapping("/tripDeals")
-    public void updateTripDeals(String userName, @RequestBody List<Provider> tripDeals){
+    public void updateTripDeals(@RequestParam String userName, @RequestBody List<Provider> tripDeals){
         userService.updateTripDeals(userName, tripDeals);
-    }
-
-    /**
-     * Get all current locations list.
-     *
-     * @return all current locations
-     */
-    @GetMapping("/getAllCurrentLocations")
-    public List<UserLocationDto> getAllCurrentLocations(){
-        return userService.getAllCurrentLocations();
     }
 
     /**
@@ -100,7 +142,7 @@ public class UserController {
      * @param visitedLocation Add the visited location for this user
      */
     @PostMapping("/addVisitedLocation")
-    public void createVisitedLocation(String userName, @RequestBody VisitedLocation visitedLocation){
+    public void addVisitedLocation(@RequestParam String userName, @RequestBody VisitedLocation visitedLocation){
         userService.addVisitedLocation(userName, visitedLocation);
     }
 
@@ -111,7 +153,7 @@ public class UserController {
      * @param userPreferences The new user preferences
      */
     @PostMapping("/userPreferences")
-    public void userPreferences(String userName, @RequestBody UserPreferencesDto userPreferences){
+    public void userPreferences(@RequestParam String userName, @RequestBody UserPreferences userPreferences){
         userService.UpdateUserPreferences(userName, userPreferences);
     }
 }

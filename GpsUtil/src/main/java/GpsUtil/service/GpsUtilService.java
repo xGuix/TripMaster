@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 @Service
@@ -36,4 +37,27 @@ public class GpsUtilService {
         logger.info("Service getAllAttractions from gpsUtil");
         return gpsUtil.getAttractions();
     }
+
+    //VisitedLocationDto getUserLastVisitedLocation(UUID userId)
+    //void addVisitedLocation(UUID userId, List<VisitedLocationDto> visitedLocationDto);
+    //List<AttractionWithDistanceDto> getNearbyAttractions(UUID userId, int limit) throws NoLocationFoundException;
+
+//    @Override
+//    public List<VisitedAttractionDto> getVisitedAttractions(UUID userId) {
+//        List<Attraction> attractions = gpsUtil.getAttractions();
+//        List<VisitedLocation> visitedLocations = locationHistoryRepository.findById(userId);
+//        List<VisitedAttractionDto> visitedAttraction = new ArrayList<>();
+//        // For each attraction we search the first visited location in range
+//        attractions.forEach(attraction -> visitedLocations
+//                .stream()
+//                .filter(visitedLocation -> isInRangeOfAttraction(visitedLocation, attraction))
+//                .findFirst()
+//                .ifPresent(visitedLocation -> visitedAttraction.add(new VisitedAttractionDto(
+//                        AttractionMapper.toDto(attraction),
+//                        VisitedLocationMapper.toDto(visitedLocation)
+//                )))
+//        );
+//        return visitedAttraction;
+//    }
+
 }

@@ -1,65 +1,45 @@
 package RewardCentral.controller;
 
 import RewardCentral.service.RewardCentralService;
-import com.model.Location;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import com.dto.UserRewardDto;
-import com.dto.UserDto;
-import com.model.Attraction;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class RewardCentralController {
 
+    private static final Logger logger = LogManager.getLogger("RewardCentralControllerLog");
+
+    /**
+     *  Load RewardCentralService
+     */
     @Autowired
-    public RewardCentralService rewardCentralService;
+    RewardCentralService rewardCentralService;
 
     /**
-     * Instantiates a new Rewards controller.
+     *  Get Index Controller
      *
-     * @param rewardCentralService the rewards service
+     * @return String Greetings from RewardCentral!
      */
-    public RewardCentralController(RewardCentralService rewardCentralService){
-        this.rewardCentralService = rewardCentralService;
-    }
-
-    /**
-     * Calculate rewards list.
-     *
-     * @param userDto the user
-     * @return the list
-     */
-    @PostMapping("/calculateRewards")
-    public List<UserRewardDto> calculateRewards(@PathVariable UserDto userDto) {
-        return rewardCentralService.calculateRewards(userDto);
+    @RequestMapping("/")
+    public String index() {
+        logger.info("Get reward central index");
+        return "Greetings from RewardCentral!";
     }
 
     /**
      * Gets reward points.
      *
-     * @param attraction the attraction
-     * @param userDto   the username
+     * @param attractionId the attraction
+     * @param userId   the username
      * @return the reward points
      */
-    @PostMapping("/getRewardPoints")
-    public int rewardPoints(@RequestBody Attraction attraction, @PathVariable UserDto userDto) {
-        return rewardCentralService.getRewardPoints(attraction, userDto);
-    }
-
-    /**
-     * Gets reward points.
-     *
-     * @param attraction the attraction
-     * @param location the location
-     * @return the reward points
-     */
-    @PostMapping("/getAttractionProxy")
-    public boolean isWithinAttractionProximity(@RequestBody Attraction attraction, @PathVariable Location location) {
-        return rewardCentralService.isWithinAttractionProximity(attraction, location);
+    @RequestMapping("/getRewardPoints")
+    public int getRewardPoints(@RequestParam UUID attractionId,@RequestParam UUID userId) {
+        logger.info("Get rewardCentral controller to send service with attractionId and userID", attractionId, userId);
+        return rewardCentralService.getRewardPoints(attractionId, userId);
     }
 }

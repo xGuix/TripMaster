@@ -1,8 +1,8 @@
 package User.service;
 
-import com.dto.UserDto;
+import User.model.User;
+import User.model.UserPreferences;
 import com.dto.UserLocationDto;
-import com.dto.UserPreferencesDto;
 import com.dto.UserRewardDto;
 import com.model.Provider;
 import com.model.VisitedLocation;
@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.IntStream;
 
 /**
  * The type User service.
@@ -19,64 +18,43 @@ import java.util.stream.IntStream;
 @Service
 public class UserService {
 
-    private final Logger logger = LoggerFactory.getLogger(UserService.class);
+    private final Logger logger = LoggerFactory.getLogger("UserServiceLog");
 
     /**
-     * The Test mode.
+     * Instantiates a new Map for users.
      */
-    boolean testMode = true;
-    private static int internalUserNumber = 100;
+    Map<String, User> internalUserMap = new HashMap<>();
 
     /**
-     * Instantiates a new Map for user.
-     */
-    Map<String, UserDto> internalUserMap = new HashMap<>();
-
-    /**
-     * Instantiates a new User service.
-     */
-    public UserService(){
-        if (testMode) {
-            logger.info("TestMode enabled");
-            logger.debug("Initializing users");
-            initializeInternalUsers();
-            logger.debug("Finished initializing users");
-
-        }
-    }
-
-    /**
-     * Instantiates a new User list.
-     */
-    private void initializeInternalUsers() {
-        IntStream.range(0, internalUserNumber).forEach(i -> {
-            String userName = "internalUser" + i;
-            String phone = "000";
-            String email = userName + "@tourGuide.com";
-            UserDto user = new UserDto(UUID.randomUUID(), userName, phone, email);
-
-            internalUserMap.put(userName, user);
-        });
-        logger.debug("Created {} internal test users.", internalUserNumber);
-    }
-
-    /**
-     * Gets all users.
+     * Gets the list of all users.
      *
      * @return the list of all users
      */
-    public List<UserDto> getUsers() {
+    public List<User> getUsers() {
+        logger.info("Get all internalUserMap users");
         return new ArrayList<>(internalUserMap.values());
     }
 
     /**
-     * Gets user.
+     * Gets the user with username.
      *
      * @param userName the username
      * @return the user
      */
-    public UserDto getUser(String userName) {
+    public User getUser(String userName) {
+        logger.info("Get internalUserMap with user: {}",userName);
         return internalUserMap.get(userName);
+    }
+
+    /**
+     * Gets the user by user id.
+     *
+     * @param userId the user id
+     * @return the user
+     */
+    public User getUserById(UUID userId) {
+        logger.info("Get internalUserMap with user: {}",userId);
+        return internalUserMap.get(userId);
     }
 
     /**
@@ -84,10 +62,27 @@ public class UserService {
      *
      * @param user the user
      */
-    public void addUser(UserDto user) {
+    public void addUser(User user) {
         if (!internalUserMap.containsKey(user.getUserName())) {
             internalUserMap.put(user.getUserName(), user);
+            logger.info("{} have been added.",user.getUserName());
         }
+    }
+
+    /**
+     * Gets all current locations.
+     *
+     * @return the localisation of all users
+     */
+    public List<UserLocationDto> getAllCurrentLocations() {
+        List<UserLocationDto> userLocationsList = new ArrayList<>();
+        for (User user : getUsers()) {
+            UUID userId = user.getUserId();
+            VisitedLocation userLastVisitedLocation = user.getLastVisitedLocation();
+            userLocationsList.add(new UserLocationDto(userId, userLastVisitedLocation.getLocation()));
+        }
+        logger.info("Get all current location for all users");
+        return userLocationsList;
     }
 
     /**
@@ -96,7 +91,8 @@ public class UserService {
      * @param user the user
      * @return the rewards for this user
      */
-    public List<UserRewardDto> getUserRewards(UserDto user) {
+    public List<UserRewardDto> getUserRewards(User user) {
+        logger.info("Reward list for user: {}",user);
         return user.getUserRewards();
     }
 
@@ -107,7 +103,10 @@ public class UserService {
      * @param userReward add reward for the user
      */
     public void addUserReward(String userName, UserRewardDto userReward) {
-        getUser(userName).addUserReward(userReward);
+        User user = getUser(userName);
+        user.getUserRewards().add(userReward);
+        internalUserMap.put(userName, user);
+        logger.info("Reward for user: {} have been added.",user);
     }
 
     /**
@@ -118,23 +117,7 @@ public class UserService {
      */
     public void addVisitedLocation(String userName, VisitedLocation visitedLocation){
         getUser(userName).addToVisitedLocations(visitedLocation);
-    }
-
-
-    /**
-     * Gets all current locations.
-     *
-     * @return the localisation of all users
-     */
-    public List<UserLocationDto> getAllCurrentLocations() {
-        List<UserLocationDto> userLocationsList = new ArrayList<>();
-
-        for (UserDto user : getUsers()) {
-            UUID userId = user.getUserId();
-            VisitedLocation userLastVisitedLocation = user.getLastVisitedLocation();
-            userLocationsList.add(new UserLocationDto(userId, userLastVisitedLocation.getLocation()));
-        }
-        return userLocationsList;
+        logger.info("Visited location for username: {} have been added.",userName);
     }
 
     /**
@@ -144,7 +127,7 @@ public class UserService {
      * @param tripDeals List of Provider
      */
     public void updateTripDeals(String userName, List<Provider> tripDeals) {
-        UserDto user = getUser(userName);
+        User user = getUser(userName);
         user.setTripDeals(tripDeals);
     }
 
@@ -152,8 +135,8 @@ public class UserService {
      * @param userName
      * @param userPreferences
      */
-    public void UpdateUserPreferences(String userName, UserPreferencesDto userPreferences){
-        UserDto user = getUser(userName);
+    public void UpdateUserPreferences(String userName, UserPreferences userPreferences){
+        User user = getUser(userName);
         user.setUserPreferences(userPreferences);
     }
 }

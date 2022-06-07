@@ -1,9 +1,13 @@
 package com.dto;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.model.Location;
 
 import java.util.UUID;
 
+/**
+ * User Location Model
+ */
 public class UserLocationDto {
     private UUID userId;
     private Location location;
@@ -12,7 +16,6 @@ public class UserLocationDto {
      * Default empty constructor
      */
     public UserLocationDto() {
-        super();
     }
 
     /**

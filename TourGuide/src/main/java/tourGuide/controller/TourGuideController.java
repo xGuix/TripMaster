@@ -1,19 +1,20 @@
 package tourGuide.controller;
 
+import com.dto.NearbyAttractionsDto;
 import com.dto.UserDto;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import com.dto.UserLocationDto;
+import com.dto.UserRewardDto;
+import com.model.Provider;
+import com.model.VisitedLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import tourGuide.service.TourGuideService;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  *  Tour Guide rest controller
@@ -36,7 +37,7 @@ public class TourGuideController {
      */
     @RequestMapping("/")
     public String index() {
-        logger.info("Get index");
+        logger.info("Get tour guide index");
         return "Greetings from TourGuide!";
     }
 
@@ -57,86 +58,114 @@ public class TourGuideController {
      * Call to get user with username
      *
      * @param userName String userName
-     * @return userName User userName
+     * @return userDto User the user
      */
     @RequestMapping("/getUser")
     public UserDto getUser(@RequestParam String userName) {
         logger.info("Call service for user with username: {}", userName);
         return tourGuideService.getUser(userName);
     }
-//
-//    /**
-//     *  Get user location
-//     *  Call get location with username
-//     *
-//     * @param userName String user name
-//     * @return visitedLocation The visited location
-//     */
-//    @RequestMapping("/getLocation")
-//    public VisitedLocation getLocation(@RequestParam String userName) {
-//    	VisitedLocation visitedLocation = tourGuideService.getUserLocation(getUser(userName));
-//        logger.info("Get visited locations with username: {}", userName);
-//		return visitedLocation;
-//    }
-//
-//    /**
-//     * Get the closest attractions with distance from user :
-//     * Call to get attractions  with username
-//     *
-//     * @param userName String user name
-//     * @return userAttractionList List of the closest attraction
-//     */
-//    @RequestMapping("/getNearbyAttractions")
-//    public List<NearbyAttractionsDto> getNearByAttractions(@RequestParam String userName) {
-//    	VisitedLocation visitedLocation = tourGuideService.getUserLocation(getUser(userName));
-//        List<NearbyAttractionsDto> userAttractionList = tourGuideService.getNearByAttractions(visitedLocation);
-//        logger.info("Get nearby attractions with username: {}", userName);
-//    	return userAttractionList;
-//    }
-//
-//    /**
-//     * Get user rewards:
-//     * Call to get user rewards with username
-//     *
-//     * @param userName String userName
-//     * @return providers List of providers
-//     */
-//    @RequestMapping("/getRewards")
-//    public List<UserRewardDto> getRewards(@RequestParam String userName) {
-//        List<UserRewardDto> userRewardDtoList = tourGuideService.getUserRewards(getUser(userName));
-//        logger.info("Get user reward with username: {}", userName);
-//    	return userRewardDtoList;
-//    }
-//
-//    /**
-//     * Get all current locations:
-//     * Call to get all current locations with username
-//     *
-//     * @return allUsers List of all users locations
-//     */
-//    @RequestMapping("/getAllCurrentLocations")
-//    public Map<UUID, Location> getAllCurrentLocations() {
-//        Map<UUID, Location> userLocationMap = new HashMap<>();
-//        List<UserDto> usersList = getAllUsers();
-//        for (UserDto users: usersList){
-//            VisitedLocation userVisitedLocation = getLocation(users.getUserName());
-//            userLocationMap.put(userVisitedLocation.getUserId(), userVisitedLocation.getLocation());
-//        }
-//        logger.info("Get all users current Location");
-//    	return userLocationMap;
-//    }
-//
-//    /**
-//     * Get List of providers:
-//     * Call to get trip deals with username
-//     *
-//     * @param userName String userName
-//     * @return providers List of providers
-//     */
-//    @RequestMapping("/getTripDeals")
-//    public List<Provider> getTripDeals(@RequestParam String userName) {
-//    	List<Provider> providers = tourGuideService.getTripDeals(getUser(userName));
-//        logger.info("Get user trip deal with username: {}", userName);
-//    	return providers;
-//    }
+
+    /**
+     * Add user:
+     * @param userDto UserDto user
+     */
+    @PostMapping("/addUser")
+    public void addUser(@RequestBody UserDto userDto){
+        logger.info("Call service for add user: {}", userDto);
+        tourGuideService.addUser(userDto);
+    };
+
+    /**
+     * Get user:
+     * Call to get user with id
+     *
+     * @param userId UUID user id
+     * @return userName User userName
+     */
+    @RequestMapping("/getUserById")
+    public UserDto getUserById(@RequestParam UUID userId) {
+        logger.info("Call service for user with user id: {}", userId);
+        return tourGuideService.getUserById(userId);
+    }
+
+    /**
+     *  Get user location
+     *  Call get location with username
+     *
+     * @param userId String user name
+     * @return visitedLocation The visited location
+     */
+    @RequestMapping("/getLocation")
+    public VisitedLocation getLocation(@RequestParam UUID userId) {
+        logger.info("Get user locations with userId: {}", userId);
+        //UserDto userDto = getUser(userName);
+		return tourGuideService.getUserLocation(userId);
+    }
+
+    /**
+     * Get all current locations:
+     * Call to get all current locations with username
+     *
+     * @return allUsers List of all users locations
+     */
+    @RequestMapping("/getAllCurrentLocations")
+    public List<UserLocationDto> getAllCurrentLocations() {
+        logger.info("Get all users current Location");
+        return tourGuideService.getAllCurrentLocations();
+    }
+
+    /**
+     * Get the closest attractions with distance from user :
+     * Call to get attractions  with username
+     *
+     * @param userName String user name
+     * @return userAttractionList List of the closest attraction
+     */
+    @GetMapping("/getNearbyAttractions")
+    public List<NearbyAttractionsDto> getNearbyAttractions(@RequestParam String userName) {
+        logger.info("Get nearby attractions with username: {}", userName);
+        UUID userId = tourGuideService.getUser(userName).getUserId();
+    	return tourGuideService.getNearbyAttractions(userId);
+    }
+
+    /**
+     * Get user rewards:
+     * Call to get user rewards with username
+     *
+     * @param userName String userName
+     * @return providers List of providers
+     */
+    @RequestMapping("/getRewards")
+    public List<UserRewardDto> getRewards(@RequestParam String userName) {
+        logger.info("Get user reward with username: {}", userName);
+    	return tourGuideService.getRewards(userName);
+    }
+
+    /**
+     * Add user rewards:
+     * Call to add user rewards
+     *
+     * @param userName String userName
+     * @return providers List of providers
+     */
+    @PostMapping("/addRewards")
+    public void addRewards(@RequestParam String userName, @RequestBody UserRewardDto userReward) {
+        logger.info("Add user reward with username: {} reward {}", userName, userReward);
+        tourGuideService.addRewards(userName,userReward);
+    }
+
+    /**
+     * Get List of providers:
+     * Call to get trip deals with username
+     *
+     * @param userName String userName
+     * @return providers List of providers
+     */
+    @RequestMapping("/getTripDeals")
+    public List<Provider> getTripDeals(@RequestParam String userName) {
+        logger.info("Get user trip deal with username: {}", userName);
+        UserDto userDto = getUser(userName);
+    	return tourGuideService.getTripDeals(userDto);
+    }
 }

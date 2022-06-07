@@ -12,7 +12,6 @@ public class NearbyAttractionsDto {
     private Integer rewardPoints;
 
     public NearbyAttractionsDto() {
-        super();
     }
 
     public NearbyAttractionsDto(Attraction attraction, Location userLocation, Double distance, Integer rewardPoints) {

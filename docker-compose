@@ -1,0 +1,30 @@
+services:
+  TourGuide:
+    build: ./TourGuide
+    ports:
+      - "8000:8080"
+    container_name: "tourGuideApp"
+
+  User:
+    build: ./User
+    ports:
+      - "8000:8181"
+    container_name: "userApp"
+
+  GpsUtil:
+    build: ./GpsUtil
+    ports:
+      - "8000:8282"
+    container_name: "gpsUtilApp"
+
+  RewardCentral:
+    build: ./RewardCentral
+    ports:
+      - "8000:8383"
+    container_name: "rewardCentralApp"
+
+  TripPricer:
+    build: ./TripPricer
+    ports:
+      - "8000:8484"
+    container_name: "tripPricerApp"

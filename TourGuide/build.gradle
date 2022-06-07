@@ -17,6 +17,8 @@ plugins {
 
 group = "com.tourguide"
 version = "1.0"
+sourceCompatibility = "11"
+targetCompatibility = "11"
 
 repositories {
     mavenCentral()
@@ -26,23 +28,21 @@ repositories {
 }
 
 dependencies {
-    implementation ("org.jetbrains:annotations:23.0.0")
-    implementation ("org.springframework.boot:spring-boot-starter-web:2.6.7")
-    implementation ("org.springframework.boot:spring-boot-starter-actuator:2.6.7")
-    implementation ("org.springframework.boot:spring-boot-starter-test:2.6.7")
-    implementation ("org.apache.maven.plugins:maven-surefire-report-plugin:3.0.0-M5")
-    implementation ("org.apache.maven.plugins:maven-site-plugin:3.12.0")
-    implementation ("org.junit.jupiter:junit-jupiter:5.8.2")
-    implementation ("org.javamoney:moneta:1.4.2")
-    implementation ("com.jsoniter:jsoniter:0.9.23")
-
-    implementation (group: "org.springframework.cloud", name: "spring-cloud-starter-openfeign", version: "3.1.2")
-    implementation ("org.springframework.cloud:spring-cloud-starter-openfeign")
     implementation project(':CommonSet')
+    implementation("org.jetbrains:annotations:23.0.0")
+    implementation("org.springframework.boot:spring-boot-starter-web:2.6.7")
+    implementation("org.springframework.boot:spring-boot-starter-test:2.6.7")
+    implementation("org.apache.maven.plugins:maven-surefire-report-plugin:3.0.0-M5")
+    implementation("org.apache.maven.plugins:maven-site-plugin:3.12.0")
+    implementation("org.junit.jupiter:junit-jupiter:5.8.2")
 
-    testImplementation ("org.junit.jupiter:junit-jupiter:5.8.2")
-    testImplementation (group: "org.springframework.boot", name: "spring-boot-starter-test", version: "2.6.7")
-    testImplementation (group: "org.mockito", name: "mockito-junit-jupiter", version: "4.4.0")
+    implementation("com.jsoniter:jsoniter:0.9.23")
+    implementation(group: "org.springframework.cloud", name: "spring-cloud-starter-openfeign", version: "3.1.2")
+    implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
+
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
+    testImplementation(group: "org.springframework.boot", name: "spring-boot-starter-test", version: "2.6.7")
+    testImplementation(group: "org.mockito", name: "mockito-junit-jupiter", version: "4.4.0")
 }
 
 test {
@@ -71,7 +71,7 @@ jacocoTestCoverageVerification {
             limit {
                 counter = "LINE"
                 value = "COVEREDRATIO"
-                minimum = 0
+                minimum = 0.5
             }
         }
     }

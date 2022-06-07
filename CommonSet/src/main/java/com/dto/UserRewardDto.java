@@ -1,5 +1,6 @@
 package com.dto;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.model.Attraction;
 import com.model.VisitedLocation;
@@ -14,7 +15,6 @@ public class UserRewardDto {
 	private int rewardPoints;
 
 	public UserRewardDto() {
-		super();
 	}
 
 	public UserRewardDto(VisitedLocation visitedLocation, Attraction attraction, int rewardPoints) {

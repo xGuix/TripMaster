@@ -1,9 +1,6 @@
-# FROM openjdk:11-jdk-slim
-#
-# ARG JAR_FILE=./build/libs/TourGuide-0.0.1-SNAPSHOT.jar
-#
-# COPY ${JAR_FILE} TourGuide.jar
-#
-# ENV SPRING_PROFILES_ACTIVE=docker
-#
-# ENTRYPOINT ["java", "-jar", "/TourGuide.jar"]
+FROM openjdk:11
+EXPOSE 8080
+WORKDIR /TripMaster/TourGuide
+COPY build/libs/TourGuide.jar tourGuideApp.jar
+ENV SPRING_PROFILES_ACTIVE=docker
+CMD ["java", "-jar", "/tourGuideApp.jar"]
