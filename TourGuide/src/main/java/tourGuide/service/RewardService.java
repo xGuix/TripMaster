@@ -30,8 +30,8 @@ public class RewardService {
 
     // Location and proximity data set in miles
     private static final double STATUTE_MILES_PER_NAUTICAL_MILE = 1.15077945;
-    private int proximityBuffer = 1000;
-    public final int attractionProximityRange = 10000;
+    private int proximityBuffer = 900;
+    public final int attractionProximityRange = 9999;
 
 
     /**
@@ -93,15 +93,12 @@ public class RewardService {
      * @return User reward List
      */
     public List<UserRewardDto> calculateRewards(UserDto userDto) {
-//        List<VisitedLocation> attractionToReward = gpsUtilProxy.getVisitedLocation(userId);
-//        rewardCentralProxy.calculateRewards(userId, attractionToReward);
-
         List<VisitedLocation> attractionToReward = userDto.getVisitedLocations();
         List<Attraction> attractions = gpsUtilProxy.getAttractions();
         attractionToReward.forEach(visitedLocation -> {
             attractions.forEach(a -> {
                 if (userDto.getUserRewards().stream().noneMatch(r -> r.getAttraction().getAttractionName().equals(a.getAttractionName()))) {
-                    if (nearAttraction(gpsUtilProxy.getUserLocation(userDto.getUserId()), a)) {
+                    if (nearAttraction(visitedLocation, a)) {
                         userDto.getUserRewards().add(new UserRewardDto(visitedLocation, a, rewardCentralProxy.getRewardPoints(a.getAttractionId(), userDto.getUserId())));
                     }
                 }

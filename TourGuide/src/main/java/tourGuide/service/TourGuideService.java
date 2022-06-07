@@ -15,9 +15,12 @@ import tourGuide.proxy.GpsUtilProxy;
 import tourGuide.proxy.RewardCentralProxy;
 import tourGuide.proxy.TripPricerProxy;
 import tourGuide.proxy.UserProxy;
+import tourGuide.util.InternalTestDataSet;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static tourGuide.util.InternalTestDataSet.tripPricerApiKey;
 
 /**
  * Tour Guide Service
@@ -26,28 +29,35 @@ import java.util.stream.Collectors;
 public class TourGuideService {
 
 	static final Logger logger = LoggerFactory.getLogger("TourGuideServiceLog");
-	public static final String tripPricerApiKey = "test-server-api-key";
 
+	private InternalTestDataSet internalTestDataSet;
 	private UserProxy userProxy;
 	private GpsUtilProxy gpsUtilProxy;
 	private RewardCentralProxy rewardCentralProxy;
 	private TripPricerProxy tripPricerProxy;
 
-	public TrackerService trackerService;
 	public RewardService rewardService;
+	public TrackerService trackerService;
 
 	/**
 	 *  TourGuideService constructor
 	 *	Load all controller proxy
 	 */
-	public TourGuideService(UserProxy userProxy,
+	public TourGuideService(InternalTestDataSet internalTestDataSet,
+							UserProxy userProxy,
 							GpsUtilProxy gpsUtilProxy,
 							RewardCentralProxy rewardCentralProxy,
 							TripPricerProxy tripPricerProxy) {
+		this.internalTestDataSet= internalTestDataSet;
 		this.userProxy = userProxy;
 		this.gpsUtilProxy = gpsUtilProxy;
 		this.rewardCentralProxy = rewardCentralProxy;
 		this.tripPricerProxy = tripPricerProxy;
+
+		logger.info("-----------------------------TestMode enabled-----------------------------");
+		internalTestDataSet.initializeInternalUsers();
+		logger.debug("Initializing {} users", internalTestDataSet.internalUserMap.size());
+		logger.debug("-----------------------Finished initializing users-----------------------");
 
 		trackerService = new TrackerService(this, userProxy);
 		rewardService = new RewardService(gpsUtilProxy, rewardCentralProxy);
@@ -186,22 +196,19 @@ public class TourGuideService {
 	 * Get nearby attraction:
 	 * Call to get the list of all visited location proximity
 	 *
-	 * @param userDto User visited Location
+	 * @param userId UUID user id
 	 * @return AttractionList List of all attraction proximity
 	 */
-	public List<NearbyAttractionsDto> getNearbyAttractions(UserDto userDto) {
-		RewardService rewardService = new RewardService(gpsUtilProxy,rewardCentralProxy);
+	public List<NearbyAttractionsDto> getNearbyAttractions(UUID userId) {
 		List<NearbyAttractionsDto> nearbyAttractionsListDto = new ArrayList<>();
-		Location userLocation = getUserLocation(userDto.getUserId()).getLocation();
+		VisitedLocation userLocation = getUserLocation(userId);
 		for(Attraction attraction : gpsUtilProxy.getAttractions()) {
-			double distance = rewardService.getDistance(new Location(attraction.getLongitude(),attraction.getLatitude()), userLocation);
-			if(rewardService.isWithinAttractionProximity(attraction, userLocation)) {
-				int reward = rewardCentralProxy.getRewardPoints(attraction.getAttractionId(), userDto.getUserId());
+			if(rewardService.isWithinAttractionProximity(attraction, userLocation.getLocation())) {
 				NearbyAttractionsDto nearBy = new NearbyAttractionsDto();
 				nearBy.setAttraction(attraction);
-				nearBy.setUserLocation(userLocation);
-				nearBy.setDistance(distance);
-				nearBy.setRewardPoints(reward);
+				nearBy.setUserLocation(userLocation.getLocation());
+				nearBy.setDistance(rewardService.getDistance(new Location(attraction.getLongitude(),attraction.getLatitude()), userLocation.getLocation()));
+				nearBy.setRewardPoints(rewardCentralProxy.getRewardPoints(attraction.getAttractionId(), userId));
 				nearbyAttractionsListDto.add(nearBy);
 			}
 		}

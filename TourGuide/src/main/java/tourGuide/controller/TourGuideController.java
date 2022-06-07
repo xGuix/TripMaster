@@ -125,8 +125,8 @@ public class TourGuideController {
     @GetMapping("/getNearbyAttractions")
     public List<NearbyAttractionsDto> getNearbyAttractions(@RequestParam String userName) {
         logger.info("Get nearby attractions with username: {}", userName);
-        UserDto userDto = tourGuideService.getUser(userName);
-    	return tourGuideService.getNearbyAttractions(userDto);
+        UUID userId = tourGuideService.getUser(userName).getUserId();
+    	return tourGuideService.getNearbyAttractions(userId);
     }
 
     /**
@@ -151,7 +151,7 @@ public class TourGuideController {
      */
     @PostMapping("/addRewards")
     public void addRewards(@RequestParam String userName, @RequestBody UserRewardDto userReward) {
-        logger.info("Add user reward with username: {} reward {}", userName,userReward);
+        logger.info("Add user reward with username: {} reward {}", userName, userReward);
         tourGuideService.addRewards(userName,userReward);
     }
 

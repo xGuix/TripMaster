@@ -5,7 +5,8 @@ import com.dto.UserRewardDto;
 import com.model.Attraction;
 import com.model.Location;
 import com.model.VisitedLocation;
-import com.util.InternalTestHelper;
+import tourGuide.util.InternalTestDataSet;
+import tourGuide.util.InternalTestHelper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -39,8 +40,9 @@ public class IntegrationRewardsTestIT {
 
 	@Test
 	public void userGetRewards() {
+		InternalTestDataSet internalTestDataSet = new InternalTestDataSet();
 		InternalTestHelper.setInternalUserNumber(1);
-		TourGuideService tourGuideService = new TourGuideService(userProxy, gpsUtilProxy, rewardCentralProxy, tripPricerProxy);
+		TourGuideService tourGuideService = new TourGuideService(internalTestDataSet,userProxy, gpsUtilProxy, rewardCentralProxy, tripPricerProxy);
 		UserDto userDto = new UserDto(UUID.randomUUID(), "jon", "000", "jon@tourGuide.com");
 		Attraction attraction = gpsUtilProxy.getAttractions().get(0);
 		userDto.addToVisitedLocations(new VisitedLocation(userDto.getUserId(), new Location(attraction.getLongitude(),attraction.getLatitude()), new Date()));
@@ -64,8 +66,9 @@ public class IntegrationRewardsTestIT {
 
 	@Test
 	public void nearAllAttractions() {
+		InternalTestDataSet internalTestDataSet = new InternalTestDataSet();
 		InternalTestHelper.setInternalUserNumber(1);
-		TourGuideService tourGuideService = new TourGuideService(userProxy,gpsUtilProxy, rewardCentralProxy, tripPricerProxy);
+		TourGuideService tourGuideService = new TourGuideService(internalTestDataSet,userProxy, gpsUtilProxy, rewardCentralProxy, tripPricerProxy);
 
 		rewardService.calculateRewards(tourGuideService.getUsers().get(0));
 		List<UserRewardDto> userRewardsDto = tourGuideService.getRewards(tourGuideService.getUsers().get(0).getUserName());

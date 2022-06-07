@@ -2,10 +2,8 @@ package User.service;
 
 import User.model.User;
 import User.model.UserPreferences;
-import User.util.InternalTestDataSet;
 import com.dto.UserLocationDto;
 import com.dto.UserRewardDto;
-import com.model.Attraction;
 import com.model.Provider;
 import com.model.VisitedLocation;
 import org.slf4j.Logger;
@@ -13,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.IntStream;
 
 /**
  * The type User service.
@@ -22,49 +19,11 @@ import java.util.stream.IntStream;
 public class UserService {
 
     private final Logger logger = LoggerFactory.getLogger("UserServiceLog");
-    private final InternalTestDataSet internalTestDataSet = new InternalTestDataSet();
 
     /**
-     * The Test mode.
-     */
-    boolean testMode = true;
-//    int internalUserNumber = 100;
-
-    /**
-     * Instantiates a new Map for user.
+     * Instantiates a new Map for users.
      */
     Map<String, User> internalUserMap = new HashMap<>();
-
-    /**
-     * Instantiates a new User service.
-     */
-    public void UserService(int internalUserNumber){
-        if (testMode) {
-            logger.info("TestMode enabled");
-            logger.info("Initializing users");
-            initializeInternalUsers(internalUserNumber);
-            logger.debug("Finished initializing users");
-            logger.info("{} users created",internalUserMap.size());
-        }
-    }
-
-    /**
-     * Instantiates a new User list.
-     */
-    private void initializeInternalUsers(int internalUserNumber) {
-        IntStream.range(0, internalUserNumber).forEach(i -> {
-            String userName = "internalUser" + i;
-            String phone = "000";
-            String email = userName + "@tourGuide.com";
-            Date latestLocationTimestamp = internalTestDataSet.getRandomTime();
-            User user = new User(UUID.randomUUID(), userName, phone, email, latestLocationTimestamp);
-            internalTestDataSet.generateUserLocationHistory(user);
-            UserRewardDto userReward = new UserRewardDto(user.getLastVisitedLocation(), new Attraction("DisneyLand","Miami","Florida", UUID.randomUUID()),100);
-            user.getUserRewards().add(userReward);
-            internalUserMap.put(userName, user);
-        });
-        logger.debug("Created {} internal test users.", internalUserNumber);
-    }
 
     /**
      * Gets the list of all users.

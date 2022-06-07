@@ -4,11 +4,13 @@ import com.dto.UserDto;
 import com.model.Attraction;
 import com.model.Location;
 import com.model.VisitedLocation;
-import com.util.InternalTestHelper;
+import tourGuide.proxy.RewardCentralProxy;
+import tourGuide.proxy.TripPricerProxy;
+import tourGuide.util.InternalTestDataSet;
+import tourGuide.util.InternalTestHelper;
 import org.apache.commons.lang3.time.StopWatch;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,11 @@ public class TestPerformanceIT {
 	@Autowired
 	GpsUtilProxy gpsUtilProxy;
 	@Autowired
+	RewardCentralProxy rewardCentralProxy;
+	@Autowired
+	TripPricerProxy tripPricerProxy;
+
+	@Autowired
 	RewardService rewardService;
 	@Autowired
 	TourGuideService tourGuideService;
@@ -58,16 +65,14 @@ public class TestPerformanceIT {
 	 *     highVolumeGetRewards: 100,000 users within 20 minutes:
 	 *          assertTrue(TimeUnit.MINUTES.toSeconds(20) >= TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));
 	 */
-	@BeforeAll
-	static void SetUpUsers(){
-		InternalTestHelper.setInternalUserNumber(100000);
-	}
 
 	@Test
 	public void highVolumeTrackLocation() {
+		Executor executor = Executors.newFixedThreadPool(100);
 		// Users should be incremented up to 100,000 and test finishes within 15 minutes
-		userProxy.userService(InternalTestHelper.getInternalUserNumber());
-		Executor executor = Executors.newFixedThreadPool(300);
+		InternalTestDataSet internalTestDataSet = new InternalTestDataSet();
+		InternalTestHelper.setInternalUserNumber(100000);
+		TourGuideService tourGuideService = new TourGuideService(internalTestDataSet,userProxy, gpsUtilProxy, rewardCentralProxy, tripPricerProxy);
 
 		List<UserDto> allUsersDto = tourGuideService.getUsers();
 		ArrayList<CompletableFuture> completableFutures= new ArrayList<>();
@@ -78,17 +83,15 @@ public class TestPerformanceIT {
 		allUsersDto.forEach(u -> {
 			CompletableFuture completable = CompletableFuture.runAsync(() -> {
 				tourGuideService.trackUserLocation(u.getUserId());
-				//gpsUtilProxy.getUserLocation(u.getUserId());
 				}, executor);
 			completableFutures.add(completable);
 		});
 		CompletableFuture.allOf(completableFutures.toArray(new CompletableFuture[completableFutures.size()])).join();
 
-//		List<UUID> allUsersId = allUsersDto.stream().collect(UUID.fromString());
+//		List<UUID> allUsersId = allUsersDto.stream().map(userDto -> userDto.getUserId()).collect(Collectors.toList());
 //		List<CompletableFuture<Void>> result = allUsersId.stream()
 //				.map(userId -> CompletableFuture.runAsync(() -> tourGuideService.trackUserLocation(userId), executor))
 //						.collect(Collectors.toList());
-//
 //		result.forEach(CompletableFuture::join);
 
 		stopWatch.stop();
@@ -99,10 +102,13 @@ public class TestPerformanceIT {
 
 	@Test
 	public void highVolumeGetRewards() {
+		Executor executor = Executors.newFixedThreadPool(100);
 		// Users should be incremented up to 100,000 and test finishes within 20 minutes
-		Executor executor = Executors.newFixedThreadPool(300);
+		InternalTestDataSet internalTestDataSet = new InternalTestDataSet();
+		InternalTestHelper.setInternalUserNumber(100000);
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
+		TourGuideService tourGuideService = new TourGuideService(internalTestDataSet,userProxy, gpsUtilProxy, rewardCentralProxy, tripPricerProxy);
 
 	    Attraction attraction = gpsUtilProxy.getAttractions().get(0);
 		List<UserDto> allUsersDto = tourGuideService.getUsers();

@@ -1,6 +1,7 @@
-package com.util;
+package tourGuide.util;
 
 public class InternalTestHelper {
+
     // Set this default up to 100,000 for testing
     private static int internalUserNumber = 100000;
 
