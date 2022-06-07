@@ -5,8 +5,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.dto.UserDto;
-import com.model.Attraction;
+
+import java.util.UUID;
 
 @RestController
 public class RewardCentralController {
@@ -33,13 +33,13 @@ public class RewardCentralController {
     /**
      * Gets reward points.
      *
-     * @param attraction the attraction
-     * @param userDto   the username
+     * @param attractionId the attraction
+     * @param userId   the username
      * @return the reward points
      */
     @RequestMapping("/getRewardPoints")
-    public int getRewardPoints(Attraction attraction, UserDto userDto) {
-        logger.info("Get reward points from rewardCentral");
-        return rewardCentralService.getRewardPoints(attraction, userDto);
+    public int getRewardPoints(@RequestParam UUID attractionId,@RequestParam UUID userId) {
+        logger.info("Get rewardCentral controller to send service with attractionId and userID", attractionId, userId);
+        return rewardCentralService.getRewardPoints(attractionId, userId);
     }
 }

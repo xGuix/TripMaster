@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import rewardCentral.RewardCentral;
 
+import java.util.UUID;
+
 /**
  * Reward Service
  */
@@ -22,12 +24,12 @@ public class RewardCentralService {
 	/**
 	 * Get user reward points
 	 *
-	 * @param attraction Attraction
-	 * @param userDto UserDto
+	 * @param attractionId Attraction id
+	 * @param userId User id
 	 * @return int number of reward points
 	 */
-	public int getRewardPoints(Attraction attraction, UserDto userDto) {
-		logger.info("Get user reward points");
-		return rewardCentral.getAttractionRewardPoints(attraction.getAttractionId(), userDto.getUserId());
+	public int getRewardPoints(UUID attractionId, UUID userId) {
+		logger.info("Get user reward points with UUID attraction: {} and  UUID user: {}", attractionId, userId);
+		return rewardCentral.getAttractionRewardPoints(attractionId, userId);
 	}
 }

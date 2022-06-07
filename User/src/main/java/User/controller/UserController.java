@@ -27,6 +27,17 @@ public class UserController {
     UserService userService;
 
     /**
+     *  Get UserService for tests
+     *
+     * @return String Greetings from User!
+     */
+    @RequestMapping("/SetUpTest")
+    public UserService userService(int internalUserNumber) {
+        logger.info("Setup user test");
+        return userService(internalUserNumber);
+    }
+
+    /**
      *  Get Index Controller
      *
      * @return String Greetings from User!

@@ -44,7 +44,7 @@ public class IntegrationRewardsTestIT {
 		UserDto userDto = new UserDto(UUID.randomUUID(), "jon", "000", "jon@tourGuide.com");
 		Attraction attraction = gpsUtilProxy.getAttractions().get(0);
 		userDto.addToVisitedLocations(new VisitedLocation(userDto.getUserId(), new Location(attraction.getLongitude(),attraction.getLatitude()), new Date()));
-		UserRewardDto userRewardDto = new UserRewardDto(userDto.getLastVisitedLocation(),attraction, rewardCentralProxy.getRewardPoints(attraction, userDto));
+		UserRewardDto userRewardDto = new UserRewardDto(userDto.getLastVisitedLocation(),attraction, rewardCentralProxy.getRewardPoints(attraction.getAttractionId(), userDto.getUserId()));
 
 		userDto.addUserReward(userRewardDto);
 		List<UserRewardDto> userRewardsDto = userDto.getUserRewards();

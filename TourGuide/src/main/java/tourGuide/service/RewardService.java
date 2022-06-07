@@ -7,11 +7,13 @@ import com.model.Location;
 import com.model.VisitedLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import tourGuide.proxy.GpsUtilProxy;
 import tourGuide.proxy.RewardCentralProxy;
+import tourGuide.proxy.UserProxy;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,10 +25,13 @@ public class RewardService {
     private GpsUtilProxy gpsUtilProxy;
     private RewardCentralProxy rewardCentralProxy;
 
+    @Autowired
+    private UserProxy userProxy;
+
     // Location and proximity data set in miles
     private static final double STATUTE_MILES_PER_NAUTICAL_MILE = 1.15077945;
-    private int proximityBuffer = 100;
-    public final int attractionProximityRange = 1000;
+    private int proximityBuffer = 1000;
+    public final int attractionProximityRange = 10000;
 
 
     /**
@@ -88,14 +93,16 @@ public class RewardService {
      * @return User reward List
      */
     public List<UserRewardDto> calculateRewards(UserDto userDto) {
-        List<VisitedLocation> userLocations = userDto.getVisitedLocations();
+//        List<VisitedLocation> attractionToReward = gpsUtilProxy.getVisitedLocation(userId);
+//        rewardCentralProxy.calculateRewards(userId, attractionToReward);
+
+        List<VisitedLocation> attractionToReward = userDto.getVisitedLocations();
         List<Attraction> attractions = gpsUtilProxy.getAttractions();
-        VisitedLocation userLocation = gpsUtilProxy.getUserLocation(userDto.getUserId());
-        userLocations.forEach(visitedLocation -> {
+        attractionToReward.forEach(visitedLocation -> {
             attractions.forEach(a -> {
                 if (userDto.getUserRewards().stream().noneMatch(r -> r.getAttraction().getAttractionName().equals(a.getAttractionName()))) {
-                    if (nearAttraction(userLocation, a)) {
-                        userDto.getUserRewards().add(new UserRewardDto(visitedLocation, a, rewardCentralProxy.getRewardPoints(a, userDto)));
+                    if (nearAttraction(gpsUtilProxy.getUserLocation(userDto.getUserId()), a)) {
+                        userDto.getUserRewards().add(new UserRewardDto(visitedLocation, a, rewardCentralProxy.getRewardPoints(a.getAttractionId(), userDto.getUserId())));
                     }
                 }
             });

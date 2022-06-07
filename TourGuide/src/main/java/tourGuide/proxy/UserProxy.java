@@ -17,6 +17,13 @@ import java.util.UUID;
 public interface UserProxy {
 
     /**
+     * Get UserService for tests
+     * @return UserService
+     */
+    @RequestMapping("/setUpTest")
+    void userService(@RequestParam("internalUserNumber") int internalUserNumber);
+
+    /**
      * Get users list.
      * @return list of all users
      */

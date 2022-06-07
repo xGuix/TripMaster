@@ -28,7 +28,7 @@ public class UserService {
      * The Test mode.
      */
     boolean testMode = true;
-    private static int internalUserNumber = 100;
+//    int internalUserNumber = 100;
 
     /**
      * Instantiates a new Map for user.
@@ -38,21 +38,20 @@ public class UserService {
     /**
      * Instantiates a new User service.
      */
-    public UserService(){
+    public void UserService(int internalUserNumber){
         if (testMode) {
             logger.info("TestMode enabled");
             logger.info("Initializing users");
-            initializeInternalUsers();
+            initializeInternalUsers(internalUserNumber);
             logger.debug("Finished initializing users");
             logger.info("{} users created",internalUserMap.size());
-
         }
     }
 
     /**
      * Instantiates a new User list.
      */
-    private void initializeInternalUsers() {
+    private void initializeInternalUsers(int internalUserNumber) {
         IntStream.range(0, internalUserNumber).forEach(i -> {
             String userName = "internalUser" + i;
             String phone = "000";
@@ -126,15 +125,6 @@ public class UserService {
         logger.info("Get all current location for all users");
         return userLocationsList;
     }
-
-//    /**
-//     * Gets user current location.
-//     *
-//     * @return the localisation of user
-//     */
-//    public UserLocationDto getUserLocation(User user) {
-//        user.
-//    }
 
     /**
      * Gets user rewards.

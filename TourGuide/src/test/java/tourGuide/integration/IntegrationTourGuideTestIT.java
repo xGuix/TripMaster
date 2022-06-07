@@ -82,7 +82,7 @@ public class IntegrationTourGuideTestIT {
 	public void trackUser() {
 		InternalTestHelper.setInternalUserNumber(1);
         TourGuideService tourGuideService = new TourGuideService(userProxy, gpsUtil, rewardCentral, tripPricer);
-		VisitedLocation visitedLocation = tourGuideService.getUserLocation(userDto.getUserId());
+		VisitedLocation visitedLocation = tourGuideService.trackUserLocation(userDto);
 		tourGuideService.trackerService.stopTracking();
 
 		assertEquals(userDto.getUserId(), visitedLocation.getUserId());
@@ -93,7 +93,6 @@ public class IntegrationTourGuideTestIT {
 		InternalTestHelper.setInternalUserNumber(1);
         TourGuideService tourGuideService = new TourGuideService(userProxy, gpsUtil, rewardCentral, tripPricer);
 		List<NearbyAttractionsDto> attractions = tourGuideService.getNearbyAttractions(userDto);
-		tourGuideService.trackerService.stopTracking();
 
 		assertTrue(attractions.size() > 0);
 	}

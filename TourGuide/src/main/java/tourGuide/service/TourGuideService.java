@@ -34,6 +34,7 @@ public class TourGuideService {
 	private TripPricerProxy tripPricerProxy;
 
 	public TrackerService trackerService;
+	public RewardService rewardService;
 
 	/**
 	 *  TourGuideService constructor
@@ -49,6 +50,7 @@ public class TourGuideService {
 		this.tripPricerProxy = tripPricerProxy;
 
 		trackerService = new TrackerService(this, userProxy);
+		rewardService = new RewardService(gpsUtilProxy, rewardCentralProxy);
 		addShutDownHook();
 	}
 
@@ -166,6 +168,21 @@ public class TourGuideService {
 	}
 
 	/**
+	 * Get track of user location:
+	 * Call to track the user location with user
+	 *
+	 * @param userDto UserDto user
+	 * @return visitedLocation The actual visited location
+	 */
+	public VisitedLocation trackUserLocation(UserDto userDto) {
+		Locale.setDefault(Locale.US);
+		VisitedLocation visitedLocation = gpsUtilProxy.getUserLocation(userDto.getUserId());
+		userDto.addToVisitedLocations(visitedLocation);
+		rewardService.calculateRewards(userDto);
+		return visitedLocation;
+	}
+
+	/**
 	 * Get nearby attraction:
 	 * Call to get the list of all visited location proximity
 	 *
@@ -178,8 +195,8 @@ public class TourGuideService {
 		Location userLocation = getUserLocation(userDto.getUserId()).getLocation();
 		for(Attraction attraction : gpsUtilProxy.getAttractions()) {
 			double distance = rewardService.getDistance(new Location(attraction.getLongitude(),attraction.getLatitude()), userLocation);
-			int reward = rewardCentralProxy.getRewardPoints(attraction, userDto);
 			if(rewardService.isWithinAttractionProximity(attraction, userLocation)) {
+				int reward = rewardCentralProxy.getRewardPoints(attraction.getAttractionId(), userDto.getUserId());
 				NearbyAttractionsDto nearBy = new NearbyAttractionsDto();
 				nearBy.setAttraction(attraction);
 				nearBy.setUserLocation(userLocation);
@@ -197,5 +214,8 @@ public class TourGuideService {
 	 */
 	private void addShutDownHook() {
 		Runtime.getRuntime().addShutdownHook(new Thread(() -> trackerService.stopTracking()));
+	}
+
+	public void trackUserLocation(UUID userId) {
 	}
 }
