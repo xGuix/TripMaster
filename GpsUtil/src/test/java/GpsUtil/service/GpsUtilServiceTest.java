@@ -19,9 +19,6 @@ import static org.mockito.Mockito.verify;
 @SpringBootTest
 public class GpsUtilServiceTest {
 
-    @Autowired
-    GpsUtilService gpsUtilService;
-
     @MockBean
     GpsUtil gpsUtil;
 

@@ -1,6 +1,5 @@
 package com.dto;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.model.VisitedLocation;
 import com.model.Provider;
 

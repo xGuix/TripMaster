@@ -99,7 +99,6 @@ public class TourGuideController {
     @RequestMapping("/getLocation")
     public VisitedLocation getLocation(@RequestParam UUID userId) {
         logger.info("Get user locations with userId: {}", userId);
-        //UserDto userDto = getUser(userName);
 		return tourGuideService.getUserLocation(userId);
     }
 

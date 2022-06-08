@@ -181,14 +181,13 @@ public class TourGuideService {
 	 * Get track of user location:
 	 * Call to track the user location with user
 	 *
-	 * @param userDto UserDto user
+	 * @param userId UserDto user
 	 * @return visitedLocation The actual visited location
 	 */
-	public VisitedLocation trackUserLocation(UserDto userDto) {
+	public VisitedLocation trackUserLocation(UUID userId) {
 		Locale.setDefault(Locale.US);
-		VisitedLocation visitedLocation = gpsUtilProxy.getUserLocation(userDto.getUserId());
-		userDto.addToVisitedLocations(visitedLocation);
-		rewardService.calculateRewards(userDto);
+		VisitedLocation visitedLocation = gpsUtilProxy.getUserLocation(userId);
+		//userDto.addToVisitedLocations(visitedLocation);
 		return visitedLocation;
 	}
 
@@ -221,8 +220,5 @@ public class TourGuideService {
 	 */
 	private void addShutDownHook() {
 		Runtime.getRuntime().addShutdownHook(new Thread(() -> trackerService.stopTracking()));
-	}
-
-	public void trackUserLocation(UUID userId) {
 	}
 }

@@ -66,12 +66,13 @@ public class IntegrationRewardsTestIT {
 
 	@Test
 	public void nearAllAttractions() {
+		UserDto user = new UserDto(UUID.randomUUID(), "jon", "000", "jon@tourGuide.com");
 		InternalTestDataSet internalTestDataSet = new InternalTestDataSet();
 		InternalTestHelper.setInternalUserNumber(1);
 		TourGuideService tourGuideService = new TourGuideService(internalTestDataSet,userProxy, gpsUtilProxy, rewardCentralProxy, tripPricerProxy);
 
-		rewardService.calculateRewards(tourGuideService.getUsers().get(0));
-		List<UserRewardDto> userRewardsDto = tourGuideService.getRewards(tourGuideService.getUsers().get(0).getUserName());
+		rewardService.calculateRewards(user);
+		List<UserRewardDto> userRewardsDto = tourGuideService.getRewards(user.getUserName());
 		tourGuideService.trackerService.stopTracking();
 
 		UserDto userDto = tourGuideService.getUsers().get(0);

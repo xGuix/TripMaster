@@ -26,6 +26,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -74,7 +75,7 @@ public class TestPerformanceIT {
 		InternalTestHelper.setInternalUserNumber(100000);
 		TourGuideService tourGuideService = new TourGuideService(internalTestDataSet,userProxy, gpsUtilProxy, rewardCentralProxy, tripPricerProxy);
 
-		List<UserDto> allUsersDto = tourGuideService.getUsers();
+		List<UserDto> allUsersDto = userProxy.getUsers();
 		ArrayList<CompletableFuture> completableFutures= new ArrayList<>();
 
 	    StopWatch stopWatch = new StopWatch();
@@ -96,7 +97,7 @@ public class TestPerformanceIT {
 
 		stopWatch.stop();
 
-		logger.info("highVolumeTrackLocation / Time Elapsed: {} seconds.", TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));
+		logger.info("highVolumeTrackLocation - Time Elapsed: {} seconds.", TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));
 		assertTrue(TimeUnit.MINUTES.toSeconds(15) >= TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));
 	}
 
@@ -111,7 +112,7 @@ public class TestPerformanceIT {
 		TourGuideService tourGuideService = new TourGuideService(internalTestDataSet,userProxy, gpsUtilProxy, rewardCentralProxy, tripPricerProxy);
 
 	    Attraction attraction = gpsUtilProxy.getAttractions().get(0);
-		List<UserDto> allUsersDto = tourGuideService.getUsers();
+		List<UserDto> allUsersDto = userProxy.getUsers();
 		List<CompletableFuture> completableFutures = new ArrayList<>();
 
 		allUsersDto.forEach(u ->
@@ -134,7 +135,7 @@ public class TestPerformanceIT {
 
 		stopWatch.stop();
 
-		logger.info("highVolumeGetRewards / Time Elapsed: {} seconds.", TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));
+		logger.info("highVolumeGetRewards - Time Elapsed: {} seconds.", TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));
 		assertTrue(TimeUnit.MINUTES.toSeconds(20) >= TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));
 	}
 }

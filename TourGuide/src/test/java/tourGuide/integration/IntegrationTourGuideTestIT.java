@@ -88,7 +88,7 @@ public class IntegrationTourGuideTestIT {
 		InternalTestHelper.setInternalUserNumber(1);
 		TourGuideService tourGuideService = new TourGuideService(internalTestDataSet,userProxy, gpsUtilProxy, rewardCentralProxy, tripPricerProxy);
 
-		VisitedLocation visitedLocation = tourGuideService.trackUserLocation(userDto);
+		VisitedLocation visitedLocation = tourGuideService.trackUserLocation(userDto.getUserId());
 		tourGuideService.trackerService.stopTracking();
 
 		assertEquals(userDto.getUserId(), visitedLocation.getUserId());
