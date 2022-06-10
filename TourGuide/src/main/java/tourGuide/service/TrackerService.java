@@ -37,7 +37,7 @@ public class TrackerService extends Thread {
 	 * @param tourGuideService TourGuideService
 	 * @param userProxy RewardService
 	 */
-	TrackerService(TourGuideService tourGuideService, UserProxy userProxy) {
+	public TrackerService(TourGuideService tourGuideService, UserProxy userProxy) {
 		this.tourGuideService = tourGuideService;
 		this.userProxy = userProxy;;
 		executorService.submit(this);
@@ -57,8 +57,8 @@ public class TrackerService extends Thread {
 	@Override
 	public void run() {
 		StopWatch stopWatch = new StopWatch();
-		ExecutorService trackExecutor = Executors.newFixedThreadPool(1);
-		ExecutorService rewardExecutor = Executors.newFixedThreadPool(1);
+		ExecutorService trackExecutor = Executors.newSingleThreadExecutor();
+		ExecutorService rewardExecutor = Executors.newSingleThreadExecutor();
 
 			List<UserDto> userDtoList = userProxy.getUsers();
 			logger.debug("Begin Tracker. Tracking {} users.", userDtoList.size());

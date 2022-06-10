@@ -30,12 +30,11 @@ public class TourGuideService {
 
 	static final Logger logger = LoggerFactory.getLogger("TourGuideServiceLog");
 
-	private InternalTestDataSet internalTestDataSet;
-	private UserProxy userProxy;
-	private GpsUtilProxy gpsUtilProxy;
-	private RewardCentralProxy rewardCentralProxy;
-	private TripPricerProxy tripPricerProxy;
-
+	private final InternalTestDataSet internalTestDataSet;
+	private final UserProxy userProxy;
+	private final GpsUtilProxy gpsUtilProxy;
+	private final RewardCentralProxy rewardCentralProxy;
+	private final TripPricerProxy tripPricerProxy;
 	public RewardService rewardService;
 	public TrackerService trackerService;
 
@@ -56,11 +55,11 @@ public class TourGuideService {
 
 		logger.info("-----------------------------TestMode enabled-----------------------------");
 		internalTestDataSet.initializeInternalUsers();
-		logger.debug("Initializing {} users", internalTestDataSet.internalUserMap.size());
+		logger.debug("Initializing {} users", userProxy.getUsers().size());
 		logger.debug("-----------------------Finished initializing users-----------------------");
 
 		trackerService = new TrackerService(this, userProxy);
-		rewardService = new RewardService(gpsUtilProxy, rewardCentralProxy);
+		rewardService = new RewardService(gpsUtilProxy,rewardCentralProxy);
 		addShutDownHook();
 	}
 
@@ -187,7 +186,6 @@ public class TourGuideService {
 	public VisitedLocation trackUserLocation(UUID userId) {
 		Locale.setDefault(Locale.US);
 		VisitedLocation visitedLocation = gpsUtilProxy.getUserLocation(userId);
-		//userDto.addToVisitedLocations(visitedLocation);
 		return visitedLocation;
 	}
 
@@ -201,7 +199,8 @@ public class TourGuideService {
 	public List<NearbyAttractionsDto> getNearbyAttractions(UUID userId) {
 		List<NearbyAttractionsDto> nearbyAttractionsListDto = new ArrayList<>();
 		VisitedLocation userLocation = getUserLocation(userId);
-		for(Attraction attraction : gpsUtilProxy.getAttractions()) {
+		List<Attraction> attractionList = gpsUtilProxy.getAttractions();
+		for(Attraction attraction : attractionList) {
 			if(rewardService.isWithinAttractionProximity(attraction, userLocation.getLocation())) {
 				NearbyAttractionsDto nearBy = new NearbyAttractionsDto();
 				nearBy.setAttraction(attraction);

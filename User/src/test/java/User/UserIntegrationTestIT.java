@@ -1,18 +1,15 @@
 package User;
 
 import User.model.User;
-import User.model.UserPreferences;
 import User.service.UserService;
 import com.dto.UserRewardDto;
 import com.model.Attraction;
 import com.model.Location;
-import com.model.Provider;
 import com.model.VisitedLocation;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -53,7 +50,7 @@ public class UserIntegrationTestIT {
         List<User> users = userService.getUsers();
 
         assertNotNull(users);
-        assertEquals(0, users.size());
+        assertEquals(1, users.size());
     }
 
     /**
@@ -62,7 +59,7 @@ public class UserIntegrationTestIT {
     @Test
     void addUserRewards(){
         VisitedLocation visitedLocation = new VisitedLocation(UUID.randomUUID(), new Location(1234567, 1234567), new Date());
-        Attraction attraction = new Attraction("name", "city", "state", UUID.randomUUID(),1234567, 12345678);
+        Attraction attraction = new Attraction("Lala land", "city", "state", UUID.randomUUID(),1234567, 12345678);
         UserRewardDto userReward = new UserRewardDto(visitedLocation, attraction, 325);
         userService.getUserRewards(user1).add(userReward);
 
@@ -76,7 +73,7 @@ public class UserIntegrationTestIT {
     @Test
     void getUserRewardsTest(){
         VisitedLocation visitedLocation = new VisitedLocation(UUID.randomUUID(), new Location(1234567, 1234567), new Date());
-        Attraction attraction = new Attraction("name", "city", "state",UUID.randomUUID(), 1234567, 12345678);
+        Attraction attraction = new Attraction("Lala land", "city", "state",UUID.randomUUID(), 1234567, 12345678);
         UserRewardDto userReward = new UserRewardDto(visitedLocation, attraction, 325);
         user1.addUserReward(userReward);
         List<UserRewardDto> userRewards = userService.getUserRewards(user1);
@@ -105,7 +102,7 @@ public class UserIntegrationTestIT {
 //        assertNotNull(user1.getTripDeals().get(0).getTripId());
 //
 //    }
-
+//
 //    /**
 //     * Create visited location test.
 //     */

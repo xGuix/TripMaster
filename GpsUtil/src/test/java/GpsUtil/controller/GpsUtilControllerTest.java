@@ -35,7 +35,7 @@ public class GpsUtilControllerTest {
 
     @Test
     void getAttractionsTest() throws Exception {
-        attractionList.add(new Attraction("Disneyland","City","State",location.getLatitude(), location.getLongitude()));
+        attractionList.add(new Attraction("Lala land","City","State",location.getLatitude(), location.getLongitude()));
         Mockito.when(gpsUtilService.getAllAttractions()).thenReturn(attractionList);
         mockMvc.perform(get("/getAttractions"))
                 .andExpect(status().isOk());

@@ -15,18 +15,23 @@ import tourGuide.proxy.GpsUtilProxy;
 import tourGuide.proxy.RewardCentralProxy;
 import tourGuide.proxy.UserProxy;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 @Service
 public class RewardService {
 
     private static final Logger logger = LoggerFactory.getLogger("RewardsServiceLog");
-    private GpsUtilProxy gpsUtilProxy;
-    private RewardCentralProxy rewardCentralProxy;
 
     @Autowired
-    private UserProxy userProxy;
+    private GpsUtilProxy gpsUtilProxy;
+
+    @Autowired
+    private RewardCentralProxy rewardCentralProxy;
 
     // Location and proximity data set in miles
     private static final double STATUTE_MILES_PER_NAUTICAL_MILE = 1.15077945;
@@ -50,7 +55,8 @@ public class RewardService {
 	 * @return boolean true if attractions proximity
 	 */
 	public boolean isWithinAttractionProximity(Attraction attraction, Location location) {
-		logger.info("Get if user is within attraction proximity with current Location");
+		logger.info("Get isWithinAttractionProximity with attraction: {}", attraction);
+        logger.info("Get isWithinAttractionProximity with user location: {}", location);
 		return !(getDistance(new Location(attraction.getLongitude(),attraction.getLatitude()), location) > attractionProximityRange);
 	}
 
@@ -81,7 +87,8 @@ public class RewardService {
      * @return boolean true if near attractions
      */
     public boolean nearAttraction(VisitedLocation visitedLocation, Attraction attraction) {
-        logger.info("Get if user is near attraction with visited location");
+        logger.info("Get nearAttraction with User visited Location {}",visitedLocation);
+        logger.info("Get nearAttraction with attraction {}",attraction);
         return !(getDistance(new Location(attraction.getLongitude(),attraction.getLatitude()), visitedLocation.getLocation()) > proximityBuffer);
     }
 
@@ -100,11 +107,13 @@ public class RewardService {
                 if (userDto.getUserRewards().stream().noneMatch(r -> r.getAttraction().getAttractionName().equals(a.getAttractionName()))) {
                     if (nearAttraction(visitedLocation, a)) {
                         userDto.getUserRewards().add(new UserRewardDto(visitedLocation, a, rewardCentralProxy.getRewardPoints(a.getAttractionId(), userDto.getUserId())));
+                            logger.info("Get list of calculate rewards for user: {}", userDto.getUserName());
+                            logger.info("Get last visited location user: {}", userDto.getLastVisitedLocation());
+                            logger.info("User rewards list for user: {}", userDto.getUserRewards());
                     }
                 }
             });
         });
-        logger.info("Get list of calculate rewards for users");
         return userDto.getUserRewards();
     }
 }

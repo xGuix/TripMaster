@@ -29,7 +29,8 @@ public class RewardCentralService {
 	 * @return int number of reward points
 	 */
 	public int getRewardPoints(UUID attractionId, UUID userId) {
-		logger.info("Get user reward points with UUID attraction: {} and  UUID user: {}", attractionId, userId);
-		return rewardCentral.getAttractionRewardPoints(attractionId, userId);
+		int rewardPoint = rewardCentral.getAttractionRewardPoints(attractionId, userId);
+		logger.info("User attraction reward point: {}", rewardPoint);
+		return rewardPoint;
 	}
 }

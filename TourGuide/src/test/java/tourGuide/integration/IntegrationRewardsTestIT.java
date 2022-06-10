@@ -5,8 +5,6 @@ import com.dto.UserRewardDto;
 import com.model.Attraction;
 import com.model.Location;
 import com.model.VisitedLocation;
-import tourGuide.util.InternalTestDataSet;
-import tourGuide.util.InternalTestHelper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,6 +14,8 @@ import tourGuide.proxy.TripPricerProxy;
 import tourGuide.proxy.UserProxy;
 import tourGuide.service.RewardService;
 import tourGuide.service.TourGuideService;
+import tourGuide.util.InternalTestDataSet;
+import tourGuide.util.InternalTestHelper;
 
 import java.util.Date;
 import java.util.List;
@@ -57,25 +57,25 @@ public class IntegrationRewardsTestIT {
 
 	@Test
 	public void isWithinAttractionProximity() {
-		UserDto user = new UserDto(UUID.randomUUID(), "jon", "000", "jon@tourGuide.com");
+		UserDto userDto = new UserDto(UUID.randomUUID(), "jon", "000", "jon@tourGuide.com");
 		Attraction attraction = gpsUtilProxy.getAttractions().get(0);
-		VisitedLocation userLocation = gpsUtilProxy.getUserLocation(user.getUserId());
+		userDto.addToVisitedLocations(new VisitedLocation(userDto.getUserId(), new Location(attraction.getLongitude(),attraction.getLatitude()), new Date()));
+		VisitedLocation userLocation = gpsUtilProxy.getUserLocation(userDto.getUserId());
 
 		assertTrue(rewardService.isWithinAttractionProximity(attraction, userLocation.getLocation()));
 	}
 
 	@Test
 	public void nearAllAttractions() {
-		UserDto user = new UserDto(UUID.randomUUID(), "jon", "000", "jon@tourGuide.com");
 		InternalTestDataSet internalTestDataSet = new InternalTestDataSet();
 		InternalTestHelper.setInternalUserNumber(1);
 		TourGuideService tourGuideService = new TourGuideService(internalTestDataSet,userProxy, gpsUtilProxy, rewardCentralProxy, tripPricerProxy);
+		UserDto userDto = tourGuideService.getUsers().get(0);
 
-		rewardService.calculateRewards(user);
-		List<UserRewardDto> userRewardsDto = tourGuideService.getRewards(user.getUserName());
+		rewardService.calculateRewards(userDto);
+		List<UserRewardDto> userRewardsDto = tourGuideService.getRewards(userDto.getUserName());
 		tourGuideService.trackerService.stopTracking();
 
-		UserDto userDto = tourGuideService.getUsers().get(0);
 		assertEquals(userDto.getUserRewards().size(), userRewardsDto.size());
 	}
 }

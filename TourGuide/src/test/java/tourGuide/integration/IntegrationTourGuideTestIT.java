@@ -2,6 +2,8 @@ package tourGuide.integration;
 
 import com.dto.NearbyAttractionsDto;
 import com.dto.UserDto;
+import com.model.Attraction;
+import com.model.Location;
 import com.model.Provider;
 import com.model.VisitedLocation;
 import tourGuide.util.InternalTestDataSet;
@@ -15,6 +17,7 @@ import tourGuide.proxy.TripPricerProxy;
 import tourGuide.proxy.UserProxy;
 import tourGuide.service.TourGuideService;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,11 +36,9 @@ public class IntegrationTourGuideTestIT {
     @Autowired
     TripPricerProxy tripPricerProxy;
 
-    UserDto userDto = new UserDto(UUID.randomUUID(), "jon", "000", "jon@tourGuide.com");
-    UserDto userDto2 = new UserDto(UUID.randomUUID(), "jon2", "000", "jon2@tourGuide.com");
-
 	@Test
 	public void getUserLocation() throws NumberFormatException {
+		UserDto userDto = new UserDto(UUID.randomUUID(), "jon", "000", "jon@tourGuide.com");
 		InternalTestDataSet internalTestDataSet = new InternalTestDataSet();
 		InternalTestHelper.setInternalUserNumber(1);
 		TourGuideService tourGuideService = new TourGuideService(internalTestDataSet,userProxy, gpsUtilProxy, rewardCentralProxy, tripPricerProxy);
@@ -49,8 +50,10 @@ public class IntegrationTourGuideTestIT {
 
 	@Test
 	public void addUser() {
+		UserDto userDto = new UserDto(UUID.randomUUID(), "jon", "000", "jon@tourGuide.com");
+		UserDto userDto2 = new UserDto(UUID.randomUUID(), "jon2", "000", "jon2@tourGuide.com");
 		InternalTestDataSet internalTestDataSet = new InternalTestDataSet();
-		InternalTestHelper.setInternalUserNumber(1);
+		InternalTestHelper.setInternalUserNumber(2);
 		TourGuideService tourGuideService = new TourGuideService(internalTestDataSet,userProxy, gpsUtilProxy, rewardCentralProxy, tripPricerProxy);
 		userProxy.addUser(userDto);
         userProxy.addUser(userDto2);
@@ -67,8 +70,10 @@ public class IntegrationTourGuideTestIT {
 
 	@Test
 	public void getAllUsers() {
+		UserDto userDto = new UserDto(UUID.randomUUID(), "jon", "000", "jon@tourGuide.com");
+		UserDto userDto2 = new UserDto(UUID.randomUUID(), "jon2", "000", "jon2@tourGuide.com");
 		InternalTestDataSet internalTestDataSet = new InternalTestDataSet();
-		InternalTestHelper.setInternalUserNumber(1);
+		InternalTestHelper.setInternalUserNumber(2);
 		TourGuideService tourGuideService = new TourGuideService(internalTestDataSet,userProxy, gpsUtilProxy, rewardCentralProxy, tripPricerProxy);
         userProxy.addUser(userDto);
         userProxy.addUser(userDto2);
@@ -84,6 +89,7 @@ public class IntegrationTourGuideTestIT {
 
 	@Test
 	public void trackUser() {
+		UserDto userDto = new UserDto(UUID.randomUUID(), "jon", "000", "jon@tourGuide.com");
 		InternalTestDataSet internalTestDataSet = new InternalTestDataSet();
 		InternalTestHelper.setInternalUserNumber(1);
 		TourGuideService tourGuideService = new TourGuideService(internalTestDataSet,userProxy, gpsUtilProxy, rewardCentralProxy, tripPricerProxy);
@@ -96,18 +102,22 @@ public class IntegrationTourGuideTestIT {
 
 	@Test
 	public void getNearbyAttractions() {
+		UserDto userDto = new UserDto(UUID.randomUUID(), "jon", "000", "jon@tourGuide.com");
 		InternalTestDataSet internalTestDataSet = new InternalTestDataSet();
 		InternalTestHelper.setInternalUserNumber(1);
 		TourGuideService tourGuideService = new TourGuideService(internalTestDataSet,userProxy, gpsUtilProxy, rewardCentralProxy, tripPricerProxy);
+		Attraction attraction = gpsUtilProxy.getAttractions().get(0);
+		userDto.addToVisitedLocations(new VisitedLocation(userDto.getUserId(), new Location(attraction.getLongitude(),attraction.getLatitude()), new Date()));
 
-		List<NearbyAttractionsDto> attractions = tourGuideService.getNearbyAttractions(userDto.getUserId());
+		List<NearbyAttractionsDto> attractionsList = tourGuideService.getNearbyAttractions(userDto.getUserId());
 		tourGuideService.trackerService.stopTracking();
 
-		assertTrue(attractions.size() > 0);
+		assertTrue(attractionsList.size() > 0);
 	}
 
     @Test
 	public void getTripDeals() {
+		UserDto userDto = new UserDto(UUID.randomUUID(), "jon", "000", "jon@tourGuide.com");
 		InternalTestDataSet internalTestDataSet = new InternalTestDataSet();
 		InternalTestHelper.setInternalUserNumber(1);
 		TourGuideService tourGuideService = new TourGuideService(internalTestDataSet,userProxy, gpsUtilProxy, rewardCentralProxy, tripPricerProxy);

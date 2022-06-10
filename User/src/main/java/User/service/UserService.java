@@ -80,6 +80,7 @@ public class UserService {
             UUID userId = user.getUserId();
             VisitedLocation userLastVisitedLocation = user.getLastVisitedLocation();
             userLocationsList.add(new UserLocationDto(userId, userLastVisitedLocation.getLocation()));
+            user.addToVisitedLocations(userLastVisitedLocation);
         }
         logger.info("Get all current location for all users");
         return userLocationsList;

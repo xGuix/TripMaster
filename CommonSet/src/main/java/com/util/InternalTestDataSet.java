@@ -1,4 +1,4 @@
-package tourGuide.util;
+package com.util;
 
 import com.dto.UserDto;
 import com.dto.UserRewardDto;
@@ -7,6 +7,7 @@ import com.model.Location;
 import com.model.VisitedLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,6 +16,7 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 @Service
+@Component
 public class InternalTestDataSet {
     public final Logger logger = LoggerFactory.getLogger(InternalTestDataSet.class);
     public static final String tripPricerApiKey = "test-server-api-key";
