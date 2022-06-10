@@ -103,7 +103,7 @@ public class TestPerformanceIT {
 
 	@Test
 	public void highVolumeGetRewards() {
-		Executor executor = Executors.newFixedThreadPool(100);
+		Executor executor = Executors.newFixedThreadPool(300);
 		// Users should be incremented up to 100,000 and test finishes within 20 minutes
 		InternalTestDataSet internalTestDataSet = new InternalTestDataSet();
 		InternalTestHelper.setInternalUserNumber(100000);
