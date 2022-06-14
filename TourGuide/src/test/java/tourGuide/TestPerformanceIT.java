@@ -72,7 +72,7 @@ public class TestPerformanceIT {
 		Executor executor = Executors.newCachedThreadPool();
 		// Users should be incremented up to 100,000 and test finishes within 15 minutes
 		InternalTestDataSet internalTestDataSet = new InternalTestDataSet();
-		InternalTestHelper.setInternalUserNumber(1000);
+		InternalTestHelper.setInternalUserNumber(100000);
 		internalTestDataSet.initializeInternalUsers();
 
 		TourGuideService tourGuideService = new TourGuideService(internalTestDataSet,userProxy, gpsUtilProxy, rewardCentralProxy, tripPricerProxy);
@@ -87,7 +87,7 @@ public class TestPerformanceIT {
 		});
 
 		assertTrue(allUsersList.get(0).getVisitedLocations().size()>1);
-		assertEquals(1000, allUsersList.size());
+		assertEquals(100000, allUsersList.size());
 
 		stopWatch.stop();
 		trackerService.stopTracking();
@@ -101,7 +101,7 @@ public class TestPerformanceIT {
 		Executor executor = Executors.newCachedThreadPool();
 		// Users should be incremented up to 100,000 and test finishes within 20 minutes
 		InternalTestDataSet internalTestDataSet = new InternalTestDataSet();
-		InternalTestHelper.setInternalUserNumber(1000);
+		InternalTestHelper.setInternalUserNumber(100000);
 		internalTestDataSet.initializeInternalUsers();
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
@@ -124,6 +124,6 @@ public class TestPerformanceIT {
 
 		logger.info("highVolumeGetRewards - Time Elapsed: {} seconds.", TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));
 		assertTrue(TimeUnit.MINUTES.toSeconds(3) >= TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));
-		assertEquals(1000, allUsersList.size());
+		assertEquals(100000, allUsersList.size());
 	}
 }
