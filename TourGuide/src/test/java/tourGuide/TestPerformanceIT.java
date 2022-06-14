@@ -73,7 +73,6 @@ public class TestPerformanceIT {
 		// Users should be incremented up to 100,000 and test finishes within 15 minutes
 		InternalTestDataSet internalTestDataSet = new InternalTestDataSet();
 		InternalTestHelper.setInternalUserNumber(100000);
-		internalTestDataSet.initializeInternalUsers();
 
 		TourGuideService tourGuideService = new TourGuideService(internalTestDataSet,userProxy, gpsUtilProxy, rewardCentralProxy, tripPricerProxy);
 		List<UserDto> allUsersList = internalTestDataSet.getAllUsers();
