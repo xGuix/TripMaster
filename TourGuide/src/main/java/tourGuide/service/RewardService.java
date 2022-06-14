@@ -5,6 +5,7 @@ import com.dto.UserRewardDto;
 import com.model.Attraction;
 import com.model.Location;
 import com.model.VisitedLocation;
+import org.apache.catalina.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +22,12 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 @Service
 public class RewardService {
 
-    private static final Logger logger = LoggerFactory.getLogger("RewardsServiceLog");
+    private static final Logger logger = LoggerFactory.getLogger("RewardServiceLog");
 
     @Autowired
     private GpsUtilProxy gpsUtilProxy;
@@ -35,9 +37,9 @@ public class RewardService {
 
     // Location and proximity data set in miles
     private static final double STATUTE_MILES_PER_NAUTICAL_MILE = 1.15077945;
-    private int proximityBuffer = 1000;
+    private int proximityBuffer = 100;
     public final int attractionProximityRange = 9999;
-
+    public final Executor executor = Executors.newFixedThreadPool(100);
 
     /**
      * Set RewardService constructor with proxy
@@ -99,21 +101,17 @@ public class RewardService {
      * @param userDto UserDto user
      * @return User reward List
      */
-    public List<UserRewardDto> calculateRewards(UserDto userDto) {
-        List<VisitedLocation> attractionToReward = userDto.getVisitedLocations();
-        List<Attraction> attractions = gpsUtilProxy.getAttractions();
-        attractionToReward.forEach(visitedLocation -> {
-            attractions.forEach(a -> {
-                if (userDto.getUserRewards().stream().noneMatch(r -> r.getAttraction().getAttractionName().equals(a.getAttractionName()))) {
-                    if (nearAttraction(visitedLocation, a)) {
-                        userDto.getUserRewards().add(new UserRewardDto(visitedLocation, a, rewardCentralProxy.getRewardPoints(a.getAttractionId(), userDto.getUserId())));
-                            logger.info("Get list of calculate rewards for user: {}", userDto.getUserName());
-                            logger.info("Get last visited location user: {}", userDto.getLastVisitedLocation());
-                            logger.info("User rewards list for user: {}", userDto.getUserRewards());
-                    }
+    public CompletableFuture<?> calculateRewards(UserDto userDto) {
+        List<VisitedLocation> visitedLocations = userDto.getVisitedLocations();
+        List<UserRewardDto> userRewardList = userDto.getUserRewards();
+        List<Attraction> attractions = gpsUtilProxy.getAttractions().parallelStream()
+                .filter(attrac -> userRewardList.stream()
+                .noneMatch(rew -> rew.getAttraction().getAttractionName().equals(attrac.getAttractionName()))).collect(Collectors.toList());
+
+        return CompletableFuture.runAsync(() -> visitedLocations.forEach(visited -> attractions.forEach(att -> {
+                if(nearAttraction(visited,att)){
+                    userDto.addUserReward(new UserRewardDto(visited, att, rewardCentralProxy.getRewardPoints(att.getAttractionId(), userDto.getUserId())));
                 }
-            });
-        });
-        return userDto.getUserRewards();
+            })),executor);
     }
 }

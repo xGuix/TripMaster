@@ -1,3 +1,12 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.7.0")
+    }
+}
+
 plugins {
     id ("java")
     id ("java-library")
@@ -7,22 +16,29 @@ plugins {
 }
 
 group = "com.tourguide"
-version = "1.0"
+version = "1.0.0"
+archivesBaseName ="user"
 sourceCompatibility = "11"
 targetCompatibility = "11"
 
+
+
 repositories {
     mavenCentral()
+    flatDir {
+        dirs 'libs'
+    }
 }
 
 dependencies {
     implementation (project(":CommonSet"))
-    implementation ("org.springframework.boot:spring-boot-starter-web:2.6.7")
-    implementation ("org.springframework.boot:spring-boot-starter-test:2.6.7")
+    implementation("org.jetbrains:annotations:23.0.0")
+    implementation ('org.springframework.boot:spring-boot-starter-web:2.7.0')
+    implementation ("org.springframework.boot:spring-boot-starter-test:2.7.0")
     implementation ("org.junit.jupiter:junit-jupiter:5.8.2")
 
     testImplementation ("org.junit.jupiter:junit-jupiter:5.8.2")
-    testImplementation (group: "org.springframework.boot", name: "spring-boot-starter-test", version: "2.6.7")
+    testImplementation (group: "org.springframework.boot", name: "spring-boot-starter-test", version: '2.7.0')
     testImplementation (group: "org.mockito", name: "mockito-junit-jupiter", version: "4.4.0")
 }
 

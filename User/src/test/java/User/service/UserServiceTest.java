@@ -39,6 +39,7 @@ public class UserServiceTest {
         attraction = new Attraction("Disneyland", "Anaheim", "CA",attractionId, 33.817595D, -117.922008D);
         userReward = new UserRewardDto(new VisitedLocation(user.getUserId(),location, LocTimestamp),new Attraction(),100);
         user.addUserReward(userReward);
+        user.addToVisitedLocations(userReward.getVisitedLocation());
         userService.internalUserMap.put("BobLazar", user);
     }
 
@@ -63,7 +64,6 @@ public class UserServiceTest {
 
     @Test
     void getAllCurrentLocationTest() {
-        user.addToVisitedLocations(userReward.getVisitedLocation());
         List<UserLocationDto> result = userService.getAllCurrentLocations();
         assertNotNull(result);
     }

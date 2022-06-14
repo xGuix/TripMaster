@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Service
@@ -33,6 +34,11 @@ public class InternalTestDataSet {
         });
         logger.info("Created " + InternalTestHelper.getInternalUserNumber() + " internal test users.");
     }
+
+    public List<UserDto> getAllUsers() {
+       return internalUserMap.values().stream().collect(Collectors.toList());
+    }
+
 
     public void generateUserLocationHistory(UserDto user) {
         IntStream.range(0, 3).forEach(i-> {

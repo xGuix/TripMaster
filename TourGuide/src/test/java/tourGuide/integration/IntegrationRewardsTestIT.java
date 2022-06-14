@@ -60,7 +60,7 @@ public class IntegrationRewardsTestIT {
 		UserDto userDto = new UserDto(UUID.randomUUID(), "jon", "000", "jon@tourGuide.com");
 		Attraction attraction = gpsUtilProxy.getAttractions().get(0);
 		userDto.addToVisitedLocations(new VisitedLocation(userDto.getUserId(), new Location(attraction.getLongitude(),attraction.getLatitude()), new Date()));
-		VisitedLocation userLocation = gpsUtilProxy.getUserLocation(userDto.getUserId());
+		VisitedLocation userLocation = userDto.getLastVisitedLocation();
 
 		assertTrue(rewardService.isWithinAttractionProximity(attraction, userLocation.getLocation()));
 	}
@@ -70,10 +70,10 @@ public class IntegrationRewardsTestIT {
 		InternalTestDataSet internalTestDataSet = new InternalTestDataSet();
 		InternalTestHelper.setInternalUserNumber(1);
 		TourGuideService tourGuideService = new TourGuideService(internalTestDataSet,userProxy, gpsUtilProxy, rewardCentralProxy, tripPricerProxy);
-		UserDto userDto = tourGuideService.getUsers().get(0);
+		UserDto userDto = new UserDto(UUID.randomUUID(), "jon", "000", "jon@tourGuide.com");;
 
 		rewardService.calculateRewards(userDto);
-		List<UserRewardDto> userRewardsDto = tourGuideService.getRewards(userDto.getUserName());
+		List<UserRewardDto> userRewardsDto = userDto.getUserRewards();
 		tourGuideService.trackerService.stopTracking();
 
 		assertEquals(userDto.getUserRewards().size(), userRewardsDto.size());
