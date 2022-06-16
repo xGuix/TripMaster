@@ -32,7 +32,7 @@ import static tourGuide.util.InternalTestDataSet.tripPricerApiKey;
 public class TourGuideService {
 
 	static final Logger logger = LoggerFactory.getLogger("TourGuideServiceLog");
-	public final Executor executor = Executors.newFixedThreadPool(100);
+	Executor executor = Executors.newFixedThreadPool(100);
 
 	private final InternalTestDataSet internalTestDataSet;
 	private final UserProxy userProxy;
@@ -58,10 +58,8 @@ public class TourGuideService {
 		this.rewardCentralProxy = rewardCentralProxy;
 		this.tripPricerProxy = tripPricerProxy;
 
-		logger.info("-----------------------------TestMode enabled-----------------------------");
 		internalTestDataSet.initializeInternalUsers();
 		logger.debug("Initializing {} users", userProxy.getUsers().size());
-		logger.debug("-----------------------Finished initializing users-----------------------");
 
 		trackerService = new TrackerService(this, userProxy);
 		rewardService = new RewardService(gpsUtilProxy,rewardCentralProxy);
@@ -178,6 +176,7 @@ public class TourGuideService {
 		List<Provider> providers = tripPricerProxy.getTripDeals(tripPricerApiKey, userDto.getUserId(), userDto.getUserPreferences().getNumberOfAdults(),
 				userDto.getUserPreferences().getNumberOfChildren(), userDto.getUserPreferences().getTripDuration(), cumulativeRewardPoints);
 		userDto.setTripDeals(providers);
+		logger.info("Get Trip Deal for user: {} with tripDeal: {}", userDto.getUserName(), userDto.getTripDeals());
 		return providers;
 	}
 
@@ -202,6 +201,7 @@ public class TourGuideService {
 	 * @return visitedLocation The actual visited location
 	 */
 	public CompletableFuture<?> trackUserLocation(UUID userId) {
+		logger.info("Get tracking of user with id: {}", userId);
 		return CompletableFuture.runAsync(()-> gpsUtilProxy.getUserLocation(userId),executor);
 	}
 
@@ -224,6 +224,8 @@ public class TourGuideService {
 				nearBy.setDistance(rewardService.getDistance(new Location(attraction.getLongitude(),attraction.getLatitude()), userLocation.getLocation()));
 				nearBy.setRewardPoints(rewardCentralProxy.getRewardPoints(attraction.getAttractionId(), userId));
 				nearbyAttractionsListDto.add(nearBy);
+				logger.info("Get nearby attractions with user id: {}", userId);
+				logger.info("Get nearby attractions: {}", nearBy);
 			}
 		}
 		return nearbyAttractionsListDto.stream().limit(5).collect(Collectors.toList());

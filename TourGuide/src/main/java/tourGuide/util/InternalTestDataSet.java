@@ -22,6 +22,7 @@ public class InternalTestDataSet {
     // Database connection will be used for external users, but for testing purposes internal users are provided and stored in memory
     public final Map<String, UserDto> internalUserMap = new HashMap<>();
     public void initializeInternalUsers() {
+        logger.info("-----------------------------TestMode enabled-----------------------------");
         IntStream.range(0, InternalTestHelper.getInternalUserNumber()).forEach(i -> {
             String userName = "internalUser" + i;
             String phone = "000";
@@ -32,7 +33,9 @@ public class InternalTestDataSet {
             userDto.getUserRewards().add(userReward);
             internalUserMap.put(userName, userDto);
         });
-        logger.info("Created " + InternalTestHelper.getInternalUserNumber() + " internal test users.");
+        logger.info("Created " + InternalTestHelper.getInternalUserNumber() + " internal users.");
+        logger.debug("Initializing {} users", internalUserMap.size());
+        logger.debug("-----------------------Finished initializing users-----------------------");
     }
 
     public List<UserDto> getAllUsers() {

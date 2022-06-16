@@ -19,6 +19,7 @@ import tourGuide.proxy.UserProxy;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -28,18 +29,17 @@ import java.util.stream.Collectors;
 public class RewardService {
 
     private static final Logger logger = LoggerFactory.getLogger("RewardServiceLog");
+    Executor executor = Executors.newFixedThreadPool(500);
 
     @Autowired
-    private GpsUtilProxy gpsUtilProxy;
-
+    GpsUtilProxy gpsUtilProxy;
     @Autowired
-    private RewardCentralProxy rewardCentralProxy;
+    RewardCentralProxy rewardCentralProxy;
 
     // Location and proximity data set in miles
     private static final double STATUTE_MILES_PER_NAUTICAL_MILE = 1.15077945;
     private int proximityBuffer = 100;
     public final int attractionProximityRange = 9999;
-    public final Executor executor = Executors.newFixedThreadPool(100);
 
     /**
      * Set RewardService constructor with proxy
@@ -108,10 +108,14 @@ public class RewardService {
                 .filter(attrac -> userRewardList.stream()
                 .noneMatch(rew -> rew.getAttraction().getAttractionName().equals(attrac.getAttractionName()))).collect(Collectors.toList());
 
-        return CompletableFuture.runAsync(() -> visitedLocations.forEach(visited -> attractions.forEach(att -> {
-                if(nearAttraction(visited,att)){
-                    userDto.addUserReward(new UserRewardDto(visited, att, rewardCentralProxy.getRewardPoints(att.getAttractionId(), userDto.getUserId())));
-                }
-            })),executor);
+        return CompletableFuture.runAsync(() -> {
+            visitedLocations.forEach(visited -> attractions.forEach(att -> {
+                    if(nearAttraction(visited,att)){
+                        userDto.addUserReward(new UserRewardDto(visited, att, rewardCentralProxy.getRewardPoints(att.getAttractionId(), userDto.getUserId())));
+                        logger.info("Get user: {}", userDto.getUserName());
+                        logger.info("Add user rewards: {}", userDto.getUserRewards());
+                    }
+                }));
+        },executor);
     }
 }

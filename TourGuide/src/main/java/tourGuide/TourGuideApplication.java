@@ -11,6 +11,10 @@ import java.util.Locale;
 public class TourGuideApplication {
     public static void main(String[] args) {
         Locale.setDefault(Locale.US);
+        try {
         SpringApplication.run(TourGuideApplication.class, args);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

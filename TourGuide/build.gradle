@@ -30,8 +30,8 @@ repositories {
 dependencies {
     implementation project(':CommonSet')
     implementation("org.jetbrains:annotations:23.0.0")
-    implementation("org.springframework.boot:spring-boot-starter-web:2.6.7")
-    implementation("org.springframework.boot:spring-boot-starter-test:2.6.7")
+    implementation('org.springframework.boot:spring-boot-starter-web:2.7.0')
+    implementation('org.springframework.boot:spring-boot-starter-test:2.7.0')
     implementation("org.apache.maven.plugins:maven-surefire-report-plugin:3.0.0-M6")
     implementation("org.apache.maven.plugins:maven-site-plugin:4.0.0-M1")
     implementation("org.jacoco:org.jacoco.report:0.8.8")
@@ -42,7 +42,9 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
-    testImplementation(group: "org.springframework.boot", name: "spring-boot-starter-test", version: "2.6.7")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.8.2")
+    testImplementation(group: "org.springframework.boot", name: "spring-boot-starter-test", version: '2.7.0')
     testImplementation(group: "org.mockito", name: "mockito-junit-jupiter", version: "4.4.0")
 }
 
