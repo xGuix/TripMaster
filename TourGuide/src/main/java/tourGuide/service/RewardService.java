@@ -5,23 +5,16 @@ import com.dto.UserRewardDto;
 import com.model.Attraction;
 import com.model.Location;
 import com.model.VisitedLocation;
-import org.apache.catalina.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import tourGuide.proxy.GpsUtilProxy;
 import tourGuide.proxy.RewardCentralProxy;
-import tourGuide.proxy.UserProxy;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
@@ -29,7 +22,7 @@ import java.util.stream.Collectors;
 public class RewardService {
 
     private static final Logger logger = LoggerFactory.getLogger("RewardServiceLog");
-    Executor executor = Executors.newFixedThreadPool(500);
+    ExecutorService executor = Executors.newFixedThreadPool(100);
 
     @Autowired
     GpsUtilProxy gpsUtilProxy;

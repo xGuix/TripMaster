@@ -20,6 +20,7 @@ import tourGuide.util.InternalTestDataSet;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
@@ -32,13 +33,13 @@ import static tourGuide.util.InternalTestDataSet.tripPricerApiKey;
 public class TourGuideService {
 
 	static final Logger logger = LoggerFactory.getLogger("TourGuideServiceLog");
-	Executor executor = Executors.newFixedThreadPool(100);
+	ExecutorService executor = Executors.newFixedThreadPool(100);
 
-	private final InternalTestDataSet internalTestDataSet;
 	private final UserProxy userProxy;
 	private final GpsUtilProxy gpsUtilProxy;
 	private final RewardCentralProxy rewardCentralProxy;
 	private final TripPricerProxy tripPricerProxy;
+	public InternalTestDataSet internalTestDataSet;
 	public RewardService rewardService;
 	public TrackerService trackerService;
 
@@ -179,19 +180,6 @@ public class TourGuideService {
 		logger.info("Get Trip Deal for user: {} with tripDeal: {}", userDto.getUserName(), userDto.getTripDeals());
 		return providers;
 	}
-
-//	/**
-//	 * Get track of user location:
-//	 * Call to track the user location with user
-//	 *
-//	 * @param userId UserDto user
-//	 * @return visitedLocation The actual visited location
-//	 */
-//	public VisitedLocation trackUserLocation(UUID userId) {
-//		Locale.setDefault(Locale.US);
-//		VisitedLocation visitedLocation = gpsUtilProxy.getUserLocation(userId);
-//		return visitedLocation;
-//	}
 
 	/**
 	 * Get track of user location:
