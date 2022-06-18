@@ -1,35 +1,36 @@
+version: "1"
 services:
   TourGuide:
     build: ./TourGuide/.
     image: tourguide-app
     ports:
-      - "8000:8080"
+      - "8080:8080"
     container_name: "tourguide-app"
 
   User:
     build: ./User/.
     image: user-microservice
     ports:
-      - "8000:8181"
+      - "8181:8181"
     container_name: "tourguide-user"
 
   GpsUtil:
     build: ./GpsUtil/.
     image: gpsutil-microservice
     ports:
-      - "8000:8282"
+      - "8282:8282"
     container_name: "tourguide-gpsutil"
 
   RewardCentral:
     build: ./RewardCentral/.
     image: rewardcentral-microservice
     ports:
-      - "8000:8383"
+      - "8383:8383"
     container_name: "tourguide-rewardcentral"
 
   TripPricer:
     build: ./TripPricer/.
     image: trippricer-microservice
     ports:
-      - "8000:8484"
+      - "8484:8484"
     container_name: "tourguide-trippricer"

@@ -13,28 +13,36 @@ plugins {
     id ("eclipse")
     id ("idea")
     id ("jacoco")
+    id ("org.springframework.boot")
+    id ("io.spring.dependency-management")
 }
 
+tasks.named("bootJar") {
+    setArchivesBaseName("user")
+}
+
+tasks.named("jar") {
+    enabled = false
+}
+s
 group = "com.tourguide"
-version = "1.0.0"
-archivesBaseName ="user"
+version = "1.0"
 sourceCompatibility = "11"
 targetCompatibility = "11"
-
-
 
 repositories {
     mavenCentral()
     flatDir {
-        dirs 'libs'
+        dirs "libs"
     }
 }
 
 dependencies {
     implementation (project(":CommonSet"))
-    implementation("org.jetbrains:annotations:23.0.0")
+    implementation ("org.jetbrains:annotations:23.0.0")
     implementation ('org.springframework.boot:spring-boot-starter-web:2.7.0')
     implementation ("org.springframework.boot:spring-boot-starter-test:2.7.0")
+    implementation ("org.apache.maven.plugins:maven-assembly-plugin:3.3.0")
     implementation ("org.junit.jupiter:junit-jupiter:5.8.2")
 
     testImplementation ("org.junit.jupiter:junit-jupiter:5.8.2")

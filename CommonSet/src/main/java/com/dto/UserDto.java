@@ -15,7 +15,7 @@ public class UserDto {
 	private String emailAddress;
 	private Date latestLocationTimestamp;
 	private List<VisitedLocation> visitedLocations = new ArrayList<>();
-	private List<UserRewardDto> userRewardsDto = new ArrayList<>();
+	private final List<UserRewardDto> userRewardsDto = new ArrayList<>();
 	private UserPreferencesDto userPreferencesDto = new UserPreferencesDto();
 	private List<Provider> tripDeals = new ArrayList<>();
 
@@ -88,13 +88,13 @@ public class UserDto {
 		visitedLocations.add(visitedLocation);
 	}
 	
-	public List<VisitedLocation> getVisitedLocations() {
-		return (List<VisitedLocation>)((ArrayList<VisitedLocation>)visitedLocations).clone();
-	}
-
 //	public List<VisitedLocation> getVisitedLocations() {
-//		return visitedLocations;
+//		return (List<VisitedLocation>)((ArrayList<VisitedLocation>)visitedLocations).clone();
 //	}
+
+	public List<VisitedLocation> getVisitedLocations() {
+		return visitedLocations;
+	}
 
 	public void setVisitedLocations(List<VisitedLocation> visitedLocations) {
 		this.visitedLocations = visitedLocations;

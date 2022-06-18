@@ -1,5 +1,5 @@
-FROM openjdk:11
+FROM openjdk:11-slim
 EXPOSE 8282
 WORKDIR /TripMaster/GpsUtil
-COPY build/libs/GpsUtil-1.0.jar tourguide-gpsutil.jar
-CMD ["java", "-jar", "tourguide-gpsutil.jar"]
+COPY . /app
+CMD ["java", "-jar", "app.jar"]

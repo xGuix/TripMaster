@@ -39,7 +39,7 @@ public class TrackerService extends Thread {
 	 */
 	public TrackerService(TourGuideService tourGuideService, UserProxy userProxy) {
 		this.tourGuideService = tourGuideService;
-		this.userProxy = userProxy;;
+		this.userProxy = userProxy;
 		executorService.submit(this);
 	}
 
