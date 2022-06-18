@@ -1,5 +1,3 @@
-FROM openjdk:11
-EXPOSE 8080
-WORKDIR /TripMaster/TourGuide
-COPY build/libs/TourGuide-1.0.jar tourguide-app.jar
-CMD ["java", "-jar", "tourguide-app.jar"]
+FROM openjdk:11-slim
+COPY build/libs/tourguide-1.0.jar app.jar
+CMD [ "java", "-jar", "/app.jar" ]

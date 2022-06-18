@@ -5,22 +5,16 @@ import com.dto.UserRewardDto;
 import com.model.Attraction;
 import com.model.Location;
 import com.model.VisitedLocation;
-import org.apache.catalina.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import tourGuide.proxy.GpsUtilProxy;
 import tourGuide.proxy.RewardCentralProxy;
-import tourGuide.proxy.UserProxy;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
@@ -28,18 +22,17 @@ import java.util.stream.Collectors;
 public class RewardService {
 
     private static final Logger logger = LoggerFactory.getLogger("RewardServiceLog");
+    ExecutorService executor = Executors.newFixedThreadPool(100);
 
     @Autowired
-    private GpsUtilProxy gpsUtilProxy;
-
+    GpsUtilProxy gpsUtilProxy;
     @Autowired
-    private RewardCentralProxy rewardCentralProxy;
+    RewardCentralProxy rewardCentralProxy;
 
     // Location and proximity data set in miles
     private static final double STATUTE_MILES_PER_NAUTICAL_MILE = 1.15077945;
-    private int proximityBuffer = 100;
+    private final int proximityBuffer = 100;
     public final int attractionProximityRange = 9999;
-    public final Executor executor = Executors.newFixedThreadPool(100);
 
     /**
      * Set RewardService constructor with proxy
@@ -108,10 +101,14 @@ public class RewardService {
                 .filter(attrac -> userRewardList.stream()
                 .noneMatch(rew -> rew.getAttraction().getAttractionName().equals(attrac.getAttractionName()))).collect(Collectors.toList());
 
-        return CompletableFuture.runAsync(() -> visitedLocations.forEach(visited -> attractions.forEach(att -> {
-                if(nearAttraction(visited,att)){
-                    userDto.addUserReward(new UserRewardDto(visited, att, rewardCentralProxy.getRewardPoints(att.getAttractionId(), userDto.getUserId())));
-                }
-            })),executor);
+        return CompletableFuture.runAsync(() -> {
+            visitedLocations.forEach(visited -> attractions.forEach(att -> {
+                    if(nearAttraction(visited,att)){
+                        userDto.addUserReward(new UserRewardDto(visited, att, rewardCentralProxy.getRewardPoints(att.getAttractionId(), userDto.getUserId())));
+                        logger.info("Get user: {}", userDto.getUserName());
+                        logger.info("Add user rewards: {}", userDto.getUserRewards());
+                    }
+                }));
+        },executor);
     }
 }

@@ -15,7 +15,7 @@ public class UserDto {
 	private String emailAddress;
 	private Date latestLocationTimestamp;
 	private List<VisitedLocation> visitedLocations = new ArrayList<>();
-	private List<UserRewardDto> userRewardsDto = new ArrayList<>();
+	private final List<UserRewardDto> userRewardsDto = new ArrayList<>();
 	private UserPreferencesDto userPreferencesDto = new UserPreferencesDto();
 	private List<Provider> tripDeals = new ArrayList<>();
 

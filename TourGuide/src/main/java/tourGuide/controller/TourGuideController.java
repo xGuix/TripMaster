@@ -74,7 +74,7 @@ public class TourGuideController {
     public void addUser(@RequestBody UserDto userDto){
         logger.info("Call service for add user: {}", userDto);
         tourGuideService.addUser(userDto);
-    };
+    }
 
     /**
      * Get user:

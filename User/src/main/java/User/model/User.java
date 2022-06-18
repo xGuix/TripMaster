@@ -22,7 +22,7 @@ public class User {
 	private String emailAddress;
 	private Date latestLocationTimestamp;
 	private List<VisitedLocation> visitedLocations = new ArrayList<>();
-	private List<UserRewardDto> userRewardsDto = new ArrayList<>();
+	private final List<UserRewardDto> userRewardsDto = new ArrayList<>();
 	private UserPreferences userPreferences = new UserPreferences();
 	private List<Provider> tripDeals = new ArrayList<>();
 
@@ -96,13 +96,13 @@ public class User {
 		visitedLocations.add(visitedLocation);
 	}
 	
-	public List<VisitedLocation> getVisitedLocations() {
-		return (List<VisitedLocation>)((ArrayList<VisitedLocation>)visitedLocations).clone();
-	}
-
 //	public List<VisitedLocation> getVisitedLocations() {
-//		return visitedLocations;
+//		return (List<VisitedLocation>)((ArrayList<VisitedLocation>)visitedLocations).clone();
 //	}
+
+	public List<VisitedLocation> getVisitedLocations() {
+		return visitedLocations;
+	}
 
 	public void setVisitedLocations(List<VisitedLocation> visitedLocations) {
 		this.visitedLocations = visitedLocations;

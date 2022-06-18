@@ -20,6 +20,7 @@ import tourGuide.util.InternalTestDataSet;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
@@ -32,13 +33,13 @@ import static tourGuide.util.InternalTestDataSet.tripPricerApiKey;
 public class TourGuideService {
 
 	static final Logger logger = LoggerFactory.getLogger("TourGuideServiceLog");
-	public final Executor executor = Executors.newFixedThreadPool(100);
+	ExecutorService executor = Executors.newFixedThreadPool(100);
 
-	private final InternalTestDataSet internalTestDataSet;
 	private final UserProxy userProxy;
 	private final GpsUtilProxy gpsUtilProxy;
 	private final RewardCentralProxy rewardCentralProxy;
 	private final TripPricerProxy tripPricerProxy;
+	public InternalTestDataSet internalTestDataSet;
 	public RewardService rewardService;
 	public TrackerService trackerService;
 
@@ -58,10 +59,8 @@ public class TourGuideService {
 		this.rewardCentralProxy = rewardCentralProxy;
 		this.tripPricerProxy = tripPricerProxy;
 
-		logger.info("-----------------------------TestMode enabled-----------------------------");
 		internalTestDataSet.initializeInternalUsers();
 		logger.debug("Initializing {} users", userProxy.getUsers().size());
-		logger.debug("-----------------------Finished initializing users-----------------------");
 
 		trackerService = new TrackerService(this, userProxy);
 		rewardService = new RewardService(gpsUtilProxy,rewardCentralProxy);
@@ -178,21 +177,9 @@ public class TourGuideService {
 		List<Provider> providers = tripPricerProxy.getTripDeals(tripPricerApiKey, userDto.getUserId(), userDto.getUserPreferences().getNumberOfAdults(),
 				userDto.getUserPreferences().getNumberOfChildren(), userDto.getUserPreferences().getTripDuration(), cumulativeRewardPoints);
 		userDto.setTripDeals(providers);
+		logger.info("Get Trip Deal for user: {} with tripDeal: {}", userDto.getUserName(), userDto.getTripDeals());
 		return providers;
 	}
-
-//	/**
-//	 * Get track of user location:
-//	 * Call to track the user location with user
-//	 *
-//	 * @param userId UserDto user
-//	 * @return visitedLocation The actual visited location
-//	 */
-//	public VisitedLocation trackUserLocation(UUID userId) {
-//		Locale.setDefault(Locale.US);
-//		VisitedLocation visitedLocation = gpsUtilProxy.getUserLocation(userId);
-//		return visitedLocation;
-//	}
 
 	/**
 	 * Get track of user location:
@@ -202,6 +189,7 @@ public class TourGuideService {
 	 * @return visitedLocation The actual visited location
 	 */
 	public CompletableFuture<?> trackUserLocation(UUID userId) {
+		logger.info("Get tracking of user with id: {}", userId);
 		return CompletableFuture.runAsync(()-> gpsUtilProxy.getUserLocation(userId),executor);
 	}
 
@@ -224,6 +212,8 @@ public class TourGuideService {
 				nearBy.setDistance(rewardService.getDistance(new Location(attraction.getLongitude(),attraction.getLatitude()), userLocation.getLocation()));
 				nearBy.setRewardPoints(rewardCentralProxy.getRewardPoints(attraction.getAttractionId(), userId));
 				nearbyAttractionsListDto.add(nearBy);
+				logger.info("Get nearby attractions with user id: {}", userId);
+				logger.info("Get nearby attractions: {}", nearBy);
 			}
 		}
 		return nearbyAttractionsListDto.stream().limit(5).collect(Collectors.toList());
