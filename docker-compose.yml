@@ -1,4 +1,4 @@
-version: "1"
+version: "3.3"
 services:
   TourGuide:
     build: ./TourGuide/.
@@ -9,28 +9,35 @@ services:
 
   User:
     build: ./User/.
-    image: user-microservice
+    image: microservice-user
     ports:
       - "8181:8181"
-    container_name: "tourguide-user"
+    container_name: "microservice-user"
 
   GpsUtil:
     build: ./GpsUtil/.
-    image: gpsutil-microservice
+    image: microservice-gpsutil
     ports:
       - "8282:8282"
-    container_name: "tourguide-gpsutil"
+    container_name: "microservice-gpsutil"
 
   RewardCentral:
     build: ./RewardCentral/.
-    image: rewardcentral-microservice
+    image: microservice-rewardcentral
     ports:
       - "8383:8383"
-    container_name: "tourguide-rewardcentral"
+    container_name: "microservice-rewardcentral"
 
   TripPricer:
     build: ./TripPricer/.
-    image: trippricer-microservice
+    image: microservice-trippricer
     ports:
       - "8484:8484"
-    container_name: "tourguide-trippricer"
+    container_name: "microservice-trippricer"
+
+  CommonSet:
+      build: ./CommonSet/.
+      image: microservice-commonset
+      ports:
+        - "8585:8585"
+      container_name: "microservice-commonset"

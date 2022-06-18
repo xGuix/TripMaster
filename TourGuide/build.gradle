@@ -60,6 +60,7 @@ dependencies {
 
 test {
     useJUnit()
+    //seJUnitPlatform()
     finalizedBy jacocoTestReport
 }
 
