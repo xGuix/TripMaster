@@ -1,3 +1,3 @@
 FROM openjdk:11-slim
-COPY build/libs/tourguide-1.0.jar app.jar
+COPY build/libs/CommonSet-0.0.1.jar app.jar
 CMD [ "java", "-jar", "/app.jar" ]

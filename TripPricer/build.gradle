@@ -1,6 +1,17 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.7.0")
+    }
+}
+
 plugins {
     id ("java")
     id ("java-library")
+    id ("org.springframework.boot")
+    id ("io.spring.dependency-management")
     id ("eclipse")
     id ("idea")
     id ("jacoco")
@@ -10,6 +21,14 @@ group = "com.tourguide"
 version = "1.0"
 sourceCompatibility = "11"
 targetCompatibility = "11"
+
+tasks.named("bootJar") {
+    setArchivesBaseName("trip-pricer")
+}
+
+tasks.named("jar") {
+    enabled = false
+}
 
 repositories {
     mavenCentral()
@@ -21,12 +40,12 @@ repositories {
 dependencies {
     implementation(project(":CommonSet"))
     implementation(name: "TripPricer", ext: "jar")
-    implementation("org.springframework.boot:spring-boot-starter-web:2.6.7")
-    implementation("org.springframework.boot:spring-boot-starter-test:2.6.7")
+    implementation('org.springframework.boot:spring-boot-starter-web:2.7.0')
+    implementation('org.springframework.boot:spring-boot-starter-test:2.7.0')
     implementation("org.junit.jupiter:junit-jupiter:5.8.2")
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
-    testImplementation(group: "org.springframework.boot", name: "spring-boot-starter-test", version: "2.6.7")
+    testImplementation(group: "org.springframework.boot", name: "spring-boot-starter-test", version: '2.7.0')
     testImplementation(group: "org.mockito", name: "mockito-junit-jupiter", version: "4.4.0")
 }
 
