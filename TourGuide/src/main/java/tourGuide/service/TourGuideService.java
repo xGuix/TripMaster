@@ -8,8 +8,12 @@ import com.model.Attraction;
 import com.model.Location;
 import com.model.Provider;
 import com.model.VisitedLocation;
+import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 import tourGuide.proxy.GpsUtilProxy;
 import tourGuide.proxy.RewardCentralProxy;
@@ -19,7 +23,6 @@ import tourGuide.util.InternalTestDataSet;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
@@ -39,10 +42,10 @@ public class TourGuideService {
 	private final GpsUtilProxy gpsUtilProxy;
 	private final RewardCentralProxy rewardCentralProxy;
 	private final TripPricerProxy tripPricerProxy;
-	public InternalTestDataSet internalTestDataSet;
-	public RewardService rewardService;
-	public TrackerService trackerService;
+	private final RewardService rewardService;
 
+	public TrackerService trackerService;
+	public InternalTestDataSet internalTestDataSet;
 
 	/**
 	 *  TourGuideService constructor
