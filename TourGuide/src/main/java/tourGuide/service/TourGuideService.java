@@ -43,7 +43,6 @@ public class TourGuideService {
 	private final RewardCentralProxy rewardCentralProxy;
 	private final TripPricerProxy tripPricerProxy;
 	private final RewardService rewardService;
-
 	public TrackerService trackerService;
 	public InternalTestDataSet internalTestDataSet;
 
