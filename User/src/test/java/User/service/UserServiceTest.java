@@ -1,8 +1,8 @@
 package User.service;
 
 import User.model.User;
+import User.model.UserRewardDto;
 import com.dto.UserLocationDto;
-import com.dto.UserRewardDto;
 import com.model.Attraction;
 import com.model.Location;
 import com.model.VisitedLocation;
@@ -29,6 +29,7 @@ public class UserServiceTest {
     UserRewardDto userReward;
     Attraction attraction;
     UUID attractionId;
+
 
     @BeforeEach
     void setTest(){

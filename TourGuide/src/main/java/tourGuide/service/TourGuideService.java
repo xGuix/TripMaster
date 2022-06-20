@@ -61,6 +61,9 @@ public class TourGuideService {
 
 		internalTestDataSet.initializeInternalUsers();
 		logger.debug("Initializing {} users", userProxy.getUsers().size());
+		List<UserDto> userDtoList = internalTestDataSet.getAllUsers();
+		userDtoList.forEach(u -> addUser(u));
+		logger.debug("-----------------------Finished initializing users-----------------------");
 
 		trackerService = new TrackerService(this, userProxy);
 		rewardService = new RewardService(gpsUtilProxy,rewardCentralProxy);

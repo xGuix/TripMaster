@@ -1,43 +1,38 @@
 version: "3.3"
 services:
+#  CommonSet:
+#    build: ./CommonSet/.
+#    image: microservice-commonset
+#    ports:
+#      - "7070:7070"
+#    container_name: "microservice-commonset"
+
   TourGuide:
-    build: ./TourGuide/.
     image: tourguide-app
     ports:
       - "8080:8080"
     container_name: "tourguide-app"
 
   User:
-    build: ./User/.
     image: microservice-user
     ports:
       - "8181:8181"
     container_name: "microservice-user"
 
   GpsUtil:
-    build: ./GpsUtil/.
     image: microservice-gpsutil
     ports:
       - "8282:8282"
     container_name: "microservice-gpsutil"
 
   RewardCentral:
-    build: ./RewardCentral/.
     image: microservice-rewardcentral
     ports:
       - "8383:8383"
     container_name: "microservice-rewardcentral"
 
   TripPricer:
-    build: ./TripPricer/.
     image: microservice-trippricer
     ports:
       - "8484:8484"
     container_name: "microservice-trippricer"
-
-  CommonSet:
-      build: ./CommonSet/.
-      image: microservice-commonset
-      ports:
-        - "8585:8585"
-      container_name: "microservice-commonset"
