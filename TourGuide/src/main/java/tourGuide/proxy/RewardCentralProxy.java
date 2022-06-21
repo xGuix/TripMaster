@@ -1,16 +1,12 @@
 package tourGuide.proxy;
 
-import com.dto.UserDto;
-import com.dto.UserLocationDto;
-import com.model.Attraction;
-import com.model.Location;
-import com.model.VisitedLocation;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.UUID;
 
-@FeignClient(value = "rewardCentral", url = "localhost:8383")
+@FeignClient(value = "rewardCentral", url = "${tourguide.microservice-rewardcentral}")
 public interface RewardCentralProxy {
     /**
      * Gets reward points.

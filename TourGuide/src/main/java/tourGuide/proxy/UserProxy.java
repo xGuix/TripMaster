@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@FeignClient(value="user" ,url="localhost:8181")
+@FeignClient(value="user" ,url="${tourguide.microservice-user}")
 public interface UserProxy {
 
     /**

@@ -1,9 +1,5 @@
 package User.model;
 
-import com.dto.UserDto;
-import com.dto.UserPreferencesDto;
-import com.dto.UserRewardDto;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.model.Provider;
 import com.model.VisitedLocation;
 

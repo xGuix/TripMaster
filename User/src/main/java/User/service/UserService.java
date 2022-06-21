@@ -2,8 +2,8 @@ package User.service;
 
 import User.model.User;
 import User.model.UserPreferences;
+import User.model.UserRewardDto;
 import com.dto.UserLocationDto;
-import com.dto.UserRewardDto;
 import com.model.Provider;
 import com.model.VisitedLocation;
 import org.slf4j.Logger;
@@ -21,7 +21,7 @@ public class UserService {
     private final Logger logger = LoggerFactory.getLogger("UserServiceLog");
 
     /**
-     * Instantiates a new Map for users.
+     * Instantiates a new Map for Repository users.
      */
     Map<String, User> internalUserMap = new HashMap<>();
 

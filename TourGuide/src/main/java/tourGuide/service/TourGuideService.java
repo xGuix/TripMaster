@@ -19,7 +19,6 @@ import tourGuide.util.InternalTestDataSet;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
@@ -39,10 +38,9 @@ public class TourGuideService {
 	private final GpsUtilProxy gpsUtilProxy;
 	private final RewardCentralProxy rewardCentralProxy;
 	private final TripPricerProxy tripPricerProxy;
-	public InternalTestDataSet internalTestDataSet;
-	public RewardService rewardService;
+	private final RewardService rewardService;
 	public TrackerService trackerService;
-
+	public InternalTestDataSet internalTestDataSet;
 
 	/**
 	 *  TourGuideService constructor
@@ -61,6 +59,9 @@ public class TourGuideService {
 
 		internalTestDataSet.initializeInternalUsers();
 		logger.debug("Initializing {} users", userProxy.getUsers().size());
+		List<UserDto> userDtoList = internalTestDataSet.getAllUsers();
+		userDtoList.forEach(u -> addUser(u));
+		logger.debug("-----------------------Finished initializing users-----------------------");
 
 		trackerService = new TrackerService(this, userProxy);
 		rewardService = new RewardService(gpsUtilProxy,rewardCentralProxy);

@@ -1,8 +1,6 @@
 package com.dto;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.model.Location;
-
 import java.util.UUID;
 
 /**

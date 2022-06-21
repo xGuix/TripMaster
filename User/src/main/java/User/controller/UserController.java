@@ -2,8 +2,8 @@ package User.controller;
 
 import User.model.User;
 import User.model.UserPreferences;
+import User.model.UserRewardDto;
 import com.dto.UserLocationDto;
-import com.dto.UserRewardDto;
 import User.service.UserService;
 import com.model.VisitedLocation;
 import org.apache.logging.log4j.LogManager;
@@ -80,7 +80,6 @@ public class UserController {
      * Call to add a new user
      *
      * @param user User user
-     * @return userName User userName
      */
     @PostMapping("/addUser")
     public void getUser(@RequestBody User user) {
