@@ -21,7 +21,7 @@ public class UserService {
     private final Logger logger = LoggerFactory.getLogger("UserServiceLog");
 
     /**
-     * Instantiates a new Map for users.
+     * Instantiates a new Map for Repository users.
      */
     Map<String, User> internalUserMap = new HashMap<>();
 
