@@ -26,12 +26,16 @@ before_script:      # This job runs in the build stage
 
 include:
   stage: compile
+  tags:
+    - My_Runner
   script:
     - chmod +x ./gradlew
     - ./gradlew compileJava assemble
 
 test_job:
  stage: test
+ tags:
+    - My_Runner
  
  script:
   - cd ./User/
@@ -68,6 +72,8 @@ test_job:
     
 jar_job :
  stage: jar
+ tags:
+    - My_Runner
  
  script:
    - chmod +x ./gradlew
