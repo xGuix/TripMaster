@@ -4,10 +4,10 @@ import com.dto.UserDto;
 import com.model.Attraction;
 import com.model.Location;
 import com.model.VisitedLocation;
+import org.junit.jupiter.api.BeforeAll;
+import org.springframework.test.context.ActiveProfiles;
 import tourGuide.proxy.RewardCentralProxy;
 import tourGuide.proxy.TripPricerProxy;
-import tourGuide.util.InternalTestDataSet;
-import tourGuide.util.InternalTestHelper;
 import org.apache.commons.lang3.time.StopWatch;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,16 +20,18 @@ import tourGuide.proxy.GpsUtilProxy;
 import tourGuide.proxy.UserProxy;
 import tourGuide.service.RewardService;
 import tourGuide.service.TourGuideService;
+import tourGuide.service.TrackerService;
+import tourGuide.util.InternalTestDataSet;
+import tourGuide.util.InternalTestHelper;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
 public class TestPerformanceIT {
 	static final Logger logger = LogManager.getLogger("TourGuidePerformanceLog");
@@ -46,7 +48,7 @@ public class TestPerformanceIT {
 	@Autowired
 	RewardService rewardService;
 	@Autowired
-	TourGuideService tourGuideService;
+	TrackerService trackerService;
 
 	/*
 	 * A note on performance improvements:
@@ -65,76 +67,63 @@ public class TestPerformanceIT {
 	 *     highVolumeGetRewards: 100,000 users within 20 minutes:
 	 *          assertTrue(TimeUnit.MINUTES.toSeconds(20) >= TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));
 	 */
+	@BeforeAll
+	static void setupUser(){
+		InternalTestHelper.setInternalUserNumber(1000);
+	}
 
 	@Test
 	public void highVolumeTrackLocation() {
-		Executor executor = Executors.newFixedThreadPool(100);
-		// Users should be incremented up to 100,000 and test finishes within 15 minutes
+		// Users should be incremented up to 100,000 and test finishes within 3 minutes
 		InternalTestDataSet internalTestDataSet = new InternalTestDataSet();
-		InternalTestHelper.setInternalUserNumber(100000);
+
 		TourGuideService tourGuideService = new TourGuideService(internalTestDataSet,userProxy, gpsUtilProxy, rewardCentralProxy, tripPricerProxy);
-
-		List<UserDto> allUsersDto = tourGuideService.getUsers();
-		ArrayList<CompletableFuture> completableFutures= new ArrayList<>();
-
 	    StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
 
-		allUsersDto.forEach(u -> {
-			CompletableFuture completable = CompletableFuture.runAsync(() -> {
-				tourGuideService.trackUserLocation(u.getUserId());
-				}, executor);
-			completableFutures.add(completable);
+		List<UserDto> allUsersList = internalTestDataSet.getAllUsers();
+		allUsersList.parallelStream().forEach(u -> {
+			tourGuideService.trackUserLocation(u.getUserId()).join();
 		});
-		CompletableFuture.allOf(completableFutures.toArray(new CompletableFuture[completableFutures.size()])).join();
 
-//		List<UUID> allUsersId = allUsersDto.stream().map(userDto -> userDto.getUserId()).collect(Collectors.toList());
-//		List<CompletableFuture<Void>> result = allUsersId.stream()
-//				.map(userId -> CompletableFuture.runAsync(() -> tourGuideService.trackUserLocation(userId), executor))
-//						.collect(Collectors.toList());
-//		result.forEach(CompletableFuture::join);
+		assertTrue(allUsersList.get(0).getVisitedLocations().size()>1);
+		assertEquals(1000, allUsersList.size());
 
 		stopWatch.stop();
+		trackerService.stopTracking();
 
-		logger.info("highVolumeTrackLocation / Time Elapsed: {} seconds.", TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));
-		assertTrue(TimeUnit.MINUTES.toSeconds(15) >= TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));
+		logger.info("highVolumeTrackLocation - Time Elapsed: {} seconds.", TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));
+		assertTrue(TimeUnit.MINUTES.toSeconds(3) >= TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));
 	}
 
 	@Test
 	public void highVolumeGetRewards() {
-		Executor executor = Executors.newFixedThreadPool(100);
-		// Users should be incremented up to 100,000 and test finishes within 20 minutes
+		// Users should be incremented up to 100,000 and test finishes within 5 minutes
 		InternalTestDataSet internalTestDataSet = new InternalTestDataSet();
-		InternalTestHelper.setInternalUserNumber(100000);
+		internalTestDataSet.initializeInternalUsers();
+
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
-		TourGuideService tourGuideService = new TourGuideService(internalTestDataSet,userProxy, gpsUtilProxy, rewardCentralProxy, tripPricerProxy);
 
-	    Attraction attraction = gpsUtilProxy.getAttractions().get(0);
-		List<UserDto> allUsersDto = tourGuideService.getUsers();
-		List<CompletableFuture> completableFutures = new ArrayList<>();
+		List<UserDto> allUsersList = internalTestDataSet.getAllUsers();
+		Attraction attraction = gpsUtilProxy.getAttractions().get(0);
+		Location location = new Location(attraction.getLongitude(), attraction.getLatitude());
 
-		allUsersDto.forEach(u ->
-				u.addToVisitedLocations(
-						new VisitedLocation(u.getUserId(),
-						new Location(attraction.getLongitude(),attraction.getLatitude()),
-						new Date())));
+		allUsersList.forEach(u -> u.addToVisitedLocations(new VisitedLocation(u.getUserId(), location, new Date())));
 
-		allUsersDto.forEach(u -> {
-			CompletableFuture completable = CompletableFuture.runAsync(() -> {
-				rewardService.calculateRewards(u);
-				}, executor);
-			completableFutures.add(completable);
-		});
-		CompletableFuture.allOf(completableFutures.toArray(new CompletableFuture[completableFutures.size()])).join();
+		CompletableFuture<?> completableFutures = CompletableFuture.runAsync(() ->  allUsersList.parallelStream().forEach(u -> rewardService.calculateRewards(u)));
+		CompletableFuture.allOf(completableFutures).join();
 
-		for(UserDto userDto : allUsersDto) {
+		for(UserDto userDto : allUsersList) {
+			assertNotEquals(0,userDto.getUserRewards().get(0).getRewardPoints());
 			assertTrue(userDto.getUserRewards().size() > 0);
 		}
 
 		stopWatch.stop();
+		trackerService.stopTracking();
 
-		logger.info("highVolumeGetRewards / Time Elapsed: {} seconds.", TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));
-		assertTrue(TimeUnit.MINUTES.toSeconds(20) >= TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));
+		logger.info("highVolumeGetRewards - Time Elapsed: {} seconds.", TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));
+		assertTrue(TimeUnit.MINUTES.toSeconds(10) >= TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));
+		assertEquals(1000, allUsersList.size());
 	}
 }

@@ -56,4 +56,14 @@ public class GpsUtilController {
         logger.info("Get all attractions list");
         return gpsUtilService.getAllAttractions();
     }
+
+//    /**
+//     * getLastVisitedAttraction and returns attraction
+//     * @return Last visited Attractions
+//     */
+//    @RequestMapping("/getLastVisitedAttraction")
+//    public Attraction getLastVisitedAttractions() {
+//        logger.info("Get all attractions list");
+//        return gpsUtilService.getLastVisitedAttraction();
+//    }
 }

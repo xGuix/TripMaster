@@ -39,7 +39,7 @@ public class RewardCentralController {
      */
     @RequestMapping("/getRewardPoints")
     public int getRewardPoints(@RequestParam UUID attractionId,@RequestParam UUID userId) {
-        logger.info("Get rewardCentral controller to send service with attractionId and userID", attractionId, userId);
+        logger.info("RewardCentral controller send to service with attractionId: {} and userID: {}", attractionId, userId);
         return rewardCentralService.getRewardPoints(attractionId, userId);
     }
 }

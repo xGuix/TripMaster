@@ -7,7 +7,6 @@ import gpsUtil.GpsUtil;
 import gpsUtil.location.Attraction;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
@@ -18,9 +17,6 @@ import static org.mockito.Mockito.verify;
 
 @SpringBootTest
 public class GpsUtilServiceTest {
-
-    @Autowired
-    GpsUtilService gpsUtilService;
 
     @MockBean
     GpsUtil gpsUtil;
@@ -40,7 +36,7 @@ public class GpsUtilServiceTest {
 
     @Test
     void getAttractionTest(){
-        attractionList.add(new Attraction("Disneyland","City","State",location.getLatitude(), location.getLongitude()));
+        attractionList.add(new Attraction("Lala land","City","State",location.getLatitude(), location.getLongitude()));
         List<Attraction> result = gpsUtil.getAttractions();
         verify(gpsUtil, Mockito.times(1)).getAttractions();
         assertNotNull(result);

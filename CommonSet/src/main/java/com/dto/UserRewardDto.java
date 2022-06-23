@@ -1,7 +1,5 @@
 package com.dto;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.model.Attraction;
 import com.model.VisitedLocation;
 

@@ -18,6 +18,9 @@ import tourGuide.proxy.UserProxy;
 import tourGuide.util.InternalTestDataSet;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import static tourGuide.util.InternalTestDataSet.tripPricerApiKey;
@@ -29,19 +32,25 @@ import static tourGuide.util.InternalTestDataSet.tripPricerApiKey;
 public class TourGuideService {
 
 	static final Logger logger = LoggerFactory.getLogger("TourGuideServiceLog");
+	ExecutorService executor = Executors.newFixedThreadPool(100);
 
-	private InternalTestDataSet internalTestDataSet;
-	private UserProxy userProxy;
-	private GpsUtilProxy gpsUtilProxy;
-	private RewardCentralProxy rewardCentralProxy;
-	private TripPricerProxy tripPricerProxy;
-
-	public RewardService rewardService;
+	private final UserProxy userProxy;
+	private final GpsUtilProxy gpsUtilProxy;
+	private final RewardCentralProxy rewardCentralProxy;
+	private final TripPricerProxy tripPricerProxy;
+	private final RewardService rewardService;
 	public TrackerService trackerService;
+	public InternalTestDataSet internalTestDataSet;
 
 	/**
 	 *  TourGuideService constructor
 	 *	Load all controller proxy
+	 *
+	 * @param internalTestDataSet InternalTestDataSet
+	 * @param userProxy UserProxy
+	 * @param gpsUtilProxy GpsUtilProxy
+	 * @param rewardCentralProxy RewardCentralProxy
+	 * @param tripPricerProxy TripPricerProxy
 	 */
 	public TourGuideService(InternalTestDataSet internalTestDataSet,
 							UserProxy userProxy,
@@ -54,13 +63,14 @@ public class TourGuideService {
 		this.rewardCentralProxy = rewardCentralProxy;
 		this.tripPricerProxy = tripPricerProxy;
 
-		logger.info("-----------------------------TestMode enabled-----------------------------");
 		internalTestDataSet.initializeInternalUsers();
-		logger.debug("Initializing {} users", internalTestDataSet.internalUserMap.size());
+		logger.debug("Initializing {} users", userProxy.getUsers().size());
+		List<UserDto> userDtoList = internalTestDataSet.getAllUsers();
+		userDtoList.forEach(u -> addUser(u));
 		logger.debug("-----------------------Finished initializing users-----------------------");
 
 		trackerService = new TrackerService(this, userProxy);
-		rewardService = new RewardService(gpsUtilProxy, rewardCentralProxy);
+		rewardService = new RewardService(gpsUtilProxy,rewardCentralProxy);
 		addShutDownHook();
 	}
 
@@ -104,7 +114,6 @@ public class TourGuideService {
 	 *  Call to get reward with user
 	 *
 	 * @param userDto String user
-	 * @return userReward Rewards user list
 	 */
 	public void addUser(UserDto userDto) {
 		logger.info("Call userProxy /addUser to add new user");
@@ -174,6 +183,7 @@ public class TourGuideService {
 		List<Provider> providers = tripPricerProxy.getTripDeals(tripPricerApiKey, userDto.getUserId(), userDto.getUserPreferences().getNumberOfAdults(),
 				userDto.getUserPreferences().getNumberOfChildren(), userDto.getUserPreferences().getTripDuration(), cumulativeRewardPoints);
 		userDto.setTripDeals(providers);
+		logger.info("Get Trip Deal for user: {} with tripDeal: {}", userDto.getUserName(), userDto.getTripDeals());
 		return providers;
 	}
 
@@ -181,15 +191,12 @@ public class TourGuideService {
 	 * Get track of user location:
 	 * Call to track the user location with user
 	 *
-	 * @param userDto UserDto user
+	 * @param userId UserDto user
 	 * @return visitedLocation The actual visited location
 	 */
-	public VisitedLocation trackUserLocation(UserDto userDto) {
-		Locale.setDefault(Locale.US);
-		VisitedLocation visitedLocation = gpsUtilProxy.getUserLocation(userDto.getUserId());
-		userDto.addToVisitedLocations(visitedLocation);
-		rewardService.calculateRewards(userDto);
-		return visitedLocation;
+	public CompletableFuture<?> trackUserLocation(UUID userId) {
+		logger.info("Get tracking of user with id: {}", userId);
+		return CompletableFuture.runAsync(()-> gpsUtilProxy.getUserLocation(userId),executor);
 	}
 
 	/**
@@ -202,7 +209,8 @@ public class TourGuideService {
 	public List<NearbyAttractionsDto> getNearbyAttractions(UUID userId) {
 		List<NearbyAttractionsDto> nearbyAttractionsListDto = new ArrayList<>();
 		VisitedLocation userLocation = getUserLocation(userId);
-		for(Attraction attraction : gpsUtilProxy.getAttractions()) {
+		List<Attraction> attractionList = gpsUtilProxy.getAttractions();
+		for(Attraction attraction : attractionList) {
 			if(rewardService.isWithinAttractionProximity(attraction, userLocation.getLocation())) {
 				NearbyAttractionsDto nearBy = new NearbyAttractionsDto();
 				nearBy.setAttraction(attraction);
@@ -210,6 +218,8 @@ public class TourGuideService {
 				nearBy.setDistance(rewardService.getDistance(new Location(attraction.getLongitude(),attraction.getLatitude()), userLocation.getLocation()));
 				nearBy.setRewardPoints(rewardCentralProxy.getRewardPoints(attraction.getAttractionId(), userId));
 				nearbyAttractionsListDto.add(nearBy);
+				logger.info("Get nearby attractions with user id: {}", userId);
+				logger.info("Get nearby attractions: {}", nearBy);
 			}
 		}
 		return nearbyAttractionsListDto.stream().limit(5).collect(Collectors.toList());
@@ -221,8 +231,5 @@ public class TourGuideService {
 	 */
 	private void addShutDownHook() {
 		Runtime.getRuntime().addShutdownHook(new Thread(() -> trackerService.stopTracking()));
-	}
-
-	public void trackUserLocation(UUID userId) {
 	}
 }

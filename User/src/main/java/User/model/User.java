@@ -1,9 +1,5 @@
 package User.model;
 
-import com.dto.UserDto;
-import com.dto.UserPreferencesDto;
-import com.dto.UserRewardDto;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.model.Provider;
 import com.model.VisitedLocation;
 
@@ -22,7 +18,7 @@ public class User {
 	private String emailAddress;
 	private Date latestLocationTimestamp;
 	private List<VisitedLocation> visitedLocations = new ArrayList<>();
-	private List<UserRewardDto> userRewardsDto = new ArrayList<>();
+	private final List<UserRewardDto> userRewardsDto = new ArrayList<>();
 	private UserPreferences userPreferences = new UserPreferences();
 	private List<Provider> tripDeals = new ArrayList<>();
 
@@ -51,6 +47,7 @@ public class User {
 	 * @param userName User name
 	 * @param phoneNumber User phone number
 	 * @param emailAddress User email
+	 * @param latestLocationTimestamp Date
 	 */
 	public User(UUID userId, String userName, String phoneNumber, String emailAddress, Date latestLocationTimestamp) {
 		this.userId = userId;
@@ -96,8 +93,12 @@ public class User {
 		visitedLocations.add(visitedLocation);
 	}
 	
+//	public List<VisitedLocation> getVisitedLocations() {
+//		return (List<VisitedLocation>)((ArrayList<VisitedLocation>)visitedLocations).clone();
+//	}
+
 	public List<VisitedLocation> getVisitedLocations() {
-		return (List<VisitedLocation>)((ArrayList<VisitedLocation>)visitedLocations).clone();
+		return visitedLocations;
 	}
 
 	public void setVisitedLocations(List<VisitedLocation> visitedLocations) {

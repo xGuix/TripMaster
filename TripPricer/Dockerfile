@@ -1,6 +1,4 @@
-FROM openjdk:11
+FROM openjdk:11-slim
 EXPOSE 8484
-WORKDIR /TripMaster/TripPricer
-COPY build/libs/TripPricer.jar tripPricerApp.jar
-ENV SPRING_PROFILES_ACTIVE=docker
-CMD ["java", "-jar", "/tripPricerApp.jar"]
+COPY build/libs/trip-pricer-1.0.jar app.jar
+CMD [ "java", "-jar", "/app.jar" ]

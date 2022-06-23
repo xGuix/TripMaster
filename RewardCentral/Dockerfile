@@ -1,6 +1,4 @@
-FROM openjdk:11
-EXPOSE 8383
-WORKDIR /TripMaster/RewardCentral
-COPY build/libs/RewardCentral.jar rewardCentralApp.jar
-ENV SPRING_PROFILES_ACTIVE=docker
-CMD ["java", "-jar", "/rewardCentralApp.jar"]
+FROM openjdk:11-slim
+EXPOSE 8282
+COPY build/libs/rewardcentral-1.0.jar app.jar
+CMD [ "java", "-jar", "/app.jar" ]

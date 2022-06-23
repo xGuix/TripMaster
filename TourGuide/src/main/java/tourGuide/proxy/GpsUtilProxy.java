@@ -9,11 +9,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import java.util.UUID;
 
-@FeignClient(value="gpsUtil", url="localhost:8282")
+@FeignClient(value="gpsUtil", url="${tourguide.microservice-gpsutil}")
 public interface GpsUtilProxy {
 
     /**
      * Get users location.
+     * @param userId UUID user id
      * @return User visited location
      */
     @RequestMapping("/userLocation")

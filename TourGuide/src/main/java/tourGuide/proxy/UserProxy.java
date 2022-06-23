@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@FeignClient(value="user" ,url="localhost:8181")
+@FeignClient(value="user" ,url="${tourguide.microservice-user}")
 public interface UserProxy {
 
     /**
@@ -25,7 +25,7 @@ public interface UserProxy {
 
     /**
      * Get user.
-     * @param userName
+     * @param userName String user name
      * @return return a user with this name
      */
     @RequestMapping("/getUser")
@@ -43,8 +43,8 @@ public interface UserProxy {
      * Get users list.
      * @param userDto UserDto user
      */
-    @PostMapping("/addUser")
-    void addUser(@RequestBody UserDto userDto);
+    @RequestMapping("/addUser")
+    void addUser(UserDto userDto);
 
     /**
      * Get all current locations list.

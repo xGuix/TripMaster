@@ -1,6 +1,4 @@
-FROM openjdk:11
-EXPOSE 8282
-WORKDIR /TripMaster/GpsUtil
-COPY build/libs/GpsUtil.jar GpsUtilApp.jar
-ENV SPRING_PROFILES_ACTIVE=docker
-CMD ["java", "-jar", "/GpsUtilApp.jar"]
+FROM openjdk:11-slim
+EXPOSE 8181
+COPY build/libs/gpsutil-1.0.jar app.jar
+CMD [ "java", "-jar", "/app.jar" ]

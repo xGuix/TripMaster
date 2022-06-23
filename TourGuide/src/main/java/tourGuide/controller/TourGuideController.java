@@ -74,7 +74,7 @@ public class TourGuideController {
     public void addUser(@RequestBody UserDto userDto){
         logger.info("Call service for add user: {}", userDto);
         tourGuideService.addUser(userDto);
-    };
+    }
 
     /**
      * Get user:
@@ -99,7 +99,6 @@ public class TourGuideController {
     @RequestMapping("/getLocation")
     public VisitedLocation getLocation(@RequestParam UUID userId) {
         logger.info("Get user locations with userId: {}", userId);
-        //UserDto userDto = getUser(userName);
 		return tourGuideService.getUserLocation(userId);
     }
 
@@ -147,7 +146,7 @@ public class TourGuideController {
      * Call to add user rewards
      *
      * @param userName String userName
-     * @return providers List of providers
+     * @param userReward UserRewardDto
      */
     @PostMapping("/addRewards")
     public void addRewards(@RequestParam String userName, @RequestBody UserRewardDto userReward) {

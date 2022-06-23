@@ -1,0 +1,25 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.7.0")
+    }
+}
+
+plugins {
+    id ("java")
+    id ("java-library")
+    id ("eclipse")
+    id ("idea")
+    id ("jacoco")
+}
+
+group = "com.tourguide"
+version = "1.0"
+sourceCompatibility = "11"
+targetCompatibility = "11"
+
+test {
+    useJUnitPlatform()
+}

@@ -8,14 +8,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.UUID;
 
 @Service
 public class GpsUtilService {
 
     private final Logger logger = LoggerFactory.getLogger("GpsUtilServiceLog");
-    private GpsUtil gpsUtil = new GpsUtil();
+    private final GpsUtil gpsUtil = new GpsUtil();
 
     /**
      * getUserLocation to Get the user location
