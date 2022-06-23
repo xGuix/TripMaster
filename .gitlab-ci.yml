@@ -13,7 +13,12 @@
 #
 # For more information, see: https://docs.gitlab.com/ee/ci/yaml/index.html#stages
 
-image: openjdk:11-slim
+image: openjdk:11
+
+cache:
+  paths:
+    - .gradle/wrapper
+    - .gradle/caches
 
 stages:          # List of stages for jobs, and their order of execution
   - build
@@ -24,35 +29,30 @@ before_script:      # This job runs in the build stage
   - GRADLE_USER_HOME="$(pwd)/.gradle"
   - export GRADLE_USER_HOME
 
-include:
-  stage: compile
-  tags:
-    - My_Runner
+build_job:
+  stage: build
   script:
     - chmod +x ./gradlew
     - ./gradlew compileJava assemble
 
 test_job:
- stage: test
- tags:
-    - My_Runner
- 
- script:
-  - cd ./User/
-  - chmod +x ./gradlew
-  - ./gradlew test
-  - cd ./GpsUtil/
-  - chmod +x ./gradlew
-  - ./gradlew test
-  - cd ../RewardCentral/
-  - chmod +x ./gradlew
-  - ./gradlew test
-  - cd ../TripPricer/
-  - chmod +x ./gradlew
-  - ./gradlew test
-  - cd ../TourGuide
-  - chmod +x ./gradlew
-  - ./gradlew test --tests '*Test'
+  stage: test
+  script:
+    - cd ./User/
+    - chmod +x ./gradlew
+    - ./gradlew test
+    - cd ./GpsUtil/
+    - chmod +x ./gradlew
+    - ./gradlew test
+    - cd ../RewardCentral/
+    - chmod +x ./gradlew
+    - ./gradlew test
+    - cd ../TripPricer/
+    - chmod +x ./gradlew
+    - ./gradlew test
+    - cd ../TourGuide
+    - chmod +x ./gradlew
+    - ./gradlew test --tests '*Test'
 
  artifacts:
   when: always
@@ -72,9 +72,7 @@ test_job:
     
 jar_job :
  stage: jar
- tags:
-    - My_Runner
- 
+
  script:
    - chmod +x ./gradlew
    - ./gradlew bootJar assemble

@@ -1,44 +1,29 @@
-package GpsUtil.service;
+package RewardCentral.service;
 
 import com.dto.UserDto;
-import com.model.Location;
-import com.model.VisitedLocation;
-import gpsUtil.GpsUtil;
-import gpsUtil.location.Attraction;
+import com.model.Attraction;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import rewardCentral.RewardCentral;
 
-import java.util.*;
+import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.verify;
 
 @SpringBootTest
-public class GpsUtilServiceTest {
+public class RewardCentralServiceTest {
 
     @MockBean
-    GpsUtil gpsUtil;
+    RewardCentral rewardCentral;
 
-    Date LocTimestamp = new Date(System.currentTimeMillis());
-    UserDto  user = new UserDto(UUID.randomUUID(), "BobLazar", "000", "BobLazar@tourGuide.com");
-    Location location = new Location(-117.922008D,33.817595D);
-    VisitedLocation visitedLocation = new VisitedLocation(user.getUserId(),location, LocTimestamp);
-    List<Attraction> attractionList = new ArrayList<>();
+    UserDto user = new UserDto(UUID.randomUUID(), "BobLazar");
+    Attraction attraction = new Attraction("Lala land","City","State",UUID.randomUUID());
 
     @Test
-    void getUserLocationTest(){
-        user.addToVisitedLocations(visitedLocation);
-        gpsUtil.getUserLocation(user.getUserId());
-        verify(gpsUtil, Mockito.times(1)).getUserLocation(user.getUserId());
-    }
-
-    @Test
-    void getAttractionTest(){
-        attractionList.add(new Attraction("Lala land","City","State",location.getLatitude(), location.getLongitude()));
-        List<Attraction> result = gpsUtil.getAttractions();
-        verify(gpsUtil, Mockito.times(1)).getAttractions();
-        assertNotNull(result);
+    void getRewardPoints(){
+        rewardCentral.getAttractionRewardPoints(attraction.getAttractionId(), user.getUserId());
+        verify(rewardCentral, Mockito.times(1)).getAttractionRewardPoints(attraction.getAttractionId(), user.getUserId());
     }
 }

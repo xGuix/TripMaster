@@ -69,7 +69,7 @@ public class TestPerformanceIT {
 	 */
 	@BeforeAll
 	static void setupUser(){
-		InternalTestHelper.setInternalUserNumber(1000);
+		InternalTestHelper.setInternalUserNumber(10000);
 	}
 
 	@Test
@@ -87,7 +87,7 @@ public class TestPerformanceIT {
 		});
 
 		assertTrue(allUsersList.get(0).getVisitedLocations().size()>1);
-		assertEquals(1000, allUsersList.size());
+		assertEquals(10000, allUsersList.size());
 
 		stopWatch.stop();
 		trackerService.stopTracking();
@@ -114,9 +114,6 @@ public class TestPerformanceIT {
 		CompletableFuture<?> completableFutures = CompletableFuture.runAsync(() ->  allUsersList.parallelStream().forEach(u -> rewardService.calculateRewards(u)));
 		CompletableFuture.allOf(completableFutures).join();
 
-//		CompletableFuture<?>[] completableFutures = allUsersList.parallelStream().map(rewardService::calculateRewards).toArray(CompletableFuture[]::new);
-//		CompletableFuture.allOf(completableFutures).join();
-
 		for(UserDto userDto : allUsersList) {
 			assertNotEquals(0,userDto.getUserRewards().get(0).getRewardPoints());
 			assertTrue(userDto.getUserRewards().size() > 0);
@@ -127,6 +124,6 @@ public class TestPerformanceIT {
 
 		logger.info("highVolumeGetRewards - Time Elapsed: {} seconds.", TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));
 		assertTrue(TimeUnit.MINUTES.toSeconds(10) >= TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));
-		assertEquals(1000, allUsersList.size());
+		assertEquals(10000, allUsersList.size());
 	}
 }
