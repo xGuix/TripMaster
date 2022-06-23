@@ -76,7 +76,6 @@ public class TestPerformanceIT {
 	public void highVolumeTrackLocation() {
 		// Users should be incremented up to 100,000 and test finishes within 3 minutes
 		InternalTestDataSet internalTestDataSet = new InternalTestDataSet();
-		InternalTestHelper.setInternalUserNumber(100000);
 
 		TourGuideService tourGuideService = new TourGuideService(internalTestDataSet,userProxy, gpsUtilProxy, rewardCentralProxy, tripPricerProxy);
 	    StopWatch stopWatch = new StopWatch();
