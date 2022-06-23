@@ -1,24 +1,5 @@
 version: "3.3"
 services:
-  tourguide-app:
-    build: ./TourGuide/.
-    image: tourguide-app
-    container_name: "tourguide-app"
-    ports:
-      - "8080:8080"
-    environment:
-      - MICROSERVICE_USER=microservice-user:8181
-      - MICROSERVICE_GPSUTIL=microservice-gpsutil:8282
-      - MICROSERVICE_REWARDCENTRAL=microservice-rewardcentral:8383
-      - MICROSERVICE_TRIPPRICER=microservice-trippricer:8484
-    networks:
-      - tourguidenet
-    depends_on:
-      - microservice-user
-      - microservice-gpsutil
-      - microservice-rewardcentral
-      - microservice-trippricer
-
   microservice-user:
     build: ./User/.
     image: microservice-user
@@ -54,6 +35,25 @@ services:
       - "8484:8484"
     networks:
       - tourguidenet
+
+  tourguide-app:
+    build: ./TourGuide/.
+    image: tourguide-app
+    container_name: "tourguide-app"
+    ports:
+      - "8080:8080"
+    environment:
+      - MICROSERVICE_USER=microservice-user:8181
+      - MICROSERVICE_GPSUTIL=microservice-gpsutil:8282
+      - MICROSERVICE_REWARDCENTRAL=microservice-rewardcentral:8383
+      - MICROSERVICE_TRIPPRICER=microservice-trippricer:8484
+    networks:
+      - tourguidenet
+    depends_on:
+      - microservice-user
+      - microservice-gpsutil
+      - microservice-rewardcentral
+      - microservice-trippricer
 
 networks:
   tourguidenet:

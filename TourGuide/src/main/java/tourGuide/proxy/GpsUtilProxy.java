@@ -14,6 +14,7 @@ public interface GpsUtilProxy {
 
     /**
      * Get users location.
+     * @param userId UUID user id
      * @return User visited location
      */
     @RequestMapping("/userLocation")

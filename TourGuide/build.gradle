@@ -43,7 +43,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web:2.7.0")
     implementation("org.springframework.boot:spring-boot-starter-test:2.7.0")
     implementation("org.springframework.data:spring-data-elasticsearch:4.4.0")
-    implementation("org.apache.maven.plugins:maven-surefire-report-plugin:3.0.0-M6")
     implementation("org.apache.maven.plugins:maven-site-plugin:4.0.0-M1")
     implementation("org.jacoco:org.jacoco.report:0.8.8")
     implementation("org.junit.jupiter:junit-jupiter:5.8.2")
@@ -61,7 +60,6 @@ dependencies {
 
 test {
     useJUnitPlatform()
-    finalizedBy jacocoTestReport
 }
 
 jacoco {

@@ -45,6 +45,12 @@ public class TourGuideService {
 	/**
 	 *  TourGuideService constructor
 	 *	Load all controller proxy
+	 *
+	 * @param internalTestDataSet InternalTestDataSet
+	 * @param userProxy UserProxy
+	 * @param gpsUtilProxy GpsUtilProxy
+	 * @param rewardCentralProxy RewardCentralProxy
+	 * @param tripPricerProxy TripPricerProxy
 	 */
 	public TourGuideService(InternalTestDataSet internalTestDataSet,
 							UserProxy userProxy,
@@ -108,7 +114,6 @@ public class TourGuideService {
 	 *  Call to get reward with user
 	 *
 	 * @param userDto String user
-	 * @return userReward Rewards user list
 	 */
 	public void addUser(UserDto userDto) {
 		logger.info("Call userProxy /addUser to add new user");

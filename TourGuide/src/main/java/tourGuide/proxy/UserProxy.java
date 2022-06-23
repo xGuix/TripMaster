@@ -25,7 +25,7 @@ public interface UserProxy {
 
     /**
      * Get user.
-     * @param userName
+     * @param userName String user name
      * @return return a user with this name
      */
     @RequestMapping("/getUser")

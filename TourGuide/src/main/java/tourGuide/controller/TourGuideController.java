@@ -146,7 +146,7 @@ public class TourGuideController {
      * Call to add user rewards
      *
      * @param userName String userName
-     * @return providers List of providers
+     * @param userReward UserRewardDto
      */
     @PostMapping("/addRewards")
     public void addRewards(@RequestParam String userName, @RequestBody UserRewardDto userReward) {

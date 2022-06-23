@@ -47,6 +47,7 @@ public class User {
 	 * @param userName User name
 	 * @param phoneNumber User phone number
 	 * @param emailAddress User email
+	 * @param latestLocationTimestamp Date
 	 */
 	public User(UUID userId, String userName, String phoneNumber, String emailAddress, Date latestLocationTimestamp) {
 		this.userId = userId;

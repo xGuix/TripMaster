@@ -6,6 +6,7 @@ import com.model.Attraction;
 import com.model.Location;
 import com.model.Provider;
 import com.model.VisitedLocation;
+import org.springframework.test.context.ActiveProfiles;
 import tourGuide.util.InternalTestDataSet;
 import tourGuide.util.InternalTestHelper;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
+@ActiveProfiles("test")
 public class IntegrationTourGuideTestIT {
 
     @Autowired

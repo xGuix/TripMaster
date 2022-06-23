@@ -13,6 +13,12 @@ public interface TripPricerProxy {
 
     /**
      * Get price provider.
+     * @param apiKey String ApiKey
+     * @param attractionId UUID Id attraction
+     * @param adults int adult
+     * @param children int children
+     * @param nightsStay int nightsStay
+     * @param rewardsPoints int rewardPoints
      * @return Providers list
      */
     @RequestMapping("/getTripDeals")

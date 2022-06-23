@@ -133,8 +133,8 @@ public class UserService {
     }
 
     /**
-     * @param userName
-     * @param userPreferences
+     * @param userName String
+     * @param userPreferences UserPreferences
      */
     public void UpdateUserPreferences(String userName, UserPreferences userPreferences){
         User user = getUser(userName);

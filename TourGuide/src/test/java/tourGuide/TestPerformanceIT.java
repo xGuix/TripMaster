@@ -69,7 +69,7 @@ public class TestPerformanceIT {
 	 */
 	@BeforeAll
 	static void setupUser(){
-		InternalTestHelper.setInternalUserNumber(10000);
+		InternalTestHelper.setInternalUserNumber(1000);
 	}
 
 	@Test
@@ -87,7 +87,7 @@ public class TestPerformanceIT {
 		});
 
 		assertTrue(allUsersList.get(0).getVisitedLocations().size()>1);
-		assertEquals(10000, allUsersList.size());
+		assertEquals(1000, allUsersList.size());
 
 		stopWatch.stop();
 		trackerService.stopTracking();
@@ -124,6 +124,6 @@ public class TestPerformanceIT {
 
 		logger.info("highVolumeGetRewards - Time Elapsed: {} seconds.", TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));
 		assertTrue(TimeUnit.MINUTES.toSeconds(10) >= TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));
-		assertEquals(10000, allUsersList.size());
+		assertEquals(1000, allUsersList.size());
 	}
 }

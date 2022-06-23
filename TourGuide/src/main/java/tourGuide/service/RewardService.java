@@ -36,6 +36,8 @@ public class RewardService {
 
     /**
      * Set RewardService constructor with proxy
+     * @param gpsUtilProxy GpsUtilPRoxy
+     * @param rewardCentralProxy RewardCentralProxy
      */
     public RewardService(GpsUtilProxy gpsUtilProxy,RewardCentralProxy rewardCentralProxy) {
         this.gpsUtilProxy = gpsUtilProxy;
