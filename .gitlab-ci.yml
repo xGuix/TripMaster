@@ -13,7 +13,7 @@
 #
 # For more information, see: https://docs.gitlab.com/ee/ci/yaml/index.html#stages
 
-image: openjdk:11
+image: openjdk:11-slim
 
 cache:
   paths:
@@ -29,58 +29,53 @@ before_script:      # This job runs in the build stage
   - GRADLE_USER_HOME="$(pwd)/.gradle"
   - export GRADLE_USER_HOME
 
-build_job:
+build:
   stage: build
+  tags:
+    - My_Runner
   script:
     - chmod +x ./gradlew
     - ./gradlew compileJava assemble
+  artifacts:
+    paths:
+      - ./User/build/libs/*-1.0.jar
+      - ./GpsUtil/build/libs/*-1.0.jar
+      - ./RewardCentral/build/libs/*-1.0.jar
+      - ./TripPricer/build/libs/*-1.0.jar
+      - ./TourGuide/build/libs/*-1.0.jar
 
-test_job:
+integrationTest:
   stage: test
+  tags:
+    - My_Runner
+  image: docker/compose:1.27.4
+  services:
+    - docker:dind
+  dependencies:
+    - build
+  variables:
+    DOCKER_DRIVER: overlay2
   script:
-    - cd ./User/
-    - chmod +x ./gradlew
+    # docker exec -ti tourguide-app /bin/bash ./gradlew test
+    - docker-compose up -d #--exit-code-from tourguide-app
     - ./gradlew test
-    - cd ./GpsUtil/
-    - chmod +x ./gradlew
-    - ./gradlew test
-    - cd ./RewardCentral/
-    - chmod +x ./gradlew
-    - ./gradlew test
-    - cd ./TripPricer/
-    - chmod +x ./gradlew
-    - ./gradlew test
-    - cd ./TourGuide
-    - chmod +x ./gradlew
-    - ./gradlew test --tests '*Test'
 
- artifacts:
-  when: always
-  paths:
-    - ./User/build/test-results/test/*.xml
-    - ./GpsUtil/build/test-results/test/*.xml
-    - ./TripPricer/build/test-results/test/*.xml
-    - ./RewardCentral/build/test-results/test/*.xml
-    - ./TourGuide/build/test-results/test/*.xml
-  reports:
-    junit:
-    - ./User/build/test-results/test/*.xml
-    - ./GpsUtil/build/test-results/test/*.xml
-    - ./TripPricer/build/test-results/test/*.xml
-    - ./RewardCentral/build/test-results/test/*.xml
-    - ./TourGuide/build/test-results/test/*.xml
-    
-jar_job :
- stage: jar
+    #test:
+    #  stage: test
+    #  tags:
+    #   - My_Runner
+    #  script:
+    #    - chmod +x ./gradlew
+    #    - ./gradlew test
+    #    - ./gradlew test --tests '*Test'
 
- script:
-   - chmod +x ./gradlew
-   - ./gradlew bootJar assemble
-
- artifacts:
-  paths:
-   - ./User/build/libs/*-1.0.jar
-   - ./GpsUtil/build/libs/*-1.0.jar
-   - ./TripPricer/build/libs/*-1.0.jar
-   - ./RewardCentral/build/libs/*-1.0.jar
-   - ./TourGuide/build/libs/*-1.0.jar 
+jar :
+  stage: jar
+  tags:
+    - My_Runner
+  script:
+    - chmod +x ./gradlew
+    - ./gradlew bootJar assemble
+  artifacts:
+    paths:
+      - ./build/libs/*-1.0.jar

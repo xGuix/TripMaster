@@ -92,10 +92,6 @@ public class User {
 	public void addToVisitedLocations(VisitedLocation visitedLocation) {
 		visitedLocations.add(visitedLocation);
 	}
-	
-//	public List<VisitedLocation> getVisitedLocations() {
-//		return (List<VisitedLocation>)((ArrayList<VisitedLocation>)visitedLocations).clone();
-//	}
 
 	public List<VisitedLocation> getVisitedLocations() {
 		return visitedLocations;
