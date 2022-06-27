@@ -92,10 +92,6 @@ public class UserDto {
 		return (List<VisitedLocation>)((ArrayList<VisitedLocation>)visitedLocations).clone();
 	}
 
-//	public List<VisitedLocation> getVisitedLocations() {
-//		return visitedLocations;
-//	}
-
 	public void setVisitedLocations(List<VisitedLocation> visitedLocations) {
 		this.visitedLocations = visitedLocations;
 	}

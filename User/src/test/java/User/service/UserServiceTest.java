@@ -2,7 +2,6 @@ package User.service;
 
 import User.model.User;
 import User.model.UserReward;
-import com.dto.UserLocationDto;
 import com.model.Attraction;
 import com.model.Location;
 import com.model.VisitedLocation;
@@ -15,7 +14,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 public class UserServiceTest {
@@ -62,11 +62,5 @@ public class UserServiceTest {
     void getUserRewardTest() {
         List<UserReward> result = userService.getUserRewards(user);
         assertEquals(user.getUserRewards(), result);
-    }
-
-    @Test
-    void getAllCurrentLocationTest() {
-        List<UserLocationDto> result = userService.getAllCurrentLocations();
-        assertNotNull(result.get(0).getLocation());
     }
 }

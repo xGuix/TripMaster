@@ -3,14 +3,14 @@ package User.controller;
 import User.model.User;
 import User.model.UserPreferences;
 import User.model.UserReward;
-import com.dto.UserLocationDto;
 import User.service.UserService;
+import com.dto.UserLocationDto;
+import com.model.Provider;
 import com.model.VisitedLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.model.Provider;
 
 import java.util.List;
 import java.util.UUID;

@@ -41,7 +41,6 @@ dependencies {
     implementation(project(":CommonSet"))
     implementation("org.springframework.boot:spring-boot-starter-web:2.7.0")
     implementation("org.springframework.boot:spring-boot-starter-test:2.7.0")
-    implementation("org.springframework.data:spring-data-elasticsearch:4.4.0")
     implementation("org.apache.maven.plugins:maven-assembly-plugin:3.3.0")
     implementation("org.junit.jupiter:junit-jupiter:5.8.2")
 
