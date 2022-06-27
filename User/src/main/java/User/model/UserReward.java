@@ -6,16 +6,16 @@ import com.model.VisitedLocation;
 /**
  * User Reward Model
  */
-public class UserRewardDto {
+public class UserReward {
 
 	private VisitedLocation visitedLocation;
 	private Attraction attraction;
 	private int rewardPoints;
 
-	public UserRewardDto() {
+	public UserReward() {
 	}
 
-	public UserRewardDto(VisitedLocation visitedLocation, Attraction attraction, int rewardPoints) {
+	public UserReward(VisitedLocation visitedLocation, Attraction attraction, int rewardPoints) {
 		this.visitedLocation = visitedLocation;
 		this.attraction = attraction;
 		this.rewardPoints = rewardPoints;

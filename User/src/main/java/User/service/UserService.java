@@ -2,7 +2,7 @@ package User.service;
 
 import User.model.User;
 import User.model.UserPreferences;
-import User.model.UserRewardDto;
+import User.model.UserReward;
 import com.dto.UserLocationDto;
 import com.model.Provider;
 import com.model.VisitedLocation;
@@ -92,7 +92,7 @@ public class UserService {
      * @param user the user
      * @return the rewards for this user
      */
-    public List<UserRewardDto> getUserRewards(User user) {
+    public List<UserReward> getUserRewards(User user) {
         logger.info("Reward list for user: {}",user);
         return user.getUserRewards();
     }
@@ -103,7 +103,7 @@ public class UserService {
      * @param userName   the username
      * @param userReward add reward for the user
      */
-    public void addUserReward(String userName, UserRewardDto userReward) {
+    public void addUserReward(String userName, UserReward userReward) {
         User user = getUser(userName);
         user.getUserRewards().add(userReward);
         internalUserMap.put(userName, user);

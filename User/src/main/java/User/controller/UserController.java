@@ -2,7 +2,7 @@ package User.controller;
 
 import User.model.User;
 import User.model.UserPreferences;
-import User.model.UserRewardDto;
+import User.model.UserReward;
 import com.dto.UserLocationDto;
 import User.service.UserService;
 import com.model.VisitedLocation;
@@ -105,7 +105,7 @@ public class UserController {
      * @return list of rewards of this user
      */
     @RequestMapping("/getRewards")
-    public List<UserRewardDto> getUserRewards(@RequestParam String userName) {
+    public List<UserReward> getUserRewards(@RequestParam String userName) {
         logger.info("Get user rewards with userName: {}",userName);
         User user = getUser(userName);
         return userService.getUserRewards(user);
@@ -118,7 +118,7 @@ public class UserController {
      * @param userReward add the reward for this user
      */
     @PostMapping("/addRewards")
-    public void addUserReward(@RequestParam String userName, @RequestBody UserRewardDto userReward){
+    public void addUserReward(@RequestParam String userName, @RequestBody UserReward userReward){
         logger.info("Add user reward to userName: {} {}",userName, userReward);
         userService.addUserReward(userName, userReward);
     }

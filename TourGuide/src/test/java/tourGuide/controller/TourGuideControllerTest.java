@@ -1,6 +1,5 @@
 package tourGuide.controller;
 
-import com.dto.NearbyAttractionsDto;
 import com.dto.UserDto;
 import com.model.Location;
 import com.model.VisitedLocation;
@@ -14,7 +13,6 @@ import tourGuide.service.TourGuideService;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;

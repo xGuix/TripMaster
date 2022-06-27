@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.UUID;
 
-@FeignClient(value = "rewardCentral", url = "${tourguide.microservice-rewardcentral}")
+@FeignClient(value = "rewardCentral", url="localhost:8383" /*url="${tourguide.microservice-rewardcentral}"*/)
 public interface RewardCentralProxy {
     /**
      * Gets reward points.

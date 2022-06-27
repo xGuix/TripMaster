@@ -18,7 +18,7 @@ public class User {
 	private String emailAddress;
 	private Date latestLocationTimestamp;
 	private List<VisitedLocation> visitedLocations = new ArrayList<>();
-	private final List<UserRewardDto> userRewardsDto = new ArrayList<>();
+	private final List<UserReward> userRewardsDto = new ArrayList<>();
 	private UserPreferences userPreferences = new UserPreferences();
 	private List<Provider> tripDeals = new ArrayList<>();
 
@@ -105,13 +105,13 @@ public class User {
 		visitedLocations.clear();
 	}
 	
-	public void addUserReward(UserRewardDto userRewardDto) {
+	public void addUserReward(UserReward userReward) {
 		if(userRewardsDto.stream().count() == 0) {
-			userRewardsDto.add(userRewardDto);
+			userRewardsDto.add(userReward);
 		}
 	}
 	
-	public List<UserRewardDto> getUserRewards() {
+	public List<UserReward> getUserRewards() {
 		return userRewardsDto;
 	}
 	

@@ -2,7 +2,7 @@ package User;
 
 import User.model.User;
 import User.model.UserPreferences;
-import User.model.UserRewardDto;
+import User.model.UserReward;
 import User.service.UserService;
 import com.model.Attraction;
 import com.model.Location;
@@ -29,32 +29,32 @@ public class UserIntegrationTestIT {
     User user2 = new User(UUID.randomUUID(), "jon2");
 
     /**
-     * Gets user test.
+     * Get all users test.
      */
     @Test
-    void getUserTest() {
-
+    void getAllUsersTest(){
         userService.addUser(user1);
         userService.addUser(user2);
 
         List<User> allUsers = userService.getUsers();
 
-        assertTrue(allUsers.contains(user1));
-        assertTrue(allUsers.contains(user2));
-        assertNotNull(user1);
-        assertNotNull(user1.getUserId());
+        assertNotNull(allUsers);
+        assertNotEquals(0, allUsers.size());
     }
 
     /**
-     * Get all users test.
+     * Gets user test.
      */
     @Test
-    void getAllUsersTest(){
-        List<User> users = userService.getUsers();
+    void getUserTest() {
+        userService.addUser(user2);
 
-        assertNotNull(users);
-        assertEquals(1, users.size());
+        User user = userService.getUser(user2.getUserName());
+
+        assertNotNull(user);
+        assertEquals(user2.getUserName(), user.getUserName());
     }
+
 
     /**
      * Add user rewards.
@@ -63,7 +63,7 @@ public class UserIntegrationTestIT {
     void addUserRewards(){
         VisitedLocation visitedLocation = new VisitedLocation(UUID.randomUUID(), new Location(1234567, 1234567), new Date());
         Attraction attraction = new Attraction("Lala land", "city", "state", UUID.randomUUID(),1234567, 12345678);
-        UserRewardDto userReward = new UserRewardDto(visitedLocation, attraction, 325);
+        UserReward userReward = new UserReward(visitedLocation, attraction, 325);
         userService.getUserRewards(user1).add(userReward);
 
         assertNotNull(user1.getUserRewards());
@@ -77,9 +77,9 @@ public class UserIntegrationTestIT {
     void getUserRewardsTest(){
         VisitedLocation visitedLocation = new VisitedLocation(UUID.randomUUID(), new Location(1234567, 1234567), new Date());
         Attraction attraction = new Attraction("Lala land", "city", "state",UUID.randomUUID(), 1234567, 12345678);
-        UserRewardDto userReward = new UserRewardDto(visitedLocation, attraction, 325);
+        UserReward userReward = new UserReward(visitedLocation, attraction, 325);
         user1.addUserReward(userReward);
-        List<UserRewardDto> userRewards = userService.getUserRewards(user1);
+        List<UserReward> userRewards = userService.getUserRewards(user1);
 
         assertNotNull(userRewards);
         assertNotEquals(0, userRewards.size());
@@ -94,14 +94,13 @@ public class UserIntegrationTestIT {
         Provider provider = new Provider("name", 200, UUID.randomUUID());
         Provider provider2 = new Provider("nameTest", 300,UUID.randomUUID());
         List<Provider> providerList = new ArrayList<>();
+
         providerList.add(0,provider);
         providerList.add(1,provider2);
-
-        user1.getTripDeals().addAll(0, providerList);
-        userService.updateTripDeals(user1.getUserName(), providerList);
+        user1.setTripDeals(providerList);
 
         assertNotNull(user1.getTripDeals());
-        assertNotEquals(0, userService.getUser(user1.getUserName()).getTripDeals().size());
+        assertNotEquals(0, user1.getTripDeals().size());
         assertNotNull(user1.getTripDeals().get(0).getTripId());
 
     }
@@ -123,9 +122,10 @@ public class UserIntegrationTestIT {
         UserPreferences userPreferences = new UserPreferences();
         userPreferences.setNumberOfAdults(3);
         userPreferences.setNumberOfChildren(2);
+        user1.setUserPreferences(userPreferences);
         userService.UpdateUserPreferences(user1.getUserName(), userPreferences);
 
-        assertEquals(user1.getUserPreferences().getNumberOfAdults(), 3);
-        assertEquals(user1.getUserPreferences().getNumberOfChildren(), 2);
+        assertEquals(3, user1.getUserPreferences().getNumberOfAdults());
+        assertEquals(2, user1.getUserPreferences().getNumberOfChildren());
     }
 }
