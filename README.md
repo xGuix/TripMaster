@@ -60,15 +60,10 @@ Build all jar from main directory :
 
 Launch command in terminal:
 ```
-docker-compose up
+docker-compose up -d
 ```
 
-Shutdown server:
-```shell
-Ctrl + C
-```
-
-Stop and remove containers, networks:
+Shutdown and clean up containers, networks:
 ```
 docker-compose down
 ```
