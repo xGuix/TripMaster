@@ -53,7 +53,7 @@ Micro-services in tour guide project:
 All Deployed in with Docker
 
 ### Starting application
-Build all jar, in each microservice run :
+Build all jar from main directory :
 ```
 ./gradlew bootJar
 ```
