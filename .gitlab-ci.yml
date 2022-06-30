@@ -6,6 +6,7 @@ cache:
     - .gradle/caches
 
 stages:
+  - compile
   - build
   - test
   - jar
@@ -14,13 +15,21 @@ before_script:
   - GRADLE_USER_HOME="$(pwd)/.gradle"
   - export GRADLE_USER_HOME
 
-build:
-  stage: build
+compile:
+  stage: compile
   tags:
-    - My_Runner
+    - Docker_Runner
   script:
     - chmod +x ./gradlew
     - ./gradlew compileJava assemble
+
+build:
+  stage: build
+  tags:
+    - Docker_Runner
+  script:
+    - chmod +x ./gradlew
+    - ./gradlew --build-cache assemble
   artifacts:
     paths:
       - ./User/build/libs/*-1.0.jar
@@ -29,23 +38,22 @@ build:
       - ./TripPricer/build/libs/*-1.0.jar
       - ./TourGuide/build/libs/*-1.0.jar
 
-integrationTest:
+test:
   stage: test
   tags:
-    - My_Runner
-  image: jtim/docker-docker-compose-jdk:18.09.3-ce-git-compose-1.23.2-adoptopenjdk-11.0.2.9
+    - Docker_Runner
   services:
     - docker:dind
   dependencies:
     - build
   script:
-    - docker-compose up -d
-    - ./gradlew test
+    - chmod +x ./gradlew
+    - ./gradlew test --tests '*Test'
 
 jar :
   stage: jar
   tags:
-    - My_Runner
+    - Docker_Runner
   script:
     - chmod +x ./gradlew
     - ./gradlew bootJar assemble
