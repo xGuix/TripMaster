@@ -1,7 +1,7 @@
 package tourGuide.service;
 
 import com.dto.UserDto;
-import org.apache.commons.lang3.time.StopWatch;
+import org.apache.commons.lang.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +21,8 @@ import java.util.stream.Collectors;
 @Service
 public class TrackerService extends Thread {
 
+	ExecutorService trackExecutor = Executors.newSingleThreadExecutor();
+
 	private final Logger logger = LoggerFactory.getLogger("TrackerServiceLog");
 	private final ExecutorService executorService = Executors.newSingleThreadExecutor();
     private final UserProxy userProxy;
@@ -28,9 +30,6 @@ public class TrackerService extends Thread {
 
 	@Autowired
 	TourGuideService tourGuideService;
-
-	@Autowired
-    RewardService rewardService;
 
 	/**
 	 * Constructor
@@ -57,16 +56,13 @@ public class TrackerService extends Thread {
 	@Override
 	public void run() {
 		StopWatch stopWatch = new StopWatch();
-		ExecutorService trackExecutor = Executors.newSingleThreadExecutor();
-		ExecutorService rewardExecutor = Executors.newSingleThreadExecutor();
 
 			List<UserDto> userDtoList = userProxy.getUsers();
 			logger.debug("Begin Tracker. Tracking {} users.", userDtoList.size());
 
 			stopWatch.start();
 			List<CompletableFuture<?>> trackResult = userDtoList.stream()
-							.map(userDto -> CompletableFuture.runAsync(() -> tourGuideService.getUserLocation(userDto.getUserId()), trackExecutor)
-									.thenRunAsync(() -> rewardService.calculateRewards(userDto),rewardExecutor))
+							.map(userDto -> CompletableFuture.runAsync(() -> tourGuideService.getUserLocation(userDto.getUserId()), trackExecutor))
 					.collect(Collectors.toList());
 			trackResult.forEach(CompletableFuture::join);
 			stopWatch.stop();

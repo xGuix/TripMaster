@@ -65,8 +65,6 @@ public class TourGuideService {
 
 		internalTestDataSet.initializeInternalUsers();
 		logger.debug("Initializing {} users", userProxy.getUsers().size());
-		List<UserDto> userDtoList = internalTestDataSet.getAllUsers();
-		userDtoList.forEach(u -> addUser(u));
 		logger.debug("-----------------------Finished initializing users-----------------------");
 
 		trackerService = new TrackerService(this, userProxy);
@@ -195,7 +193,6 @@ public class TourGuideService {
 	 * @return visitedLocation The actual visited location
 	 */
 	public CompletableFuture<?> trackUserLocation(UUID userId) {
-		logger.info("Get tracking of user with id: {}", userId);
 		return CompletableFuture.runAsync(()-> gpsUtilProxy.getUserLocation(userId),executor);
 	}
 
@@ -218,7 +215,6 @@ public class TourGuideService {
 				nearBy.setDistance(rewardService.getDistance(new Location(attraction.getLongitude(),attraction.getLatitude()), userLocation.getLocation()));
 				nearBy.setRewardPoints(rewardCentralProxy.getRewardPoints(attraction.getAttractionId(), userId));
 				nearbyAttractionsListDto.add(nearBy);
-				logger.info("Get nearby attractions with user id: {}", userId);
 				logger.info("Get nearby attractions: {}", nearBy);
 			}
 		}
