@@ -91,7 +91,7 @@ public class RewardService {
     public CompletableFuture<?> calculateRewards(UserDto userDto) {
         List<VisitedLocation> visitedLocations = userDto.getVisitedLocations();
         List<UserRewardDto> userRewardList = userDto.getUserRewards();
-        List<Attraction> attractions = gpsUtilProxy.getAttractions().parallelStream()
+        List<Attraction> attractions = gpsUtilProxy.getAttractions().stream()
                 .filter(attrac -> userRewardList.stream()
                 .noneMatch(rew -> rew.getAttraction().getAttractionName().equals(attrac.getAttractionName()))).collect(Collectors.toList());
 

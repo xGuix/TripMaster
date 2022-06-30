@@ -32,7 +32,6 @@ import static tourGuide.util.InternalTestDataSet.tripPricerApiKey;
 public class TourGuideService {
 
 	static final Logger logger = LoggerFactory.getLogger("TourGuideServiceLog");
-	ExecutorService executor = Executors.newFixedThreadPool(100);
 
 	private final UserProxy userProxy;
 	private final GpsUtilProxy gpsUtilProxy;
@@ -41,6 +40,8 @@ public class TourGuideService {
 	private final RewardService rewardService;
 	public TrackerService trackerService;
 	public InternalTestDataSet internalTestDataSet;
+
+	ExecutorService executor = Executors.newFixedThreadPool(300);
 
 	/**
 	 *  TourGuideService constructor
@@ -193,6 +194,7 @@ public class TourGuideService {
 	 * @return visitedLocation The actual visited location
 	 */
 	public CompletableFuture<?> trackUserLocation(UUID userId) {
+		logger.info("Tracking Location for userId: {}", userId);
 		return CompletableFuture.runAsync(()-> gpsUtilProxy.getUserLocation(userId),executor);
 	}
 

@@ -24,6 +24,7 @@ import tourGuide.service.TrackerService;
 import tourGuide.util.InternalTestDataSet;
 import tourGuide.util.InternalTestHelper;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -85,9 +86,15 @@ public class TestPerformanceIT {
 		stopWatch.start();
 
 		List<UserDto> allUsersList = internalTestDataSet.getAllUsers();
-		allUsersList.parallelStream().forEach(u -> {
-			tourGuideService.trackUserLocation(u.getUserId()).join();
-		});
+
+//		allUsersList.parallelStream().forEach(u -> {
+//			tourGuideService.trackUserLocation(u.getUserId()).join();
+//		});
+
+		List<CompletableFuture<?>> tasksFuture = new ArrayList<>();
+		allUsersList.forEach(u -> tasksFuture.add(tourGuideService.trackUserLocation(u.getUserId())));
+		tasksFuture.forEach(CompletableFuture::join);
+
 
 		assertTrue(allUsersList.get(0).getVisitedLocations().size()>1);
 		assertEquals(100000, allUsersList.size());
@@ -101,7 +108,7 @@ public class TestPerformanceIT {
 
 	@Test
 	public void highVolumeGetRewards() {
-		ExecutorService executor = Executors.newFixedThreadPool(200);
+		ExecutorService executor = Executors.newFixedThreadPool(100);
 		// Users should be incremented up to 100,000 and test finishes within 5 minutes
 		InternalTestDataSet internalTestDataSet = new InternalTestDataSet();
 		TourGuideService tourGuideService = new TourGuideService(internalTestDataSet,userProxy, gpsUtilProxy, rewardCentralProxy, tripPricerProxy);
@@ -127,7 +134,7 @@ public class TestPerformanceIT {
 		trackerService.stopTracking();
 
 		logger.info("highVolumeGetRewards - Time Elapsed: {} seconds.", TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));
-		assertTrue(TimeUnit.MINUTES.toSeconds(10) >= TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));
+		assertTrue(TimeUnit.MINUTES.toSeconds(6) >= TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));
 		assertEquals(100000, allUsersList.size());
 	}
 }

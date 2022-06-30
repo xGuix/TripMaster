@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @Service
 public class TrackerService extends Thread {
 
-	ExecutorService trackExecutor = Executors.newSingleThreadExecutor();
+	ExecutorService trackExecutor = Executors.newFixedThreadPool(100);
 
 	private final Logger logger = LoggerFactory.getLogger("TrackerServiceLog");
 	private final ExecutorService executorService = Executors.newSingleThreadExecutor();
