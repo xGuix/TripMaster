@@ -87,10 +87,6 @@ public class TestPerformanceIT {
 
 		List<UserDto> allUsersList = internalTestDataSet.getAllUsers();
 
-//		allUsersList.parallelStream().forEach(u -> {
-//			tourGuideService.trackUserLocation(u.getUserId()).join();
-//		});
-
 		List<CompletableFuture<?>> tasksFuture = new ArrayList<>();
 		allUsersList.forEach(u -> tasksFuture.add(tourGuideService.trackUserLocation(u.getUserId())));
 		tasksFuture.forEach(CompletableFuture::join);
