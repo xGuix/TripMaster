@@ -97,7 +97,7 @@ public class RewardService {
 
         return CompletableFuture.runAsync(() -> {
             visitedLocations.forEach(visited -> attractions.forEach(att -> {
-                    if(nearAttraction(visited,att)){
+                if(nearAttraction(visited,att)){
                         userDto.addUserReward(new UserRewardDto(visited, att, rewardCentralProxy.getRewardPoints(att.getAttractionId(), userDto.getUserId())));
                     }
                 }));

@@ -48,6 +48,7 @@ public class TrackerService extends Thread {
 	public void stopTracking() {
 		stop = true;
 		executorService.shutdownNow();
+		trackExecutor.shutdownNow();
 	}
 
 	/**

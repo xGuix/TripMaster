@@ -101,16 +101,15 @@ public class TestPerformanceIT {
 
 	@Test
 	public void highVolumeGetRewards() {
-		ExecutorService executor = Executors.newFixedThreadPool(100);
+		ExecutorService executor = Executors.newFixedThreadPool(200);
 		// Users should be incremented up to 100,000 and test finishes within 5 minutes
 		InternalTestDataSet internalTestDataSet = new InternalTestDataSet();
-		internalTestDataSet.initializeInternalUsers();
 		TourGuideService tourGuideService = new TourGuideService(internalTestDataSet,userProxy, gpsUtilProxy, rewardCentralProxy, tripPricerProxy);
 
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
 
-		List<UserDto> allUsersList = tourGuideService.internalTestDataSet.getAllUsers();
+		List<UserDto> allUsersList = internalTestDataSet.getAllUsers();
 		Attraction attraction = gpsUtilProxy.getAttractions().get(0);
 		Location location = new Location(attraction.getLongitude(), attraction.getLatitude());
 
@@ -128,7 +127,7 @@ public class TestPerformanceIT {
 		trackerService.stopTracking();
 
 		logger.info("highVolumeGetRewards - Time Elapsed: {} seconds.", TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));
-		assertTrue(TimeUnit.MINUTES.toSeconds(6) >= TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));
+		assertTrue(TimeUnit.MINUTES.toSeconds(10) >= TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));
 		assertEquals(100000, allUsersList.size());
 	}
 }
