@@ -43,10 +43,10 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - MICROSERVICE_USER=microservice-user:8181
-      - MICROSERVICE_GPSUTIL=microservice-gpsutil:8282
-      - MICROSERVICE_REWARDCENTRAL=microservice-rewardcentral:8383
-      - MICROSERVICE_TRIPPRICER=microservice-trippricer:8484
+      MICROSERVICE_USER: microservice-user:8181
+      MICROSERVICE_GPSUTIL: microservice-gpsutil:8282
+      MICROSERVICE_REWARDCENTRAL: microservice-rewardcentral:8383
+      MICROSERVICE_TRIPPRICER: microservice-trippricer:8484
     networks:
       - tourguidenet
     depends_on:
@@ -54,6 +54,7 @@ services:
       - microservice-gpsutil
       - microservice-rewardcentral
       - microservice-trippricer
+    restart: always
 
 networks:
   tourguidenet:

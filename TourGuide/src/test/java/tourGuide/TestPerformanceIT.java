@@ -91,7 +91,6 @@ public class TestPerformanceIT {
 		allUsersList.forEach(u -> tasksFuture.add(tourGuideService.trackUserLocation(u.getUserId())));
 		tasksFuture.forEach(CompletableFuture::join);
 
-
 		assertTrue(allUsersList.get(0).getVisitedLocations().size()>1);
 		assertEquals(100000, allUsersList.size());
 
